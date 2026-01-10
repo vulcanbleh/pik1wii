@@ -15,6 +15,7 @@ Sections:
 
 sysBootup.cpp:
 	.text       start:0x80006DE0 end:0x80006E60
+	.rodata     start:0x802F6380 end:0x802F63B0
 
 jaudio/dummyprobe.c:
 	.text       start:0x80006E60 end:0x80006F00
@@ -24,13 +25,16 @@ jaudio/memory.c:
 
 jaudio/aictrl.c:
 	.text       start:0x80006FC0 end:0x800077C0
-	.sbss       start:0x8049E028 end:0x8049E060
+	.rodata     start:0x802F63B0 end:0x802F63D8
+	.bss        start:0x80356600 end:0x80356620
+	.sbss       start:0x8049E028 end:0x8049E050
 
 jaudio/sample.c:
 	.text       start:0x800077C0 end:0x80007EC0
 
 jaudio/dummyrom.c:
 	.text       start:0x80007EC0 end:0x80007FE0
+	.sbss       start:0x8049E050 end:0x8049E060
 
 jaudio/audiothread.c:
 	.text       start:0x80007FE0 end:0x80008620
@@ -43,11 +47,12 @@ jaudio/streamctrl.c:
 
 jaudio/dspbuf.c:
 	.text       start:0x80008640 end:0x80008940
-	.sbss       start:0x8049E080 end:0x8049E098
+	.sbss       start:0x8049E080 end:0x8049E090
 
 jaudio/cpubuf.c:
 	.text       start:0x80008940 end:0x80008B80
 	.bss        start:0x80356680 end:0x80356690
+	.sbss       start:0x8049E090 end:0x8049E098
 
 jaudio/playercall.c:
 	.text       start:0x80008B80 end:0x80009040
@@ -55,48 +60,57 @@ jaudio/playercall.c:
 
 jaudio/dvdthread.c:
 	.text       start:0x80009040 end:0x80009E40
-	.bss        start:0x80356750 end:0x80362240
+	.bss        start:0x80356750 end:0x8035F2D8
 	.sbss       start:0x8049E098 end:0x8049E0E0
 
 jaudio/rate.c:
 	.sdata      start:0x80497368 end:0x80497380
-	.sbss       start:0x8049E0E0 end:0x8049E0F8
+	.sbss       start:0x8049E0E0 end:0x8049E0E8
 
 jaudio/audiomesg.c:
 	.text       start:0x80009E40 end:0x80009FC0
 
 jaudio/stackchecker.c:
 	.text       start:0x80009FC0 end:0x8000AFA0
+	.bss        start:0x8035F2D8 end:0x80360140
 
 jaudio/dspproc.c:
 	.text       start:0x8000AFA0 end:0x8000B2A0
 	.sdata      start:0x80497380 end:0x80497388
+	.sbss       start:0x8049E0E8 end:0x8049E0F8
 
 jaudio/dsptask.c:
 	.text       start:0x8000B2A0 end:0x8000B680
 	.data       start:0x80312460 end:0x803143A0
-	.sbss       start:0x8049E0F8 end:0x8049E128
+	.bss        start:0x80360140 end:0x80362220
+	.sbss       start:0x8049E0F8 end:0x8049E100
 
 jaudio/osdsp.c:
 	.text       start:0x8000B680 end:0x8000B780
 
 jaudio/osdsp_task.c:
 	.text       start:0x8000B780 end:0x8000BC80
+	.bss        start:0x80362220 end:0x80362240
+	.sbss       start:0x8049E100 end:0x8049E108
 
 jaudio/driverinterface.c:
 	.text       start:0x8000BC80 end:0x8000D900
-	.data       start:0x803143A0 end:0x803144E0
+	.data       start:0x803143A0 end:0x80314438
 	.bss        start:0x80362240 end:0x80376CC0
-	.sdata      start:0x80497388 end:0x804973A0
+	.sdata      start:0x80497388 end:0x80497390
+	.sbss       start:0x8049E108 end:0x8049E118
 
 jaudio/dspdriver.c:
 	.text       start:0x8000D900 end:0x8000E040
+	.data       start:0x80314438 end:0x803144C0
 	.bss        start:0x80376CC0 end:0x803770C0
+	.sbss       start:0x8049E118 end:0x8049E120
 
 jaudio/dspinterface.c:
 	.text       start:0x8000E040 end:0x8000E920
-	.data       start:0x803144E0 end:0x80314A20
+	.data       start:0x803144C0 end:0x80314A20
 	.bss        start:0x803770C0 end:0x8037D140
+	.sdata      start:0x80497390 end:0x804973A0
 
 jaudio/fxinterface.c:
 	.text       start:0x8000E920 end:0x8000EA60
@@ -128,9 +142,10 @@ jaudio/random.c:
 
 jaudio/aramcall.c:
 	.text       start:0x80010480 end:0x80010760
-	.data       start:0x80314C48 end:0x80314D48
+	.data       start:0x80314C48 end:0x80314C88
 	.bss        start:0x804954C0 end:0x804954F0 align:4 common
-	.sdata      start:0x804973A8 end:0x804974A8
+	.sdata      start:0x804973A8 end:0x804973B0
+	.sbss       start:0x8049E120 end:0x8049E128
 
 jaudio/ja_calc.c:
 	.text       start:0x80010760 end:0x80010980
@@ -156,59 +171,82 @@ jaudio/heapctrl.c:
 
 jaudio/jammain_2.c:
 	.text       start:0x80012080 end:0x80016740
-	.data       start:0x80314D48 end:0x80314F48
-	.bss        start:0x803803C8 end:0x803C5128
-	.sbss       start:0x8049E158 end:0x8049E188
+	.data       start:0x80314C88 end:0x80314F48
+	.bss        start:0x803803C8 end:0x803804E8
+	.sdata      start:0x804973B0 end:0x804973B8
+	.sbss       start:0x8049E158 end:0x8049E168
 
 jaudio/midplay.c:
-	.data       start:0x80314F48 end:0x80315530
+	.data       start:0x80314F48 end:0x80315348
 
 jaudio/noteon.c:
 	.text       start:0x80016740 end:0x80016D00
 
 jaudio/seqsetup.c:
 	.text       start:0x80016D00 end:0x80017D60
+	.bss        start:0x803804E8 end:0x803C4128
+	.sbss       start:0x8049E168 end:0x8049E178
 
 jaudio/centcalc.c:
 	.text       start:0x80017D60 end:0x80017E20
+	.data       start:0x80315348 end:0x80315448
 
 jaudio/jamosc.c:
 	.text       start:0x80017E20 end:0x80018220
+	.data       start:0x80315448 end:0x80315530
 
 jaudio/oneshot.c:
 	.text       start:0x80018220 end:0x80019920
-	.data       start:0x80315530 end:0x80316BC0
-
-jaudio/pikiseq.c:
-	.data       start:0x80316BC0 end:0x80335538
+	.data       start:0x80315530 end:0x80315608
+	.sdata      start:0x804973B8 end:0x804973C0
 
 jaudio/interface.c:
-	.text       start:0x80019920 end:0x80019B80
+	.text       start:0x80019920 end:0x80019AE0
+	.bss        start:0x803C4128 end:0x803C4138
+	.sdata      start:0x804973C0 end:0x804973C8
+	.sbss       start:0x8049E178 end:0x8049E188
 
 jaudio/verysimple.c:
-	.text       start:0x80019B80 end:0x8001A660
+	.text       start:0x80019AE0 end:0x8001A660
+	.data       start:0x80315608 end:0x80315688
+	.bss        start:0x803C4138 end:0x803C4250
 	.sbss       start:0x8049E188 end:0x8049E1B0
 
 jaudio/app_inter.c:
 	.text       start:0x8001A660 end:0x8001A720
-	.sbss       start:0x8049E1B0 end:0x8049E1F0
+	.sbss       start:0x8049E1B0 end:0x8049E1B8
 
 jaudio/pikiinter.c:
 	.text       start:0x8001A720 end:0x8001B820
+	.data       start:0x80315688 end:0x80315D50
 	.bss        start:0x804954F0 end:0x80497030 align:4 common
+	.sbss       start:0x8049E1B8 end:0x8049E1C8
 
 jaudio/piki_player.c:
-	.text       start:0x8001B820 end:0x8001BF60
-	.sbss       start:0x8049E1F0 end:0x8049E270
+	.text       start:0x8001B820 end:0x8001BF20
+	.bss        start:0x803C4250 end:0x803C4368
+	.sdata      start:0x804973C8 end:0x804973D0
+	.sbss       start:0x8049E1C8 end:0x8049E200
 
 jaudio/piki_bgm.c:
-	.text       start:0x8001BF60 end:0x8001D100
+	.text       start:0x8001BF20 end:0x8001D100
+	.data       start:0x80315D50 end:0x80315E68
+	.bss        start:0x803C4368 end:0x803C50B8
+	.sdata      start:0x804973D0 end:0x80497450
+	.sbss       start:0x8049E200 end:0x8049E218
 
 jaudio/piki_scene.c:
 	.text       start:0x8001D100 end:0x8001DAE0
+	.data       start:0x80315E68 end:0x803160D0
+	.sdata      start:0x80497450 end:0x80497468
+	.sbss       start:0x8049E218 end:0x8049E248
 
 jaudio/pikidemo.c:
 	.text       start:0x8001DAE0 end:0x8001EDC0
+	.data       start:0x803160D0 end:0x80316B60
+	.bss        start:0x803C50B8 end:0x803C5128
+	.sdata      start:0x80497468 end:0x804974A8
+	.sbss       start:0x8049E248 end:0x8049E270
 
 jaudio/file_seq.c:
 	.text       start:0x8001EDC0 end:0x8001F440
@@ -224,36 +262,56 @@ jaudio/filter3d.c:
 
 jaudio/syncstream.c:
 	.text       start:0x8001F680 end:0x80021500
-	.bss        start:0x803C9940 end:0x8044EBA0
-	.sdata      start:0x804974B0 end:0x80497CF0
+	.data       start:0x80316B60 end:0x80316BC0
+	.bss        start:0x803C9940 end:0x803EB3A8
+	.sdata      start:0x804974B0 end:0x804974B8
 	.sbss       start:0x8049E278 end:0x8049E280
+
+jaudio/pikiseq.c:
+	.data       start:0x80316BC0 end:0x80316EA0
 
 jaudio/bankloader.c:
 	.text       start:0x80021500 end:0x80021600
 
 jaudio/interleave.c:
 	.text       start:0x80021600 end:0x800216DC
+	.bss        start:0x803EB3A8 end:0x803EB3C8
+	.sdata      start:0x804974B8 end:0x804974C0
 
 aralt/aralt.c:
 	.text       start:0x800216DC end:0x80021DFC
+	.rodata     start:0x802F6DA8 end:0x802F6DE8
+	.sdata      start:0x804974C0 end:0x804974C8
+	.sbss       start:0x8049E280 end:0x8049E2B8
 
 TRK_Hollywood_Revolution/mainloop.c:
 	.text       start:0x80021DFC end:0x80021EF4
 
 TRK_Hollywood_Revolution/nubevent.c:
 	.text       start:0x80021EF4 end:0x8002211C
+	.bss        start:0x803EB3C8 end:0x803EB3F0
 
 TRK_Hollywood_Revolution/nubinit.c:
 	.text       start:0x8002211C end:0x800222A0
+	.rodata     start:0x802F6DE8 end:0x802F6E08
+	.bss        start:0x803EB3F0 end:0x803EB3F8
+
+MSL_C.PPCEABI.bare.H/ctype.c:
+	.rodata     start:0x802F70E8 end:0x802F75F0
+
+MSL_C.PPCEABI.bare.H/wctype.c:
+	.rodata     start:0x802F7658 end:0x802F7C58
 
 TRK_Hollywood_Revolution/msg.c:
 	.text       start:0x800222A0 end:0x800222CC
 
 TRK_Hollywood_Revolution/msgbuf.c:
 	.text       start:0x800222CC end:0x80022B08
+	.bss        start:0x803EB3F8 end:0x803ECDA8
 
 TRK_Hollywood_Revolution/serpoll.c:
 	.text       start:0x80022B08 end:0x80022CB4
+	.bss        start:0x803ECDA8 end:0x803ECDC0
 
 TRK_Hollywood_Revolution/usr_put.c:
 	.text       start:0x80022CB4 end:0x80022D40
@@ -263,6 +321,7 @@ TRK_Hollywood_Revolution/dispatch.c:
 
 TRK_Hollywood_Revolution/msghndlr.c:
 	.text       start:0x80022E88 end:0x80023F64
+	.bss        start:0x803ECDC0 end:0x803ECDC8
 
 TRK_Hollywood_Revolution/support.c:
 	.text       start:0x80023F64 end:0x80024618
@@ -285,6 +344,7 @@ TRK_Hollywood_Revolution/string_TRK.c:
 
 TRK_Hollywood_Revolution/targimpl.c:
 	.text       start:0x800247D4 end:0x800261F0
+	.bss        start:0x803ECDC8 end:0x803ED348
 
 TRK_Hollywood_Revolution/targsupp.s: comment:0
 	.text       start:0x800261F0 end:0x80026210
@@ -301,12 +361,15 @@ TRK_Hollywood_Revolution/__exception.s: comment:0
 TRK_Hollywood_Revolution/dolphin_trk.c:
 	.init       start:0x80005F88 end:0x80005FB4
 	.text       start:0x8002677C end:0x80026A98
+	.bss        start:0x803ED348 end:0x803ED350
 
 TRK_Hollywood_Revolution/main_TRK.c:
 	.text       start:0x80026A98 end:0x80026ADC
+	.bss        start:0x803ED350 end:0x803ED358
 
 TRK_Hollywood_Revolution/dolphin_trk_glue.c:
 	.text       start:0x80026ADC end:0x80026F9C
+	.bss        start:0x803ED358 end:0x803ED368
 
 TRK_Hollywood_Revolution/targcont.c:
 	.text       start:0x80026F9C end:0x80026FD0
@@ -319,6 +382,7 @@ TRK_Hollywood_Revolution/UDP_Stubs.c:
 
 TRK_Hollywood_Revolution/main.c:
 	.text       start:0x80027034 end:0x800272F4
+	.bss        start:0x803ED368 end:0x803ED888
 
 TRK_Hollywood_Revolution/CircleBuffer.c:
 	.text       start:0x800272F4 end:0x8002755C
@@ -389,9 +453,14 @@ MSL_C.PPCEABI.bare.H/printf.c:
 	extab       start:0x80006590 end:0x800065F0
 	extabindex  start:0x80006A48 end:0x80006AD8
 	.text       start:0x8002A424 end:0x8002C7EC
+	.sdata      start:0x804974C8 end:0x804974D0
 
 MSL_C.PPCEABI.bare.H/rand.c:
 	.text       start:0x8002C7EC end:0x8002C80C
+	.sdata      start:0x804974D0 end:0x804974D8
+
+MSL_C.PPCEABI.bare.H/float.c:
+	.sdata      start:0x804974D8 end:0x804974E8
 
 MSL_C.PPCEABI.bare.H/scanf.c:
 	extab       start:0x800065F0 end:0x80006608
@@ -521,9 +590,14 @@ MSL_C.PPCEABI.bare.H/w_sqrt.c:
 
 ai/ai.c:
 	.text       start:0x80034280 end:0x8003485C
+	.sdata      start:0x804974E8 end:0x804974F0
 
 ax/AX.c:
 	.text       start:0x8003485C end:0x800348B8
+	.sdata      start:0x804974F0 end:0x804974F8
+
+ax/DSPCode.c:
+	.sdata      start:0x804974F8 end:0x80497500
 
 ax/AXAlloc.c:
 	.text       start:0x800348B8 end:0x80034CD4
@@ -552,8 +626,9 @@ ax/AXFXReverbHi.c:
 ax/AXFXReverbHiExp.c:
 	.text       start:0x80037660 end:0x8003843C
 
-ax/AXFXHooks.c:
+axfx/AXFXHooks.c:
 	.text       start:0x8003843C end:0x80038474
+	.sdata      start:0x80497500 end:0x80497508
 
 base/PPCArch.c:
 	.text       start:0x80038474 end:0x800385E4
@@ -563,6 +638,7 @@ db/db.c:
 
 dsp/dsp.c:
 	.text       start:0x800386CC end:0x800388D4
+	.sdata      start:0x80497508 end:0x80497510
 
 dsp/dsp_debug.c:
 	.text       start:0x800388D4 end:0x80038924
@@ -601,7 +677,7 @@ exi/EXIUart.c:
 	.text       start:0x80043008 end:0x8004333C
 
 exi/EXICommon.c:
-	.text       start:0x8004333C end:0x800434D0
+	.text       start:0x8004333C end:0x800434C8
 
 gx/GXInit.c:
 	.text       start:0x800434D0 end:0x8004469C
@@ -760,16 +836,32 @@ os/OSLaunch.c:
 	.text       start:0x8005A8CC end:0x8005B68C
 
 os/__ppc_eabi_init.c:
-	.text       start:0x8005B68C end:0x8005E8FC
+	.text       start:0x8005B68C end:0x8005B740
+
+pad/Padclamp.c:
+	.text       start:0x8005B740 end:0x8005B944
+
+pad/Pad.c:
+	.text       start:0x8005B944 end:0x8005D1E0
+
+si/SIBios.c:
+	.text       start:0x8005D1E0 end:0x8005E81C
+	.sdata      start:0x80497688 end:0x80497690
+
+si/SISamplingRate.c:
+	.text       start:0x8005E81C end:0x8005E8FC
 
 vi/vi.c:
 	.text       start:0x8005E8FC end:0x800612C4
+	.sdata      start:0x80497690 end:0x804976B0
 
 vi/i2c.c:
 	.text       start:0x800612C4 end:0x80061CE0
+	.sdata      start:0x804976B0 end:0x804976B8
 
 vi/vi3in1.c:
 	.text       start:0x80061CE0 end:0x80063384
+	.sdata      start:0x804976B8 end:0x804976D0
 
 thp/THPDec.c:
 	.text       start:0x80063384 end:0x80066754
@@ -778,23 +870,269 @@ thp/THPAudio.c:
 	.text       start:0x80066754 end:0x80066BE8
 
 tpl/TPL.c:
-	.text       start:0x80066BE8 end:0x8006A36C
+	.text       start:0x80066BE8 end:0x80066DFC
+
+usb/usb.c:
+	.text       start:0x80066DFC end:0x80067F28
+
+wenc/wenc.c:
+	.text       start:0x80067F28 end:0x80068200
 
 wpad/WPAD.c:
-	.text       start:0x8006A36C end:0x8007B084
-	.sbss       start:0x8049E9F8 end:0x8049EB70
+	.text       start:0x80068200 end:0x8006FA34
+	.bss        start:0x8040AC20 end:0x8040E348
+	.sdata      start:0x804976F0 end:0x80497708
+	.sbss       start:0x8049E9D8 end:0x8049EA10
+
+wpad/WPADHIDParser.c:
+	.text       start:0x8006FA34 end:0x80074ED4
+
+wpad/WPADEncrypt.c:
+	.text       start:0x80074ED4 end:0x80075F7C
+
+wpad/debug_msg.c:
+	.text       start:0x80075F7C end:0x80075FCC
+
+wud/WUD.c:
+	.text       start:0x80075FCC end:0x8007AA38
+	.sdata      start:0x80497708 end:0x80497710
+
+wud/WUDHidHost.c:
+	.text       start:0x8007AA38 end:0x8007B034
+
+wud/debug_msg.c:
+	.text       start:0x8007B034 end:0x8007B084
 
 arc/arc.c:
-	.text       start:0x8007B084 end:0x800AB0FC
+	.text       start:0x8007B084 end:0x8007BA04
+	.sdata      start:0x80497710 end:0x80497718
+
+bte/bta_dm_cfg.c:
+	.sdata      start:0x80497728 end:0x8049773C
+	.sbss2      start:0x804A4228 end:0x804A4230
+
+bte/gki_buffer.c:
+	.text       start:0x8007BA04 end:0x8007CE48
+
+bte/gki_time.c:
+	.text       start:0x8007CE48 end:0x8007D3A0
+
+bte/gki_ppc.c:
+	.text       start:0x8007D3A0 end:0x8007D630
+
+bte/hcisu_h2.c:
+	.text       start:0x8007D630 end:0x8007DCCC
+
+bte/uusb_ppc.c:
+	.text       start:0x8007DCCC end:0x8007E8D0
+
+bte/bte_hcisu.c:
+	.text       start:0x8007E8D0 end:0x8007E988
+
+bte/bte_init.c:
+	.text       start:0x8007E988 end:0x8007E9B4
+
+bte/bte_logmsg.c:
+	.text       start:0x8007E9B4 end:0x8007EB18
+
+bte/bte_main.c:
+	.text       start:0x8007EB18 end:0x8007EC70
+
+bte/btu_task1.c:
+	.text       start:0x8007EC70 end:0x8007F0C0
+
+bte/bd.c:
+	.text       start:0x8007F0C0 end:0x8007F194
+
+bte/bta_sys_conn.c:
+	.text       start:0x8007F194 end:0x8007F3E8
+
+bte/bta_sys_main.c:
+	.text       start:0x8007F3E8 end:0x8007F62C
+
+bte/ptim.c:
+	.text       start:0x8007F62C end:0x8007F80C
+
+bte/utl.c:
+	.text       start:0x8007F80C end:0x8007F850
+
+bte/bta_dm_act.c:
+	.text       start:0x8007F850 end:0x80081B8C
+
+bte/bta_dm_api.c:
+	.text       start:0x80081B8C end:0x80081FF8
+
+bte/bta_dm_main.c:
+	.text       start:0x80081FF8 end:0x80082158
+
+bte/bta_dm_pm.c:
+	.text       start:0x80082158 end:0x80082B74
+
+bte/bta_hh_act.c:
+	.text       start:0x80082B74 end:0x800842BC
+
+bte/bta_hh_api.c:
+	.text       start:0x800842BC end:0x8008468C
+
+bte/bta_hh_main.c:
+	.text       start:0x8008468C end:0x80084BE0
+
+bte/bta_hh_utils.c:
+	.text       start:0x80084BE0 end:0x80084F8C
+
+bte/btm_acl.c:
+	.text       start:0x80084F8C end:0x80086CD0
+
+bte/btm_dev.c:
+	.text       start:0x80086CD0 end:0x8008739C
+
+bte/btm_devctl.c:
+	.text       start:0x8008739C end:0x80088D24
+
+bte/btm_discovery.c:
+	.text       start:0x80088D24 end:0x80088E58
+
+bte/btm_inq.c:
+	.text       start:0x80088E58 end:0x8008A8F0
+
+bte/btm_main.c:
+	.text       start:0x8008A8F0 end:0x8008A94C
+
+bte/btm_pm.c:
+	.text       start:0x8008A94C end:0x8008B5E0
+
+bte/btm_sco.c:
+	.text       start:0x8008B5E0 end:0x8008C418
+
+bte/btm_sec.c:
+	.text       start:0x8008C418 end:0x8008F3DC
+
+bte/btu_hcif.c:
+	.text       start:0x8008F3DC end:0x80090638
+
+bte/btu_init.c:
+	.text       start:0x80090638 end:0x800906B0
+
+bte/wbt_ext.c:
+	.text       start:0x800906B0 end:0x80090790
+
+bte/gap_api.c:
+	.text       start:0x80090790 end:0x800907F0
+
+bte/gap_conn.c:
+	.text       start:0x800907F0 end:0x8009132C
+
+bte/gap_utils.c:
+	.text       start:0x8009132C end:0x80091948
+
+bte/hcicmds.c:
+	.text       start:0x80091948 end:0x80094064
+
+bte/hidd_api.c:
+	.text       start:0x80094064 end:0x800940CC
+
+bte/hidd_conn.c:
+	.text       start:0x800940CC end:0x8009418C
+
+bte/hidd_mgmt.c:
+	.text       start:0x8009418C end:0x80094254
+
+bte/hidd_pm.c:
+	.text       start:0x80094254 end:0x800945D0
+
+bte/hidh_api.c:
+	.text       start:0x800945D0 end:0x80095350
+
+bte/hidh_conn.c:
+	.text       start:0x80095350 end:0x80097390
+
+bte/l2c_api.c:
+	.text       start:0x80097390 end:0x80097F5C
+
+bte/l2c_csm.c:
+	.text       start:0x80097F5C end:0x80099438
+
+bte/l2c_link.c:
+	.text       start:0x80099438 end:0x8009A5C4
+
+bte/l2c_main.c:
+	.text       start:0x8009A5C4 end:0x8009B5F4
+
+bte/l2c_utils.c:
+	.text       start:0x8009B5F4 end:0x8009D4B8
+
+bte/port_api.c:
+	.text       start:0x8009D4B8 end:0x8009D508
+
+bte/port_rfc.c:
+	.text       start:0x8009D508 end:0x8009E904
+
+bte/port_utils.c:
+	.text       start:0x8009E904 end:0x8009EEDC
+
+bte/rfc_l2cap_if.c:
+	.text       start:0x8009EEDC end:0x8009F810
+
+bte/rfc_mx_fsm.c:
+	.text       start:0x8009F810 end:0x800A0454
+
+bte/rfc_port_fsm.c:
+	.text       start:0x800A0454 end:0x800A15F4
+
+bte/rfc_port_if.c:
+	.text       start:0x800A15F4 end:0x800A1B20
+
+bte/rfc_ts_frames.c:
+	.text       start:0x800A1B20 end:0x800A3168
+
+bte/rfc_utils.c:
+	.text       start:0x800A3168 end:0x800A3948
+
+bte/sdp_api.c:
+	.text       start:0x800A3948 end:0x800A47B0
+
+bte/sdp_db.c:
+	.text       start:0x800A47B0 end:0x800A547C
+
+bte/sdp_discovery.c:
+	.text       start:0x800A547C end:0x800A66F4
+
+bte/sdp_main.c:
+	.text       start:0x800A66F4 end:0x800A7260
+
+bte/sdp_server.c:
+	.text       start:0x800A7260 end:0x800A7F70
+
+bte/sdp_utils.c:
+	.text       start:0x800A7F70 end:0x800A8FB0
+
+enc/encutility.c:
+	.text       start:0x800A8FB0 end:0x800A91EC
+
+enc/encjapanese.c:
+	.text       start:0x800A91EC end:0x800A96B0
+	.rodata     start:0x802F8550 end:0x802FDF90
+
+euart/euart.c:
+	.text       start:0x800A96B0 end:0x800A9A20
+
+fs/fs.c:
+	.text       start:0x800A9A20 end:0x800AB0FC
 
 ipc/ipcMain.c:
 	.text       start:0x800AB0FC end:0x800AB1C8
 
 ipc/ipcclt.c:
 	.text       start:0x800AB1C8 end:0x800ACB38
+	.bss        start:0x80444F60 end:0x80445000
 
 ipc/memory.c:
-	.text       start:0x800ACB38 end:0x800AD220
+	.text       start:0x800ACB38 end:0x800AD05C
+	.bss        start:0x80445000 end:0x80445080
+
+ipc/ipcProfile.c:
+	.text       start:0x800AD05C end:0x800AD220
+	.bss        start:0x80445080 end:0x80445180
 
 kpad/KPAD.c:
 	.text       start:0x800AD220 end:0x800B0300
@@ -806,10 +1144,32 @@ mem/mem_expHeap.c:
 	.text       start:0x800B08AC end:0x800B1444
 
 mem/mem_allocator.c:
-	.text       start:0x800B1444 end:0x800B4090
+	.text       start:0x800B1444 end:0x800B1498
+
+mem/mem_list.c:
+	.text       start:0x800B1498 end:0x800B15AC
+
+nand/nand.c:
+	.text       start:0x800B15AC end:0x800B2608
+
+nand/NANDOpenClose.c:
+	.text       start:0x800B2608 end:0x800B2AEC
+
+nand/NANDCore.c:
+	.text       start:0x800B2AEC end:0x800B38FC
+	.bss        start:0x804466C0 end:0x80446700
+
+nand/NANDCheck.c:
+	.text       start:0x800B38FC end:0x800B3AC0
+
+nand/NANDLogging.c:
+	.text       start:0x800B3AC0 end:0x800B4090
+	.bss        start:0x80446700 end:0x80446A00
 
 sc/scsystem.c:
 	.text       start:0x800B4090 end:0x800B59F4
+	.rodata     start:0x802FDF90 end:0x802FDFE8
+	.bss        start:0x80446A00 end:0x8044EBA0
 
 sc/scapi.c:
 	.text       start:0x800B59F4 end:0x800B5E78
@@ -818,11 +1178,11 @@ sc/scapi_prdinfo.c:
 	.text       start:0x800B5E78 end:0x800B60EC
 
 sysCommon/atx.cpp:
-	.text       start:0x800B60EC end:0x800B6444
+	.text       start:0x800B60EC end:0x800B6440
 	.ctors      start:0x802F5DA4 end:0x802F5DA8
 
 sysCommon/ayuStack.cpp:
-	.text       start:0x800B6444 end:0x800B6AEC
+	.text       start:0x800B6440 end:0x800B6AEC
 
 sysCommon/baseApp.cpp:
 	.text       start:0x800B6AEC end:0x800B6D10
@@ -833,19 +1193,21 @@ sysCommon/camera.cpp:
 
 sysCommon/cmdStream.cpp:
 	.text       start:0x800B9204 end:0x800B9C7C
+	.sbss       start:0x8049EB58 end:0x8049EB68
 
 sysCommon/controller.cpp:
-	.text       start:0x800B9C7C end:0x800BB564
-	.data       start:0x80335538 end:0x80335F40
+	.text       start:0x800B9C7C end:0x800B9E58
+	.data       start:0x80335538 end:0x80335568
 
 sysCommon/graphics.cpp:
-	.text       start:0x800BB564 end:0x800BE278
+	.text       start:0x800B9E58 end:0x800BE278
 	.ctors      start:0x802F5DAC end:0x802F5DB0
-	.data       start:0x80335F40 end:0x80336108
+	.data       start:0x80335580 end:0x803360D8
 
 sysCommon/grLight.cpp:
 	.text       start:0x800BE278 end:0x800BE934
 	.ctors      start:0x802F5DB0 end:0x802F5DB4
+	.data       start:0x803360D8 end:0x80336108
 
 sysCommon/id32.cpp:
 	.text       start:0x800BE934 end:0x800BEC60
@@ -859,6 +1221,7 @@ sysCommon/node.cpp:
 	.text       start:0x800BFC58 end:0x800BFF98
 	.ctors      start:0x802F5DB8 end:0x802F5DBC
 	.data       start:0x80336108 end:0x80336138
+	.sbss       start:0x8049EB68 end:0x8049EB70
 
 sysCommon/shapeBase.cpp:
 	.text       start:0x800BFF98 end:0x800CB984
@@ -878,12 +1241,12 @@ sysCommon/shpObjColl.cpp:
 sysCommon/shpRoutes.cpp:
 	.text       start:0x800CC2F4 end:0x800CD44C
 	.ctors      start:0x802F5DC8 end:0x802F5DCC
-	.data       start:0x80336278 end:0x80336318
+	.data       start:0x80336278 end:0x803362B0
 
 sysCommon/stdSystem.cpp:
 	.text       start:0x800CD44C end:0x800CEC24
 	.ctors      start:0x802F5DCC end:0x802F5DD0
-	.data       start:0x80336318 end:0x80336338
+	.data       start:0x803362B0 end:0x80336338
 
 sysCommon/stream.cpp:
 	.text       start:0x800CEC24 end:0x800CF06C
@@ -898,6 +1261,7 @@ sysCommon/string.cpp:
 sysCommon/sysMath.cpp:
 	.text       start:0x800CF398 end:0x800D5354
 	.ctors      start:0x802F5DD0 end:0x802F5DD4
+	.sdata      start:0x80497C88 end:0x80497CB8
 
 sysCommon/timers.cpp:
 	.text       start:0x800D5354 end:0x800D53C0
@@ -907,8 +1271,8 @@ sysDolphin/dgxGraphics.cpp:
 	.text       start:0x800D53C0 end:0x800DADC8
 	.ctors      start:0x802F5DD8 end:0x802F5DDC
 	.data       start:0x803363A0 end:0x803366B8
-	.bss        start:0x8045ACE0 end:0x8045B0A8
-	.sdata      start:0x80497CF0 end:0x80498950
+	.bss        start:0x8045ACE0 end:0x8045AD00
+	.sdata      start:0x80497CE8 end:0x80497D88
 	.sbss       start:0x8049EB80 end:0x8049EBB8
 
 sysDolphin/gameApp.cpp:
@@ -916,22 +1280,25 @@ sysDolphin/gameApp.cpp:
 	.ctors      start:0x802F5DDC end:0x802F5DE0
 
 sysDolphin/sysNew.cpp:
-	.text       start:0x800DAE20 end:0x800DB33C
+	.text       start:0x800DAE20 end:0x800DB044
 
 sysDolphin/system.cpp:
-	.text       start:0x800DB33C end:0x800DE098
+	.text       start:0x800DB044 end:0x800DE098
 	.ctors      start:0x802F5DE0 end:0x802F5DE4
 	.data       start:0x803366B8 end:0x80336A18
-	.bss        start:0x8045B0A8 end:0x8045F990
+	.bss        start:0x8045AD00 end:0x8045F960
+	.sdata      start:0x80497D88 end:0x80497DC0
 	.sbss       start:0x8049EBB8 end:0x8049EBD8
 
 sysDolphin/texture.cpp:
 	.text       start:0x800DE098 end:0x800DE6C4
 	.ctors      start:0x802F5DE4 end:0x802F5DE8
-	.data       start:0x80336A18 end:0x80336A90
+	.data       start:0x80336A18 end:0x80336A50
 
 sysDolphin/controllerMgr.cpp:
 	.text       start:0x800DE6C4 end:0x800DED78
+	.data       start:0x80336A50 end:0x80336A90
+	.bss        start:0x8045F960 end:0x8045F990
 
 plugPikiColin/animMgr.cpp:
 	.text       start:0x800DED78 end:0x800DFCD4
@@ -941,21 +1308,25 @@ plugPikiColin/animMgr.cpp:
 plugPikiColin/cardSelect.cpp:
 	.text       start:0x800DFCD4 end:0x800E0444
 	.ctors      start:0x802F5DEC end:0x802F5DF0
-	.data       start:0x80336B18 end:0x80336CF8
+	.data       start:0x80336B18 end:0x80336BA0
 
 plugPikiColin/cardutil.cpp:
 	.text       start:0x800E0444 end:0x800E0DD8
 	.ctors      start:0x802F5DF0 end:0x802F5DF4
-	.bss        start:0x8045F990 end:0x80460398
+	.data       start:0x80336BA0 end:0x80336BD0
+	.bss        start:0x8045F990 end:0x8045FD30
 
 plugPikiColin/cinePlayer.cpp:
-	.text       start:0x800E0DD8 end:0x800E50AC
+	.text       start:0x800E0DD8 end:0x800E502C
 	.ctors      start:0x802F5DF4 end:0x802F5DF8
+	.data       start:0x80336BD0 end:0x80336CF8
+	.bss        start:0x8045FD30 end:0x80460130
 
 plugPikiColin/dayMgr.cpp:
-	.text       start:0x800E50AC end:0x800EAB38
+	.text       start:0x800E502C end:0x800EAB38
 	.ctors      start:0x802F5DF8 end:0x802F5DFC
-	.data       start:0x80336CF8 end:0x803375C0
+	.data       start:0x80336CF8 end:0x80337390
+	.sdata      start:0x80498200 end:0x80498210
 
 plugPikiColin/dynsimulator.cpp:
 	.text       start:0x800EAB38 end:0x800EB118
@@ -964,42 +1335,54 @@ plugPikiColin/dynsimulator.cpp:
 plugPikiColin/game.cpp:
 	.text       start:0x800EB118 end:0x800EBD18
 	.ctors      start:0x802F5E00 end:0x802F5E04
+	.data       start:0x80337390 end:0x80337450
+	.bss        start:0x80460130 end:0x80460398
 
 plugPikiColin/gameExit.cpp:
-	.text       start:0x800EBD18 end:0x800EBFE4
+	.text       start:0x800EBD18 end:0x800EBE54
 	.ctors      start:0x802F5E04 end:0x802F5E08
+	.data       start:0x80337450 end:0x80337488
 
 plugPikiColin/gameflow.cpp:
-	.text       start:0x800EBFE4 end:0x800EDA78
+	.text       start:0x800EBE54 end:0x800EDA78
 	.ctors      start:0x802F5E08 end:0x802F5E0C
-	.bss        start:0x80460398 end:0x80460718
+	.data       start:0x80337488 end:0x80337568
+	.bss        start:0x80460398 end:0x80460700
+	.sbss       start:0x8049EBE0 end:0x8049EBF0
 
 plugPikiColin/gamePrefs.cpp:
 	.text       start:0x800EDA78 end:0x800EEB1C
 	.ctors      start:0x802F5E0C end:0x802F5E10
+	.data       start:0x80337568 end:0x803375C0
 
 plugPikiColin/gameSetup.cpp:
 	.text       start:0x800EEB1C end:0x800EF020
 	.ctors      start:0x802F5E10 end:0x802F5E14
+	.rodata     start:0x802FFB80 end:0x80300408
 	.data       start:0x803375C0 end:0x80337880
 
 plugPikiColin/gauges.cpp:
 	.text       start:0x800EF020 end:0x800F0998
 	.ctors      start:0x802F5E14 end:0x802F5E18
-	.data       start:0x80337880 end:0x80337A40
+	.data       start:0x80337880 end:0x80337890
 	.sbss       start:0x8049EBF0 end:0x8049EC08
 
 plugPikiColin/genMapObject.cpp:
 	.text       start:0x800F0998 end:0x800F0BB4
 	.ctors      start:0x802F5E18 end:0x802F5E1C
+	.data       start:0x80337890 end:0x803378D8
+	.sbss       start:0x8049EC08 end:0x8049EC10
 
 plugPikiColin/gui.cpp:
 	.text       start:0x800F0BB4 end:0x800F1F38
 	.ctors      start:0x802F5E1C end:0x802F5E20
+	.data       start:0x803378D8 end:0x803379B0
 
 plugPikiColin/introGame.cpp:
 	.text       start:0x800F1F38 end:0x800F2810
 	.ctors      start:0x802F5E20 end:0x802F5E24
+	.data       start:0x803379B0 end:0x80337A40
+	.sbss       start:0x8049EC10 end:0x8049EC18
 
 plugPikiColin/lightPool.cpp:
 	.text       start:0x800F2810 end:0x800F30AC
@@ -1009,14 +1392,14 @@ plugPikiColin/lightPool.cpp:
 plugPikiColin/mapMgr.cpp:
 	.text       start:0x800F30AC end:0x800F85C0
 	.ctors      start:0x802F5E28 end:0x802F5E2C
-	.data       start:0x80337A70 end:0x80337BE0
-	.bss        start:0x80460718 end:0x80460740
+	.data       start:0x80337A70 end:0x80337B28
+	.bss        start:0x80460700 end:0x80460740
 	.sbss       start:0x8049EC18 end:0x8049EC28
 
 plugPikiColin/mapSelect.cpp:
 	.text       start:0x800F85C0 end:0x800F9898
 	.ctors      start:0x802F5E2C end:0x802F5E30
-	.data       start:0x80337BE0 end:0x80337D00
+	.data       start:0x80337B28 end:0x80337D00
 	.sbss       start:0x8049EC28 end:0x8049EC30
 
 plugPikiColin/memoryCard.cpp:
@@ -1029,50 +1412,65 @@ plugPikiColin/memoryCard.cpp:
 plugPikiColin/moviePlayer.cpp:
 	.text       start:0x800FC658 end:0x800FD788
 	.ctors      start:0x802F5E34 end:0x802F5E38
+	.data       start:0x80337D28 end:0x803381C8
 
 plugPikiColin/movSample.cpp:
 	.text       start:0x800FD788 end:0x800FDC9C
 	.ctors      start:0x802F5E38 end:0x802F5E3C
+	.data       start:0x803381C8 end:0x80338250
 
 plugPikiColin/newPikiGame.cpp:
 	.text       start:0x800FDC9C end:0x8010276C
 	.ctors      start:0x802F5E3C end:0x802F5E40
-	.data       start:0x80338298 end:0x803385D8
-	.bss        start:0x8046C7C0 end:0x8046DB60
+	.data       start:0x80338250 end:0x803385D8
+	.bss        start:0x8046C7C0 end:0x8046C800
 	.sbss       start:0x8049EC38 end:0x8049EC70
 
 plugPikiColin/ninLogo.cpp:
 	.text       start:0x8010276C end:0x80102DB8
 	.ctors      start:0x802F5E40 end:0x802F5E44
-	.data       start:0x803385D8 end:0x80338668
+	.data       start:0x803385D8 end:0x80338650
 	.sbss       start:0x8049EC70 end:0x8049EC78
 
 plugPikiColin/parameters.cpp:
 	.text       start:0x80102DB8 end:0x80103104
 	.ctors      start:0x802F5E44 end:0x802F5E48
+	.data       start:0x80338650 end:0x80338668
 
 plugPikiColin/plugPiki.cpp:
-	.text       start:0x80103104 end:0x80103B00
+	.text       start:0x80103104 end:0x80103AC8
 	.ctors      start:0x802F5E48 end:0x802F5E4C
-	.data       start:0x80338668 end:0x80338970
+	.data       start:0x80338668 end:0x80338728
 
 plugPikiColin/titles.cpp:
-	.text       start:0x80103B00 end:0x80105714
+	.text       start:0x80103AC8 end:0x80105640
 	.ctors      start:0x802F5E4C end:0x802F5E50
-	.sbss       start:0x8049EC78 end:0x8049ECB0
+	.data       start:0x80338728 end:0x80338850
+	.sdata      start:0x80498868 end:0x804988E8
+	.sbss       start:0x8049EC78 end:0x8049ECA0
 
 THPSimple.c:
-	.text       start:0x80105714 end:0x80106960
+	.text       start:0x80105640 end:0x80106960
+	.data       start:0x80338850 end:0x80338950
+	.bss        start:0x8046C800 end:0x8046DB60
+	.sdata      start:0x804988E8 end:0x80498908
+	.sbss       start:0x8049ECA0 end:0x8049ECB0
+
+plugPikiKando/testSoundSection.cpp:
+	.text       start:0x80106960 end:0x80106A80
+	.ctors      start:0x802F5E50 end:0x802F5E54
 
 plugPikiKando/ufoAnim.cpp:
-	.text       start:0x80106960 end:0x801074F4
-	.ctors      start:0x802F5E50 end:0x802F5E58
+	.text       start:0x80106A80 end:0x801074D0
+	.ctors      start:0x802F5E54 end:0x802F5E58
+	.data       start:0x80338950 end:0x80338970
+	.sdata      start:0x80498908 end:0x80498920
 
 plugPikiKando/ufoItem.cpp:
-	.text       start:0x801074F4 end:0x8010A210
+	.text       start:0x801074D0 end:0x8010A210
 	.ctors      start:0x802F5E58 end:0x802F5E5C
 	.data       start:0x80338970 end:0x80338B88
-	.sdata      start:0x80498950 end:0x80498B68
+	.sdata      start:0x80498920 end:0x80498A50
 
 plugPikiKando/updateMgr.cpp:
 	.text       start:0x8010A210 end:0x8010A4C4
@@ -1092,18 +1490,20 @@ plugPikiKando/utkando.cpp:
 plugPikiKando/viewPiki.cpp:
 	.text       start:0x8010DAD0 end:0x801106B8
 	.ctors      start:0x802F5E68 end:0x802F5E6C
-	.data       start:0x80338F88 end:0x80339400
+	.data       start:0x80338F88 end:0x803390C8
 	.bss        start:0x8046DB60 end:0x8046DB70
-	.sdata      start:0x80498B68 end:0x804993A8
+	.sdata      start:0x80498B38 end:0x80498C10
 
 plugPikiKando/weedsItem.cpp:
 	.text       start:0x801106B8 end:0x80111A2C
 	.ctors      start:0x802F5E6C end:0x802F5E70
+	.data       start:0x803390C8 end:0x803393C0
 
 plugPikiKando/workObject.cpp:
 	.text       start:0x80111A2C end:0x80116210
 	.ctors      start:0x802F5E70 end:0x802F5E74
-	.data       start:0x80339400 end:0x80339AF0
+	.rodata     start:0x80301450 end:0x80301598
+	.data       start:0x803393C0 end:0x80339AF0
 	.sbss       start:0x8049ECD0 end:0x8049ECD8
 
 plugPikiKando/actor.cpp:
@@ -1113,7 +1513,7 @@ plugPikiKando/actor.cpp:
 plugPikiKando/actorAI.cpp:
 	.text       start:0x80116318 end:0x8011643C
 	.ctors      start:0x802F5E78 end:0x802F5E7C
-	.data       start:0x80339AF0 end:0x80339C68
+	.data       start:0x80339AF0 end:0x80339B08
 
 plugPikiKando/actorMgr.cpp:
 	.text       start:0x8011643C end:0x80116550
@@ -1123,7 +1523,7 @@ plugPikiKando/actorMgr.cpp:
 plugPikiKando/aiAction.cpp:
 	.text       start:0x80116550 end:0x80118888
 	.ctors      start:0x802F5E80 end:0x802F5E84
-	.data       start:0x80339C68 end:0x80339D48
+	.data       start:0x80339B08 end:0x80339D48
 
 plugPikiKando/aiActions.cpp:
 	.text       start:0x80118888 end:0x80118F94
@@ -1182,19 +1582,22 @@ plugPikiKando/aiCrowd.cpp:
 plugPikiKando/aiDecoy.cpp:
 	.text       start:0x80121D10 end:0x801223F4
 	.ctors      start:0x802F5EAC end:0x802F5EB0
-	.data       start:0x8033A478 end:0x8033A628
+	.data       start:0x8033A478 end:0x8033A4F0
 
 plugPikiKando/aiEnter.cpp:
 	.text       start:0x801223F4 end:0x80122CA4
 	.ctors      start:0x802F5EB0 end:0x802F5EB4
+	.data       start:0x8033A4F0 end:0x8033A558
 
 plugPikiKando/aiEscape.cpp:
 	.text       start:0x80122CA4 end:0x801231B0
 	.ctors      start:0x802F5EB4 end:0x802F5EB8
+	.data       start:0x8033A558 end:0x8033A5C0
 
 plugPikiKando/aiExit.cpp:
 	.text       start:0x801231B0 end:0x80123788
 	.ctors      start:0x802F5EB8 end:0x802F5EBC
+	.data       start:0x8033A5C0 end:0x8033A628
 
 plugPikiKando/aiFormation.cpp:
 	.text       start:0x80123788 end:0x80124454
@@ -1219,58 +1622,70 @@ plugPikiKando/aiGuard.cpp:
 plugPikiKando/aiKinoko.cpp:
 	.text       start:0x8012691C end:0x80127CC8
 	.ctors      start:0x802F5ECC end:0x802F5ED0
-	.data       start:0x8033A800 end:0x8033A920
+	.data       start:0x8033A800 end:0x8033A878
 
 plugPikiKando/aiMine.cpp:
 	.text       start:0x80127CC8 end:0x80128270
 	.ctors      start:0x802F5ED0 end:0x802F5ED4
+	.data       start:0x8033A878 end:0x8033A920
 
 plugPikiKando/aiPerf.cpp:
 	.text       start:0x80128270 end:0x80129934
 	.ctors      start:0x802F5ED4 end:0x802F5ED8
-	.data       start:0x8033A920 end:0x8033B3E8
-	.sdata      start:0x804993A8 end:0x8049A048
+	.rodata     start:0x803018A0 end:0x80301B70
+	.data       start:0x8033A920 end:0x8033AAE8
+	.sdata      start:0x80499390 end:0x804993C0
 	.sbss       start:0x8049ECE8 end:0x8049ED20
 
 plugPikiKando/aiPick.cpp:
 	.text       start:0x80129934 end:0x80129E08
 	.ctors      start:0x802F5ED8 end:0x802F5EDC
+	.data       start:0x8033AAE8 end:0x8033AB50
 
 plugPikiKando/aiPickCreature.cpp:
 	.text       start:0x80129E08 end:0x80129F64
 	.ctors      start:0x802F5EDC end:0x802F5EE0
+	.data       start:0x8033AB50 end:0x8033ABB8
 
 plugPikiKando/aiPullout.cpp:
 	.text       start:0x80129F64 end:0x8012A8C8
 	.ctors      start:0x802F5EE0 end:0x802F5EE4
+	.data       start:0x8033ABB8 end:0x8033AC90
 
 plugPikiKando/aiPush.cpp:
 	.text       start:0x8012A8C8 end:0x8012B2C8
 	.ctors      start:0x802F5EE4 end:0x802F5EE8
+	.data       start:0x8033AC90 end:0x8033AD38
 
 plugPikiKando/aiPut.cpp:
 	.text       start:0x8012B2C8 end:0x8012D390
 	.ctors      start:0x802F5EE8 end:0x802F5EEC
+	.data       start:0x8033AD38 end:0x8033AE10
 
 plugPikiKando/aiRandomBoid.cpp:
 	.text       start:0x8012D390 end:0x8012DC1C
 	.ctors      start:0x802F5EEC end:0x802F5EF0
+	.data       start:0x8033AE10 end:0x8033AE90
 
 plugPikiKando/aiRescue.cpp:
 	.text       start:0x8012DC1C end:0x8012E760
 	.ctors      start:0x802F5EF0 end:0x802F5EF4
+	.data       start:0x8033AE90 end:0x8033AF08
 
 plugPikiKando/aiRope.cpp:
 	.text       start:0x8012E760 end:0x8012EAAC
 	.ctors      start:0x802F5EF4 end:0x802F5EF8
+	.data       start:0x8033AF08 end:0x8033AF70
 
 plugPikiKando/aiShoot.cpp:
 	.text       start:0x8012EAAC end:0x8012F554
 	.ctors      start:0x802F5EF8 end:0x802F5EFC
+	.data       start:0x8033AF70 end:0x8033B048
 
 plugPikiKando/aiStone.cpp:
 	.text       start:0x8012F554 end:0x8012FF70
 	.ctors      start:0x802F5EFC end:0x802F5F00
+	.data       start:0x8033B048 end:0x8033B0E0
 
 plugPikiKando/aiTable.cpp:
 	.text       start:0x8012FF70 end:0x8012FFB0
@@ -1278,29 +1693,34 @@ plugPikiKando/aiTable.cpp:
 	.sbss       start:0x8049ED20 end:0x8049ED28
 
 plugPikiKando/aiTransport.cpp:
-	.text       start:0x8012FFB0 end:0x80135B84
+	.text       start:0x8012FFB0 end:0x80135B80
 	.ctors      start:0x802F5F04 end:0x802F5F08
+	.data       start:0x8033B0E0 end:0x8033B158
 
 plugPikiKando/aiWatch.cpp:
-	.text       start:0x80135B84 end:0x80135F90
+	.text       start:0x80135B80 end:0x80135F90
 	.ctors      start:0x802F5F08 end:0x802F5F0C
+	.data       start:0x8033B158 end:0x8033B1C8
 
 plugPikiKando/aiWeed.cpp:
 	.text       start:0x80135F90 end:0x8013690C
 	.ctors      start:0x802F5F0C end:0x802F5F10
+	.data       start:0x8033B1C8 end:0x8033B240
 
 plugPikiKando/animPellet.cpp:
 	.text       start:0x8013690C end:0x801370A4
 	.ctors      start:0x802F5F10 end:0x802F5F14
+	.data       start:0x8033B240 end:0x8033B278
 
 plugPikiKando/bombItem.cpp:
 	.text       start:0x801370A4 end:0x801375F0
 	.ctors      start:0x802F5F14 end:0x802F5F18
+	.data       start:0x8033B278 end:0x8033B3E8
 
 plugPikiKando/collInfo.cpp:
 	.text       start:0x801375F0 end:0x8013AFC8
 	.ctors      start:0x802F5F18 end:0x802F5F1C
-	.bss        start:0x8046DB70 end:0x8046E3B0
+	.bss        start:0x8046DB70 end:0x8046DBB0
 
 plugPikiKando/complexCreature.cpp:
 	.text       start:0x8013AFC8 end:0x8013B014
@@ -1314,7 +1734,7 @@ plugPikiKando/conditions.cpp:
 plugPikiKando/courseDebug.cpp:
 	.text       start:0x8013B068 end:0x8013B270
 	.ctors      start:0x802F5F24 end:0x802F5F28
-	.sbss       start:0x8049ED28 end:0x8049ED48
+	.sbss       start:0x8049ED28 end:0x8049ED38
 
 plugPikiKando/cPlate.cpp:
 	.text       start:0x8013B270 end:0x8013C8BC
@@ -1325,6 +1745,8 @@ plugPikiKando/creature.cpp:
 	.text       start:0x8013C8BC end:0x80140088
 	.ctors      start:0x802F5F2C end:0x802F5F30
 	.data       start:0x8033B488 end:0x8033B5A8
+	.bss        start:0x8046DBB0 end:0x8046E3B0
+	.sbss       start:0x8049ED38 end:0x8049ED48
 
 plugPikiKando/creatureCollision.cpp:
 	.text       start:0x80140088 end:0x8014083C
@@ -1342,11 +1764,12 @@ plugPikiKando/creatureMove.cpp:
 plugPikiKando/creatureStick.cpp:
 	.text       start:0x801420B0 end:0x80144454
 	.ctors      start:0x802F5F3C end:0x802F5F40
-	.data       start:0x8033B5F0 end:0x8033B648
+	.data       start:0x8033B5F0 end:0x8033B608
 
 plugPikiKando/demoEvent.cpp:
 	.text       start:0x80144454 end:0x801448A4
 	.ctors      start:0x802F5F40 end:0x802F5F44
+	.data       start:0x8033B608 end:0x8033B648
 	.sbss       start:0x8049ED48 end:0x8049ED50
 
 plugPikiKando/demoInvoker.cpp:
@@ -1361,19 +1784,22 @@ plugPikiKando/dualCreature.cpp:
 plugPikiKando/dynCreature.cpp:
 	.text       start:0x80145660 end:0x80146D08
 	.ctors      start:0x802F5F4C end:0x802F5F50
-	.data       start:0x8033B770 end:0x8033BA90
-	.sbss       start:0x8049ED50 end:0x8049ED60
+	.data       start:0x8033B770 end:0x8033B8C0
+	.sbss       start:0x8049ED50 end:0x8049ED58
 
 plugPikiKando/eventListener.cpp:
 	.text       start:0x80146D08 end:0x80146D98
+	.data       start:0x8033B8C0 end:0x8033B8D8
 
 plugPikiKando/fastGrid.cpp:
 	.text       start:0x80146D98 end:0x8014739C
 	.ctors      start:0x802F5F50 end:0x802F5F54
+	.sbss       start:0x8049ED58 end:0x8049ED60
 
 plugPikiKando/fishItem.cpp:
 	.text       start:0x8014739C end:0x80147F58
 	.ctors      start:0x802F5F54 end:0x802F5F58
+	.data       start:0x8033B8D8 end:0x8033BA90
 
 plugPikiKando/formationMgr.cpp:
 	.text       start:0x80147F58 end:0x80148714
@@ -1382,27 +1808,39 @@ plugPikiKando/formationMgr.cpp:
 plugPikiKando/gameCoreSection.cpp:
 	.text       start:0x80148714 end:0x8014D8B4
 	.ctors      start:0x802F5F5C end:0x802F5F60
-	.data       start:0x8033BA90 end:0x8033BDC8
-	.sbss       start:0x8049ED60 end:0x8049ED90
+	.data       start:0x8033BA90 end:0x8033BAC0
+	.sbss       start:0x8049ED60 end:0x8049ED88
 
 plugPikiKando/gameDemo.cpp:
 	.text       start:0x8014D8B4 end:0x8014E438
 	.ctors      start:0x802F5F60 end:0x802F5F64
+	.rodata     start:0x80302168 end:0x80302400
+	.data       start:0x8033BAC0 end:0x8033BAF0
+	.sdata      start:0x80499EF0 end:0x80499F18
+	.sbss       start:0x8049ED88 end:0x8049ED90
+	.sdata2     start:0x804A0D48 end:0x804A0D68
 
 plugPikiKando/gameStat.cpp:
 	.text       start:0x8014E438 end:0x8014E6F4
 	.ctors      start:0x802F5F64 end:0x802F5F68
-	.bss        start:0x8046E3B0 end:0x8046E450
+	.bss        start:0x8046E3B0 end:0x8046E438
 	.sbss       start:0x8049ED90 end:0x8049EDA8
 
 plugPikiKando/genActor.cpp:
 	.text       start:0x8014E6F4 end:0x8014E8E0
 	.ctors      start:0x802F5F68 end:0x802F5F6C
+	.rodata     start:0x80302400 end:0x80302428
+	.data       start:0x8033BAF0 end:0x8033BB38
+	.sdata      start:0x80499F18 end:0x80499F30
 
 plugPikiKando/generator.cpp:
 	.text       start:0x8014E8E0 end:0x801526D8
 	.ctors      start:0x802F5F6C end:0x802F5F70
+	.rodata     start:0x80302428 end:0x803024D0
+	.data       start:0x8033BB38 end:0x8033BDC8
+	.sdata      start:0x80499F30 end:0x80499FE0
 	.sbss       start:0x8049EDA8 end:0x8049EDD0
+	.sdata2     start:0x804A0D68 end:0x804A0D98
 
 plugPikiKando/generatorCache.cpp:
 	.text       start:0x801526D8 end:0x80153AE8
@@ -1419,7 +1857,7 @@ plugPikiKando/genMapParts.cpp:
 	.text       start:0x80154484 end:0x80154F88
 	.ctors      start:0x802F5F78 end:0x802F5F7C
 	.data       start:0x8033BE70 end:0x8033BEC0
-	.sdata      start:0x8049A048 end:0x8049A338
+	.sdata      start:0x8049A018 end:0x8049A0B0
 	.sbss       start:0x8049EDD8 end:0x8049EDE0
 
 plugPikiKando/genNavi.cpp:
@@ -1438,11 +1876,11 @@ plugPikiKando/globalShapes.cpp:
 	.sbss       start:0x8049EDE0 end:0x8049EDF8
 
 plugPikiKando/gmWin.cpp:
-	.text       start:0x80155614 end:0x801556E4
+	.text       start:0x80155614 end:0x80155658
 	.ctors      start:0x802F5F88 end:0x802F5F8C
 
 plugPikiKando/goalItem.cpp:
-	.text       start:0x801556E4 end:0x80157324
+	.text       start:0x80155658 end:0x80157324
 	.ctors      start:0x802F5F8C end:0x802F5F90
 	.data       start:0x8033BF30 end:0x8033C0D0
 	.sbss       start:0x8049EDF8 end:0x8049EE00
@@ -1458,18 +1896,24 @@ plugPikiKando/interactEtc.cpp:
 	.data       start:0x8033C2E0 end:0x8033C338
 
 plugPikiKando/interactGrab.cpp:
-	.text       start:0x80158410 end:0x8015889C
-	.ctors      start:0x802F5F98 end:0x802F5FA0
-	.data       start:0x8033C338 end:0x8033C3D0
+	.text       start:0x80158410 end:0x80158564
+	.ctors      start:0x802F5F98 end:0x802F5F9C
+	.data       start:0x8033C338 end:0x8033C390
+
+plugPikiKando/interactPullout.cpp:
+	.text       start:0x80158564 end:0x8015889C
+	.ctors      start:0x802F5F9C end:0x802F5FA0
+	.data       start:0x8033C390 end:0x8033C3C0
 
 plugPikiKando/itemAI.cpp:
 	.text       start:0x8015889C end:0x8015BF18
 	.ctors      start:0x802F5FA0 end:0x802F5FA4
-	.data       start:0x8033C3D0 end:0x8033C6B8
+	.data       start:0x8033C3C0 end:0x8033C6B8
 
 plugPikiKando/itemGem.cpp:
 	.text       start:0x8015BF18 end:0x8015C2B8
 	.ctors      start:0x802F5FA4 end:0x802F5FA8
+	.data       start:0x8033C6B8 end:0x8033C748
 
 plugPikiKando/itemMgr.cpp:
 	.text       start:0x8015C2B8 end:0x80160E94
@@ -1480,14 +1924,17 @@ plugPikiKando/itemMgr.cpp:
 plugPikiKando/itemObject.cpp:
 	.text       start:0x80160E94 end:0x80161168
 	.ctors      start:0x802F5FAC end:0x802F5FB0
+	.data       start:0x8033CD30 end:0x8033D2C0
 
 plugPikiKando/keyConfig.cpp:
 	.text       start:0x80161168 end:0x80161460
+	.data       start:0x8033D2C0 end:0x8033D320
 	.sbss       start:0x8049EE08 end:0x8049EE10
 
 plugPikiKando/keyItem.cpp:
 	.text       start:0x80161460 end:0x80161BD4
 	.ctors      start:0x802F5FB0 end:0x802F5FB4
+	.data       start:0x8033D320 end:0x8033D5A0
 
 plugPikiKando/kio.cpp:
 	.text       start:0x80161BD4 end:0x80161C8C
@@ -1499,14 +1946,14 @@ plugPikiKando/kmath.cpp:
 	.ctors      start:0x802F5FB4 end:0x802F5FB8
 
 plugPikiKando/kontroller.cpp:
-	.text       start:0x80162798 end:0x80162CEC
+	.text       start:0x80162798 end:0x80162C38
 	.data       start:0x8033D5A0 end:0x8033D5D0
 	.sbss       start:0x8049EE20 end:0x8049EE28
 
 plugPikiKando/kusaItem.cpp:
-	.text       start:0x80162CEC end:0x80163500
+	.text       start:0x80162C38 end:0x80163500
 	.ctors      start:0x802F5FB8 end:0x802F5FBC
-	.data       start:0x8033D5D0 end:0x8033D950
+	.data       start:0x8033D5D0 end:0x8033D898
 
 plugPikiKando/mapcode.cpp:
 	.text       start:0x80163500 end:0x80163590
@@ -1514,44 +1961,52 @@ plugPikiKando/mapcode.cpp:
 plugPikiKando/mapParts.cpp:
 	.text       start:0x80163590 end:0x80163FCC
 	.ctors      start:0x802F5FBC end:0x802F5FC0
+	.data       start:0x8033D898 end:0x8033D940
 
 plugPikiKando/memStat.cpp:
 	.text       start:0x80163FCC end:0x80164FB0
+	.data       start:0x8033D940 end:0x8033D950
 	.sbss       start:0x8049EE28 end:0x8049EE30
 
 plugPikiKando/mizuItem.cpp:
-	.text       start:0x80164FB0 end:0x801653A4
+	.text       start:0x80164FB0 end:0x801651CC
 	.ctors      start:0x802F5FC0 end:0x802F5FC4
 	.data       start:0x8033D950 end:0x8033DAB8
 
 plugPikiKando/navi.cpp:
-	.text       start:0x801653A4 end:0x8016E808
+	.text       start:0x801651CC end:0x8016E808
 	.ctors      start:0x802F5FC4 end:0x802F5FC8
-	.data       start:0x8033DAB8 end:0x8033E498
-	.sdata      start:0x8049A468 end:0x8049B930
+	.data       start:0x8033DAB8 end:0x8033DD50
+	.sdata      start:0x8049A468 end:0x8049A6E0
 	.sbss       start:0x8049EE30 end:0x8049EE38
 
 plugPikiKando/naviDemoState.cpp:
 	.text       start:0x8016E808 end:0x80170328
 	.ctors      start:0x802F5FC8 end:0x802F5FCC
+	.data       start:0x8033DD50 end:0x8033DF78
 
 plugPikiKando/naviMgr.cpp:
 	.text       start:0x80170328 end:0x80170A3C
 	.ctors      start:0x802F5FCC end:0x802F5FD0
+	.data       start:0x8033DF78 end:0x8033E000
 	.sbss       start:0x8049EE38 end:0x8049EE40
 
 plugPikiKando/naviState.cpp:
 	.text       start:0x80170A3C end:0x8017A5D8
 	.ctors      start:0x802F5FD0 end:0x802F5FD4
-	.data       start:0x8033E498 end:0x8033ECD8
+	.rodata     start:0x80302BC8 end:0x80302C80
+	.data       start:0x8033E000 end:0x8033EBD0
 
 plugPikiKando/objectMgr.cpp:
 	.text       start:0x8017A5D8 end:0x8017D1BC
 	.ctors      start:0x802F5FD4 end:0x802F5FD8
+	.rodata     start:0x80302C80 end:0x80302CA8
+	.data       start:0x8033EBD0 end:0x8033ECD8
 
 plugPikiKando/objectTypes.cpp:
 	.text       start:0x8017D1BC end:0x8017D298
-	.data       start:0x8033ECD8 end:0x8033EED0
+	.rodata     start:0x80302CA8 end:0x80302E90
+	.data       start:0x8033ECD8 end:0x8033EE90
 
 plugPikiKando/odoMeter.cpp:
 	.text       start:0x8017D298 end:0x8017D3A4
@@ -1559,50 +2014,60 @@ plugPikiKando/odoMeter.cpp:
 plugPikiKando/omake.cpp:
 	.text       start:0x8017D3A4 end:0x8017F610
 	.ctors      start:0x802F5FD8 end:0x802F5FDC
-	.data       start:0x8033EED0 end:0x8033F110
+	.data       start:0x8033EE90 end:0x8033EF10
 	.sbss       start:0x8049EE40 end:0x8049EE48
 
 plugPikiKando/paniItemAnimator.cpp:
 	.text       start:0x8017F610 end:0x8017F92C
 	.ctors      start:0x802F5FDC end:0x802F5FE0
+	.rodata     start:0x80302E90 end:0x80302EE0
+	.data       start:0x8033EF10 end:0x8033EF68
 
 plugPikiKando/panipikianimator.cpp:
 	.text       start:0x8017F92C end:0x801807D8
 	.ctors      start:0x802F5FE0 end:0x802F5FE4
+	.rodata     start:0x80302EE0 end:0x80303188
+	.data       start:0x8033EF68 end:0x8033F0F0
 
 plugPikiKando/paniPlantAnimator.cpp:
 	.text       start:0x801807D8 end:0x801809B4
 	.ctors      start:0x802F5FE4 end:0x802F5FE8
+	.data       start:0x8033F0F0 end:0x8033F110
 
 plugPikiKando/pelletMgr.cpp:
 	.text       start:0x801809B4 end:0x8018506C
 	.ctors      start:0x802F5FE8 end:0x802F5FEC
-	.data       start:0x8033F110 end:0x8033F668
-	.sbss       start:0x8049EE48 end:0x8049EE70
+	.data       start:0x8033F110 end:0x8033F488
+	.sbss       start:0x8049EE48 end:0x8049EE58
 
 plugPikiKando/pelletState.cpp:
 	.text       start:0x8018506C end:0x80185F08
 	.ctors      start:0x802F5FEC end:0x802F5FF0
-	.data       start:0x8033F668 end:0x8033F760
+	.data       start:0x8033F488 end:0x8033F680
+	.sbss2      start:0x804A4230 end:0x804A4238
 
 plugPikiKando/piki.cpp:
 	.text       start:0x80185F08 end:0x8018CD1C
 	.ctors      start:0x802F5FF0 end:0x802F5FF4
-	.data       start:0x8033F760 end:0x8033F8C8
-	.bss        start:0x8046E450 end:0x8046E480
+	.data       start:0x8033F680 end:0x8033F8A0
+	.bss        start:0x8046E438 end:0x8046E480
+	.sbss       start:0x8049EE58 end:0x8049EE60
 
 plugPikiKando/pikidoKill.cpp:
 	.text       start:0x8018CD1C end:0x8018D1E4
 	.ctors      start:0x802F5FF4 end:0x802F5FF8
+	.data       start:0x8033F8A0 end:0x8033F8C8
+	.sbss       start:0x8049EE60 end:0x8049EE70
 
 plugPikiKando/pikiheadItem.cpp:
 	.text       start:0x8018D1E4 end:0x8018DE30
 	.ctors      start:0x802F5FF8 end:0x802F5FFC
-	.data       start:0x8033F8C8 end:0x8033FAB0
+	.data       start:0x8033F8C8 end:0x8033FA30
 
 plugPikiKando/pikiInf.cpp:
 	.text       start:0x8018DE30 end:0x8018E970
 	.ctors      start:0x802F5FFC end:0x802F6000
+	.data       start:0x8033FA30 end:0x8033FAB0
 	.bss        start:0x8046E480 end:0x8046E4A8
 
 plugPikiKando/pikiInfo.cpp:
@@ -1623,40 +2088,46 @@ plugPikiKando/pikiState.cpp:
 plugPikiKando/plantMgr.cpp:
 	.text       start:0x80198D7C end:0x80199F8C
 	.ctors      start:0x802F6008 end:0x802F600C
-	.data       start:0x80340978 end:0x803413B0
+	.data       start:0x80340978 end:0x80340C28
 	.sbss       start:0x8049EE80 end:0x8049EE88
 
 plugPikiKando/playerState.cpp:
 	.text       start:0x80199F8C end:0x8019C72C
 	.ctors      start:0x802F600C end:0x802F6010
+	.data       start:0x80340C28 end:0x80340C38
 	.sbss       start:0x8049EE88 end:0x8049EE90
 
 plugPikiKando/radarInfo.cpp:
 	.text       start:0x8019C72C end:0x8019C94C
 	.ctors      start:0x802F6010 end:0x802F6014
+	.data       start:0x80340C38 end:0x80340C48
 	.sbss       start:0x8049EE90 end:0x8049EE98
 
 plugPikiKando/resultFlag.cpp:
 	.text       start:0x8019C94C end:0x8019D128
 	.ctors      start:0x802F6014 end:0x802F6018
+	.data       start:0x80340C48 end:0x80341108
 
 plugPikiKando/ropeCreature.cpp:
 	.text       start:0x8019D128 end:0x8019D45C
 	.ctors      start:0x802F6018 end:0x802F601C
+	.data       start:0x80341108 end:0x80341228
 
 plugPikiKando/ropeItem.cpp:
 	.text       start:0x8019D45C end:0x8019D874
 	.ctors      start:0x802F601C end:0x802F6020
+	.data       start:0x80341228 end:0x80341348
 
 plugPikiKando/routeMgr.cpp:
 	.text       start:0x8019D874 end:0x801A1B24
 	.ctors      start:0x802F6020 end:0x802F6024
+	.data       start:0x80341348 end:0x80341378
 	.sbss       start:0x8049EE98 end:0x8049EEA0
 
 plugPikiKando/saiEvents.cpp:
 	.text       start:0x801A1B24 end:0x801A1CEC
 	.ctors      start:0x802F6024 end:0x802F6028
-	.data       start:0x803413B0 end:0x803414C8
+	.data       start:0x80341378 end:0x803414C8
 	.sbss       start:0x8049EEA0 end:0x8049EEC0
 
 plugPikiKando/searchSystem.cpp:
@@ -1671,23 +2142,28 @@ plugPikiKando/seConstants.cpp:
 plugPikiKando/seedItem.cpp:
 	.text       start:0x801A3178 end:0x801A36F8
 	.ctors      start:0x802F602C end:0x802F6030
-	.data       start:0x80341510 end:0x80343258
+	.data       start:0x80341510 end:0x80341630
 
 plugPikiKando/seMgr.cpp:
 	.text       start:0x801A36F8 end:0x801A3918
 	.ctors      start:0x802F6030 end:0x802F6034
+	.data       start:0x80341630 end:0x80341660
 	.sbss       start:0x8049EEC0 end:0x8049EEC8
 
 plugPikiKando/simpleAI.cpp:
 	.text       start:0x801A3918 end:0x801A4210
 	.ctors      start:0x802F6034 end:0x802F6038
+	.data       start:0x80341660 end:0x80341858
 
 plugPikiKando/smartPtr.cpp:
 	.text       start:0x801A4210 end:0x801A4260
+	.data       start:0x80341858 end:0x80341868
 
 plugPikiKando/soundMgr.cpp:
 	.text       start:0x801A4260 end:0x801A5900
 	.ctors      start:0x802F6038 end:0x802F603C
+	.rodata     start:0x803039FC end:0x80304EC8
+	.data       start:0x80341868 end:0x80343258
 	.sbss       start:0x8049EEC8 end:0x8049EED0
 
 plugPikiNakata/taijudgementactions.cpp:
@@ -1763,17 +2239,18 @@ plugPikiNakata/taiwaitactions.cpp:
 plugPikiNakata/teki.cpp:
 	.text       start:0x801B74F8 end:0x801B7760
 	.ctors      start:0x802F6074 end:0x802F6078
-	.data       start:0x80344688 end:0x803448C0
+	.data       start:0x80344688 end:0x80344890
 
 plugPikiNakata/tekianimationmanager.cpp:
 	.text       start:0x801B7760 end:0x801B789C
 	.ctors      start:0x802F6078 end:0x802F607C
+	.data       start:0x80344890 end:0x803448C0
 
 plugPikiNakata/tekibteki.cpp:
 	.text       start:0x801B789C end:0x801BCFFC
 	.ctors      start:0x802F607C end:0x802F6080
 	.data       start:0x803448C0 end:0x80344AD8
-	.sdata2     start:0x804A1A18 end:0x804A1B18
+	.sdata2     start:0x804A1A18 end:0x804A1AA0
 
 plugPikiNakata/tekiconditions.cpp:
 	.text       start:0x801BCFFC end:0x801BD614
@@ -1821,7 +2298,7 @@ plugPikiNakata/tekistrategy.cpp:
 plugPikiNakata/genteki.cpp:
 	.text       start:0x801C0528 end:0x801C092C
 	.ctors      start:0x802F60A0 end:0x802F60A4
-	.data       start:0x80345018 end:0x80345070
+	.data       start:0x80345018 end:0x80345050
 
 plugPikiNakata/nakatacode.cpp:
 	.text       start:0x801C092C end:0x801C09A4
@@ -1830,58 +2307,68 @@ plugPikiNakata/nakatacode.cpp:
 
 plugPikiNakata/nlibfunction.cpp:
 	.text       start:0x801C09A4 end:0x801C0D80
-	.data       start:0x80345070 end:0x803459C8
+	.data       start:0x80345050 end:0x80345080
 
 plugPikiNakata/nlibgeometry3d.cpp:
 	.text       start:0x801C0D80 end:0x801C12A4
+	.data       start:0x80345080 end:0x803450A0
 
 plugPikiNakata/nlibgeometry.cpp:
 	.text       start:0x801C12A4 end:0x801C2D5C
+	.data       start:0x803450A0 end:0x803450B0
 
 plugPikiNakata/nlibgraphics.cpp:
 	.text       start:0x801C2D5C end:0x801C308C
 
 plugPikiNakata/nlibmath.cpp:
 	.text       start:0x801C308C end:0x801C339C
-	.sdata      start:0x8049B930 end:0x8049C650
-	.sdata2     start:0x804A1B48 end:0x804A2E00
+	.data       start:0x803450B0 end:0x803458B8
+	.sdata      start:0x8049B930 end:0x8049B938
+	.sdata2     start:0x804A1B48 end:0x804A1B70
 
 plugPikiNakata/nlibsystem.cpp:
 	.text       start:0x801C339C end:0x801C3BE0
+	.data       start:0x803458B8 end:0x80345918
 	.sbss       start:0x8049EEE0 end:0x8049EEE8
+	.sdata2     start:0x804A1B70 end:0x804A1B80
 
 plugPikiNakata/panianimator.cpp:
 	.text       start:0x801C3BE0 end:0x801C4518
 	.ctors      start:0x802F60A8 end:0x802F60AC
+	.data       start:0x80345918 end:0x80345938
 
 plugPikiNakata/panipikianimmgr.cpp:
 	.text       start:0x801C4518 end:0x801C4900
 	.ctors      start:0x802F60AC end:0x802F60B0
-	.sbss       start:0x8049EEE8 end:0x8049EF00
+	.sbss       start:0x8049EEE8 end:0x8049EEF0
 
 plugPikiNakata/panitekianimator.cpp:
 	.text       start:0x801C4900 end:0x801C4C1C
 	.ctors      start:0x802F60B0 end:0x802F60B4
+	.data       start:0x80345938 end:0x80345990
 
 plugPikiNakata/panitestsection.cpp:
-	.text       start:0x801C4C1C end:0x801C6488
+	.text       start:0x801C4C1C end:0x801C6280
 	.ctors      start:0x802F60B4 end:0x802F60B8
-	.data       start:0x803459C8 end:0x80345A70
+	.data       start:0x80345990 end:0x80345A08
 
 plugPikiNakata/paraparameters.cpp:
-	.text       start:0x801C6488 end:0x801C67D8
+	.text       start:0x801C6280 end:0x801C677C
+	.data       start:0x80345A08 end:0x80345A70
 
 plugPikiNakata/pcamcamera.cpp:
-	.text       start:0x801C67D8 end:0x801C8A40
+	.text       start:0x801C677C end:0x801C8A40
 	.ctors      start:0x802F60B8 end:0x802F60BC
-	.data       start:0x80345A70 end:0x80345B20
+	.data       start:0x80345A70 end:0x80345AC0
 
 plugPikiNakata/pcamcameramanager.cpp:
 	.text       start:0x801C8A40 end:0x801C8F10
 	.ctors      start:0x802F60BC end:0x802F60C0
+	.data       start:0x80345AC0 end:0x80345AF0
 
 plugPikiNakata/pcamcameraparameters.cpp:
 	.text       start:0x801C8F10 end:0x801C9A84
+	.data       start:0x80345AF0 end:0x80345B20
 
 plugPikiNakata/pcammotionevents.cpp:
 	.text       start:0x801C9A84 end:0x801CA06C
@@ -1891,15 +2378,17 @@ plugPikiNakata/pcammotionevents.cpp:
 plugPikiNakata/peve.cpp:
 	.text       start:0x801CA06C end:0x801CA484
 	.ctors      start:0x802F60C4 end:0x802F60C8
+	.data       start:0x80345C10 end:0x80345CC0
 
 plugPikiNakata/peveconditions.cpp:
 	.text       start:0x801CA484 end:0x801CA55C
 	.ctors      start:0x802F60C8 end:0x802F60CC
+	.data       start:0x80345CC0 end:0x80345CD8
 
 plugPikiNakata/pevemotionevents.cpp:
 	.text       start:0x801CA55C end:0x801CAF64
 	.ctors      start:0x802F60CC end:0x802F60D0
-	.data       start:0x80345C10 end:0x80345E08
+	.data       start:0x80345CD8 end:0x80345E08
 
 plugPikiNakata/tai.cpp:
 	.text       start:0x801CAF64 end:0x801CB6D4
@@ -1949,11 +2438,16 @@ plugPikiNishimura/Pom.cpp:
 plugPikiNishimura/PomAi.cpp:
 	.text       start:0x801D28C0 end:0x801D40B0
 	.ctors      start:0x802F60F4 end:0x802F60F8
-	.data       start:0x80346748 end:0x803473A8
+	.data       start:0x80346748 end:0x80346778
+
+plugPikiNishimura/RumbleData.cpp:
+	.data       start:0x80346778 end:0x80347228
+	.sdata      start:0x8049BCB0 end:0x8049BD00
 
 plugPikiNishimura/Slime.cpp:
 	.text       start:0x801D40B0 end:0x801D5374
 	.ctors      start:0x802F60F8 end:0x802F60FC
+	.data       start:0x80347228 end:0x803473C8
 
 plugPikiNishimura/SlimeAi.cpp:
 	.text       start:0x801D5374 end:0x801D98C8
@@ -1966,11 +2460,12 @@ plugPikiNishimura/SlimeBody.cpp:
 plugPikiNishimura/SlimeCreature.cpp:
 	.text       start:0x801DA538 end:0x801DA750
 	.ctors      start:0x802F6104 end:0x802F6108
+	.data       start:0x803473F0 end:0x80347510
 
 plugPikiNishimura/Snake.cpp:
 	.text       start:0x801DA750 end:0x801DB634
 	.ctors      start:0x802F6108 end:0x802F610C
-	.data       start:0x803473A8 end:0x80347680
+	.data       start:0x80347510 end:0x80347680
 
 plugPikiNishimura/SnakeAi.cpp:
 	.text       start:0x801DB634 end:0x801DFE2C
@@ -1985,17 +2480,18 @@ plugPikiNishimura/SnakeBody.cpp:
 plugPikiNishimura/Spider.cpp:
 	.text       start:0x801E3F68 end:0x801E4FC4
 	.ctors      start:0x802F6114 end:0x802F6118
-	.data       start:0x803476F0 end:0x803478B0
+	.data       start:0x803476F0 end:0x80347878
 
 plugPikiNishimura/SpiderAi.cpp:
 	.text       start:0x801E4FC4 end:0x801E702C
 	.ctors      start:0x802F6118 end:0x802F611C
-	.data       start:0x803478B0 end:0x803478C0
+	.data       start:0x80347878 end:0x803478C0
 
 plugPikiNishimura/SpiderLeg.cpp:
 	.text       start:0x801E702C end:0x801EBAE4
 	.ctors      start:0x802F611C end:0x802F6120
 	.data       start:0x803478C0 end:0x80347958
+	.sbss       start:0x8049EEF8 end:0x8049EF00
 
 plugPikiNishimura/Boss.cpp:
 	.text       start:0x801EBAE4 end:0x801EDC54
@@ -2009,12 +2505,12 @@ plugPikiNishimura/BossAnimMgr.cpp:
 plugPikiNishimura/BossCnd.cpp:
 	.text       start:0x801EDCD0 end:0x801EDE58
 	.ctors      start:0x802F6124 end:0x802F6128
-	.data       start:0x80347AD0 end:0x80347B40
+	.data       start:0x80347AD0 end:0x80347AE8
 
 plugPikiNishimura/BossMgr.cpp:
 	.text       start:0x801EDE58 end:0x801F0748
 	.ctors      start:0x802F6128 end:0x802F612C
-	.data       start:0x80347B40 end:0x80347D20
+	.data       start:0x80347AE8 end:0x80347BC8
 	.sbss       start:0x8049EF00 end:0x8049EF08
 
 plugPikiNishimura/BossShapeObj.cpp:
@@ -2024,10 +2520,12 @@ plugPikiNishimura/BossShapeObj.cpp:
 plugPikiNishimura/CoreNucleus.cpp:
 	.text       start:0x801F0884 end:0x801F0C04
 	.ctors      start:0x802F6130 end:0x802F6134
+	.data       start:0x80347BC8 end:0x80347D10
 
 plugPikiNishimura/CoreNucleusAi.cpp:
 	.text       start:0x801F0C04 end:0x801F12D0
 	.ctors      start:0x802F6134 end:0x802F6138
+	.data       start:0x80347D10 end:0x80347D20
 
 plugPikiNishimura/genBoss.cpp:
 	.text       start:0x801F12D0 end:0x801F180C
@@ -2037,7 +2535,7 @@ plugPikiNishimura/genBoss.cpp:
 plugPikiNishimura/HmRumbleMgr.cpp:
 	.text       start:0x801F180C end:0x801F2528
 	.ctors      start:0x802F613C end:0x802F6140
-	.sbss       start:0x8049EF08 end:0x8049EF18
+	.sbss       start:0x8049EF08 end:0x8049EF10
 
 plugPikiNishimura/HmRumbleSample.cpp:
 	.text       start:0x801F2528 end:0x801F25A4
@@ -2071,7 +2569,7 @@ plugPikiNishimura/KoganeAi.cpp:
 	.text       start:0x801FD504 end:0x801FF20C
 	.ctors      start:0x802F6154 end:0x802F6158
 	.data       start:0x803482B8 end:0x803482F0
-	.sdata      start:0x8049C650 end:0x8049CB58
+	.sdata      start:0x8049C620 end:0x8049C6E0
 
 plugPikiNishimura/Mizu.cpp:
 	.text       start:0x801FF20C end:0x801FF660
@@ -2081,7 +2579,7 @@ plugPikiNishimura/Mizu.cpp:
 plugPikiNishimura/MizuAi.cpp:
 	.text       start:0x801FF660 end:0x802000EC
 	.ctors      start:0x802F615C end:0x802F6160
-	.data       start:0x80348438 end:0x803485B8
+	.data       start:0x80348438 end:0x80348450
 
 plugPikiNishimura/nscalculation.cpp:
 	.text       start:0x802000EC end:0x80200604
@@ -2089,10 +2587,12 @@ plugPikiNishimura/nscalculation.cpp:
 plugPikiNishimura/Nucleus.cpp:
 	.text       start:0x80200604 end:0x8020092C
 	.ctors      start:0x802F6160 end:0x802F6164
+	.data       start:0x80348450 end:0x80348598
 
 plugPikiNishimura/NucleusAi.cpp:
 	.text       start:0x8020092C end:0x80200D70
 	.ctors      start:0x802F6164 end:0x802F6168
+	.data       start:0x80348598 end:0x803485A8
 
 plugPikiOgawa/ogStart.cpp:
 	.text       start:0x80200D70 end:0x80201168
@@ -2101,12 +2601,13 @@ plugPikiOgawa/ogStart.cpp:
 plugPikiOgawa/ogSub.cpp:
 	.text       start:0x80201168 end:0x80203814
 	.ctors      start:0x802F616C end:0x802F6170
-	.data       start:0x803485B8 end:0x80348670
+	.data       start:0x803485A8 end:0x803485D8
 	.bss        start:0x8046E4A8 end:0x8046F038
 
 plugPikiOgawa/ogTest.cpp:
 	.text       start:0x80203814 end:0x802048FC
 	.ctors      start:0x802F6170 end:0x802F6174
+	.data       start:0x803485D8 end:0x80348670
 
 plugPikiOgawa/ogTitle.cpp:
 	.text       start:0x802048FC end:0x80205E2C
@@ -2123,17 +2624,19 @@ plugPikiOgawa/ogTutorial.cpp:
 plugPikiOgawa/ogTutorialData.cpp:
 	.text       start:0x80207840 end:0x80207880
 	.ctors      start:0x802F6180 end:0x802F6184
-	.data       start:0x80348670 end:0x80348CA0
+	.data       start:0x80348670 end:0x80348C00
+	.sdata      start:0x8049C870 end:0x8049CB28
 
 plugPikiOgawa/ogCallBack.cpp:
 	.text       start:0x80207880 end:0x80207FC4
 	.ctors      start:0x802F6184 end:0x802F6188
+	.data       start:0x80348C00 end:0x80348C10
 
 plugPikiOgawa/ogDiary.cpp:
 	.text       start:0x80207FC4 end:0x8020A4CC
 	.ctors      start:0x802F6188 end:0x802F618C
 	.bss        start:0x8046F038 end:0x8046F060
-	.sdata      start:0x8049CB58 end:0x8049D3B8
+	.sdata      start:0x8049CB40 end:0x8049CB78
 
 plugPikiOgawa/ogFileChkSel.cpp:
 	.text       start:0x8020A4CC end:0x8020A914
@@ -2150,11 +2653,13 @@ plugPikiOgawa/ogFileDelete.cpp:
 plugPikiOgawa/ogFileSelect.cpp:
 	.text       start:0x8020B7D8 end:0x80212394
 	.ctors      start:0x802F6198 end:0x802F619C
+	.data       start:0x80348C10 end:0x80348CA0
+	.sbss       start:0x8049EF10 end:0x8049EF18
 
 plugPikiOgawa/ogGraph.cpp:
 	.text       start:0x80212394 end:0x80212CB0
 	.ctors      start:0x802F619C end:0x802F61A0
-	.data       start:0x80348CA0 end:0x80348F88
+	.data       start:0x80348CA0 end:0x80348CD0
 	.bss        start:0x8046F060 end:0x8046F120
 
 plugPikiOgawa/ogMakeDefault.cpp:
@@ -2172,6 +2677,7 @@ plugPikiOgawa/ogMemChk.cpp:
 plugPikiOgawa/ogMenu.cpp:
 	.text       start:0x80215BC0 end:0x802183F0
 	.ctors      start:0x802F61AC end:0x802F61B0
+	.data       start:0x80348DF0 end:0x80348F48
 
 plugPikiOgawa/ogMessage.cpp:
 	.text       start:0x802183F0 end:0x8021996C
@@ -2188,25 +2694,28 @@ plugPikiOgawa/ogPause.cpp:
 plugPikiOgawa/ogRader.cpp:
 	.text       start:0x8021AC34 end:0x8021D5F4
 	.ctors      start:0x802F61BC end:0x802F61C0
+	.data       start:0x80348F48 end:0x80348F88
 
 plugPikiOgawa/ogResult.cpp:
 	.text       start:0x8021D5F4 end:0x8021F0A0
 	.ctors      start:0x802F61C0 end:0x802F61C4
-	.data       start:0x80348F88 end:0x80349210
+	.data       start:0x80348F88 end:0x803491E0
 
 plugPikiOgawa/ogSave.cpp:
 	.text       start:0x8021F0A0 end:0x802201D4
 	.ctors      start:0x802F61C4 end:0x802F61C8
+	.data       start:0x803491E0 end:0x80349210
 
 plugPikiYamashita/TAImar.cpp:
 	.text       start:0x802201D4 end:0x8022282C
 	.ctors      start:0x802F61C8 end:0x802F61CC
-	.data       start:0x80349210 end:0x803497B8
+	.data       start:0x80349210 end:0x80349520
 	.sbss       start:0x8049EF18 end:0x8049EF28
 
 plugPikiYamashita/TAImiurin.cpp:
 	.text       start:0x8022282C end:0x80225664
 	.ctors      start:0x802F61CC end:0x802F61D0
+	.data       start:0x80349520 end:0x803497B8
 
 plugPikiYamashita/TAIotama.cpp:
 	.text       start:0x80225664 end:0x802265C4
@@ -2222,7 +2731,7 @@ plugPikiYamashita/TAItank.cpp:
 	.text       start:0x80227020 end:0x802286E0
 	.ctors      start:0x802F61D8 end:0x802F61DC
 	.data       start:0x80349958 end:0x80349AD8
-	.sbss       start:0x8049EF28 end:0x8049EF38
+	.sbss       start:0x8049EF28 end:0x8049EF30
 
 plugPikiYamashita/TAIusuba.cpp:
 	.text       start:0x802286E0 end:0x802289F4
@@ -2236,7 +2745,7 @@ plugPikiYamashita/tekiyamashita.cpp:
 plugPikiYamashita/tekiyteki.cpp:
 	.text       start:0x80228F20 end:0x80229810
 	.ctors      start:0x802F61E4 end:0x802F61E8
-	.data       start:0x80349B08 end:0x80349D38
+	.data       start:0x80349B08 end:0x80349D10
 
 plugPikiYamashita/texAnim.cpp:
 	.text       start:0x80229810 end:0x802298B0
@@ -2244,9 +2753,11 @@ plugPikiYamashita/texAnim.cpp:
 plugPikiYamashita/yai.cpp:
 	.text       start:0x802298B0 end:0x80229B20
 	.ctors      start:0x802F61E8 end:0x802F61EC
+	.data       start:0x80349D10 end:0x80349D38
 
 plugPikiYamashita/zenController.cpp:
 	.text       start:0x80229B20 end:0x80229E78
+	.sbss       start:0x8049EF30 end:0x8049EF38
 
 plugPikiYamashita/zenGraphics.cpp:
 	.text       start:0x80229E78 end:0x8022A3AC
@@ -2273,25 +2784,27 @@ plugPikiYamashita/damageEffect.cpp:
 plugPikiYamashita/drawAccount.cpp:
 	.text       start:0x8022B644 end:0x8022CE90
 	.ctors      start:0x802F61FC end:0x802F6200
+	.data       start:0x80349D38 end:0x80349D88
 
 plugPikiYamashita/drawCMbest.cpp:
 	.text       start:0x8022CE90 end:0x8022D7CC
 	.ctors      start:0x802F6200 end:0x802F6204
-	.data       start:0x80349D38 end:0x80349E48
+	.data       start:0x80349D88 end:0x80349E48
 
 plugPikiYamashita/drawCMcourseSelect.cpp:
 	.text       start:0x8022D7CC end:0x8022E7FC
 	.ctors      start:0x802F6204 end:0x802F6208
-	.data       start:0x80349E48 end:0x80349FE8
+	.data       start:0x80349E48 end:0x80349F08
 
 plugPikiYamashita/drawCMresult.cpp:
 	.text       start:0x8022E7FC end:0x8022FD44
 	.ctors      start:0x802F6208 end:0x802F620C
+	.data       start:0x80349F08 end:0x80349FC8
 
 plugPikiYamashita/drawCMscore.cpp:
 	.text       start:0x8022FD44 end:0x80230978
 	.ctors      start:0x802F620C end:0x802F6210
-	.sdata2     start:0x804A2E00 end:0x804A2F60
+	.sdata2     start:0x804A2DE0 end:0x804A2E08
 
 plugPikiYamashita/drawCMtitle.cpp:
 	.text       start:0x80230978 end:0x80230DB0
@@ -2300,13 +2813,14 @@ plugPikiYamashita/drawCMtitle.cpp:
 plugPikiYamashita/drawCommon.cpp:
 	.text       start:0x80230DB0 end:0x80232144
 	.ctors      start:0x802F6214 end:0x802F6218
+	.data       start:0x80349FC8 end:0x80349FE8
 	.bss        start:0x8046F120 end:0x8046F170
 
 plugPikiYamashita/drawContainer.cpp:
 	.text       start:0x80232144 end:0x802376F0
 	.ctors      start:0x802F6218 end:0x802F621C
-	.data       start:0x80349FE8 end:0x8034A098
-	.bss        start:0x8046F170 end:0x80490E40
+	.data       start:0x80349FE8 end:0x8034A040
+	.bss        start:0x8046F170 end:0x8046F1C8
 	.sbss       start:0x8049EF38 end:0x8049EF40
 
 plugPikiYamashita/drawCountDown.cpp:
@@ -2320,7 +2834,7 @@ plugPikiYamashita/drawFinalResult.cpp:
 plugPikiYamashita/drawGameInfo.cpp:
 	.text       start:0x8023A0EC end:0x8023DCD4
 	.ctors      start:0x802F6224 end:0x802F6228
-	.data       start:0x8034A098 end:0x8034A5E8
+	.data       start:0x8034A098 end:0x8034A1B8
 	.sbss       start:0x8049EF40 end:0x8049EF48
 	.sdata2     start:0x804A2F60 end:0x804A3018
 
@@ -2339,11 +2853,13 @@ plugPikiYamashita/drawHurryUp.cpp:
 plugPikiYamashita/drawMenu.cpp:
 	.text       start:0x80240378 end:0x802428C8
 	.ctors      start:0x802F6234 end:0x802F6238
+	.data       start:0x8034A1B8 end:0x8034A1C8
 
 plugPikiYamashita/drawMenuBase.cpp:
 	.text       start:0x802428C8 end:0x80243440
 	.ctors      start:0x802F6238 end:0x802F623C
-	.sdata2     start:0x804A3128 end:0x804A31D0
+	.data       start:0x8034A1C8 end:0x8034A350
+	.sdata2     start:0x804A3128 end:0x804A3150
 
 plugPikiYamashita/drawOptionSave.cpp:
 	.text       start:0x80243440 end:0x8024386C
@@ -2372,36 +2888,45 @@ plugPikiYamashita/drawWMPause.cpp:
 plugPikiYamashita/drawWorldMap.cpp:
 	.text       start:0x80245F3C end:0x80250698
 	.ctors      start:0x802F6254 end:0x802F6258
-	.sdata      start:0x8049D3B8 end:0x8049DA00
+	.rodata     start:0x80309BF8 end:0x80309CE8
+	.data       start:0x8034A350 end:0x8034A378
+	.sdata      start:0x8049D3B8 end:0x8049D580
 	.sbss       start:0x8049EF48 end:0x8049EF50
-	.sdata2     start:0x804A31D0 end:0x804A4210
+	.sdata2     start:0x804A31D0 end:0x804A32C8
 
 plugPikiYamashita/effectMgr2D.cpp:
 	.text       start:0x80250698 end:0x80250AE8
 	.ctors      start:0x802F6258 end:0x802F625C
+	.rodata     start:0x80309CE8 end:0x8030A2F0
+	.data       start:0x8034A378 end:0x8034A5E8
 
 plugPikiYamashita/effectMgr.cpp:
 	.text       start:0x80250AE8 end:0x80251B80
 	.ctors      start:0x802F625C end:0x802F6260
-	.data       start:0x8034A5E8 end:0x8034B6C8
-	.sbss       start:0x8049EF50 end:0x8049EF68
+	.rodata     start:0x8030A2F0 end:0x8030C828
+	.data       start:0x8034A5E8 end:0x8034B6A0
+	.sbss       start:0x8049EF50 end:0x8049EF58
 
 plugPikiYamashita/gameCourseClear.cpp:
 	.text       start:0x80251B80 end:0x80253E04
 	.ctors      start:0x802F6260 end:0x802F6264
-	.data       start:0x8034B6C8 end:0x8034BA00
+	.rodata     start:0x8030C828 end:0x8030C8C0
+	.data       start:0x8034B6A0 end:0x8034B980
 
 plugPikiYamashita/gameCredits.cpp:
 	.text       start:0x80253E04 end:0x80253EE8
 	.ctors      start:0x802F6264 end:0x802F6268
+	.data       start:0x8034B980 end:0x8034B9B8
 
 plugPikiYamashita/gameStageClear.cpp:
 	.text       start:0x80253EE8 end:0x80253FB4
 	.ctors      start:0x802F6268 end:0x802F626C
+	.data       start:0x8034B9B8 end:0x8034B9F0
 
 plugPikiYamashita/menuPanelMgr.cpp:
 	.text       start:0x80253FB4 end:0x80254D74
 	.ctors      start:0x802F626C end:0x802F6270
+	.data       start:0x8034B9F0 end:0x8034BA00
 
 plugPikiYamashita/P2DFont.cpp:
 	.text       start:0x80254D74 end:0x8025549C
@@ -2431,7 +2956,7 @@ plugPikiYamashita/P2DPerspGraph.cpp:
 plugPikiYamashita/P2DPicture.cpp:
 	.text       start:0x80257BE8 end:0x80258F68
 	.ctors      start:0x802F6284 end:0x802F6288
-	.data       start:0x8034BAC8 end:0x8034BBB8
+	.data       start:0x8034BAC8 end:0x8034BB08
 
 plugPikiYamashita/P2DPrint.cpp:
 	.text       start:0x80258F68 end:0x8025A344
@@ -2460,7 +2985,7 @@ plugPikiYamashita/particleGenerator.cpp:
 	.text       start:0x8025C174 end:0x8026041C
 	.ctors      start:0x802F629C end:0x802F62A0
 	.data       start:0x8034BCC0 end:0x8034BD78
-	.sdata      start:0x8049DA00 end:0x8049DED0
+	.sdata      start:0x8049DA00 end:0x8049DA20
 
 plugPikiYamashita/particleLoader.cpp:
 	.text       start:0x8026041C end:0x802605E8
@@ -2545,6 +3070,7 @@ plugPikiYamashita/TAIhibaA.cpp:
 	.text       start:0x80270260 end:0x80271084
 	.ctors      start:0x802F62D8 end:0x802F62DC
 	.data       start:0x8034F650 end:0x8034F730
+	.sbss       start:0x8049EF58 end:0x8049EF60
 
 plugPikiYamashita/TAIkabekuiA.cpp:
 	.text       start:0x80271084 end:0x80271FC4
@@ -2576,6 +3102,7 @@ Runtime.PPCEABI.H/__va_arg.c:
 
 Runtime.PPCEABI.H/global_destructor_chain.c:
 	.text       start:0x80274C18 end:0x80274C78
+	.sbss       start:0x8049EF60 end:0x8049EF68
 
 Runtime.PPCEABI.H/NMWException.cp:
 	extab       start:0x80006660 end:0x800066A8
@@ -2601,360 +3128,601 @@ Runtime.PPCEABI.H/Gecko_ExceptionPPC.cp:
 Runtime.PPCEABI.H/GCN_mem_alloc.c:
 	.text       start:0x80275844 end:0x802758FC
 
-egg/eggCamera.cpp:
+egg/gfx/eggCamera.cpp:
 	extab       start:0x800066A8 end:0x80006710
 	extabindex  start:0x80006BBC end:0x80006C10
 	.text       start:0x802758FC end:0x80275DB4
 	.data       start:0x8034FB18 end:0x8034FB58
+	.sdata      start:0x8049DED8 end:0x8049DEF0
 
-egg/eggDrawHelper.cpp:
+egg/gfx/eggDrawHelper.cpp:
 	extab       start:0x80006710 end:0x800067A8
 	extabindex  start:0x80006C10 end:0x80006C40
 	.text       start:0x80275DB4 end:0x80276658
 	.ctors      start:0x802F62E8 end:0x802F62EC
 	.sbss       start:0x8049EF68 end:0x8049EF70
 
-egg/eggTexture.cpp:
+egg/gfx/eggTexture.cpp:
 	extab       start:0x800067A8 end:0x800067E0
 	extabindex  start:0x80006C40 end:0x80006C7C
 	.text       start:0x80276658 end:0x80276C14
 
-egg/eggPalette.cpp:
+egg/gfx/eggPalette.cpp:
 	extab       start:0x800067E0 end:0x800067E8
 	extabindex  start:0x80006C7C end:0x80006C88
 	.text       start:0x80276C14 end:0x80276C7C
 
-egg/eggProjection.cpp:
+egg/gfx/eggProjection.cpp:
 	extab       start:0x800067E8 end:0x800068A8
 	extabindex  start:0x80006C88 end:0x80006D0C
 	.text       start:0x80276C7C end:0x80277A24
 	.data       start:0x8034FB58 end:0x8034FBD8
+	.sdata      start:0x8049DEF0 end:0x8049DF08
 	.sbss       start:0x8049EF70 end:0x8049EF78
 
-egg/eggViewport.cpp:
+egg/gfx/eggViewport.cpp:
 	extab       start:0x800068A8 end:0x800068C0
 	extabindex  start:0x80006D0C end:0x80006D30
 	.text       start:0x80277A24 end:0x80277C10
 
-egg/eggAssert.cpp:
+egg/prim/eggAssert.cpp:
 	extab       start:0x800068C0 end:0x800068D0
 	extabindex  start:0x80006D30 end:0x80006D48
 	.text       start:0x80277C10 end:0x802780F8
+	.bss        start:0x8046F1E8 end:0x804719E8
 	.sbss       start:0x8049EF78 end:0x8049EF80
 
-egg/eggList.cpp:
+egg/prim/eggList.cpp:
 	.text       start:0x802780F8 end:0x80278148
 
-egg/eggQuat.cpp:
-	extab       start:0x800068D0 end:0x800068D8
-	extabindex  start:0x80006D48 end:0x80006D54
-	.text       start:0x80278148 end:0x8027826C
+egg/math/eggMath.cpp:
+	extab       start:0x800068D0 end:0x800068F8
+	extabindex  start:0x80006D48 end:0x80006D84
+	.text       start:0x80278148 end:0x802782FC
 
-egg/eggMath.cpp:
-	extab       start:0x800068D8 end:0x800068F8
-	extabindex  start:0x80006D54 end:0x80006D84
-	.text       start:0x8027826C end:0x802782FC
-
-egg/eggMatrix.cpp:
+egg/math/eggMatrix.cpp:
 	extab       start:0x800068F8 end:0x80006920
 	extabindex  start:0x80006D84 end:0x80006DA8
 	.text       start:0x802782FC end:0x802786C8
 	.ctors      start:0x802F62EC end:0x802F62F0
+	.bss        start:0x804719E8 end:0x80471A48
 
-egg/eggVector.cpp:
+egg/math/eggVector.cpp:
 	extab       start:0x80006920 end:0x80006928
 	extabindex  start:0x80006DA8 end:0x80006DB4
 	.text       start:0x802786C8 end:0x80278860
 	.ctors      start:0x802F62F0 end:0x802F62F4
+	.bss        start:0x80471A48 end:0x80471AA0
 	.sbss       start:0x8049EF80 end:0x8049EF98
 
-egg/eggBoundBox.cpp:
+egg/math/eggBoundBox.cpp:
 	.text       start:0x80278860 end:0x802788D4
 
-egg/eggExpHeap.cpp:
+egg/core/eggExpHeap.cpp:
 	.text       start:0x802788D4 end:0x80278C78
 	.data       start:0x8034FBD8 end:0x8034FC08
 
-egg/eggHeap.cpp:
+egg/core/eggHeap.cpp:
 	.text       start:0x80278C78 end:0x8027944C
-	.data       start:0x8034FC08 end:0x8034FCE8
-	.sbss       start:0x8049EF98 end:0x8049EFBC
+	.data       start:0x8034FC08 end:0x8034FC38
+	.bss        start:0x80471AA0 end:0x80471AC8
+	.sbss       start:0x8049EF98 end:0x8049EFC0
 
-egg/eggAllocator.cpp:
+egg/core/eggAllocator.cpp:
 	.text       start:0x8027944C end:0x8027950C
+	.data       start:0x8034FC38 end:0x8034FCC0
 
-egg/eggThread.cpp:
+egg/core/eggThread.cpp:
 	.text       start:0x8027950C end:0x80279570
-	.sbss       start:0x8049EFBC end:0x8049EFC0
+	.bss        start:0x80471AC8 end:0x80471AD8
 
-egg/eggSystem.cpp:
-	.text       start:0x80279570 end:0x802799EC
+egg/core/eggSystem.cpp:
+	.text       start:0x80279570 end:0x80279960
 	.sbss       start:0x8049EFC0 end:0x8049EFC8
 
-egg/eggController.cpp:
-	.text       start:0x802799EC end:0x8027B74C
+egg/core/eggController.cpp:
+	.text       start:0x80279960 end:0x8027B74C
 	.ctors      start:0x802F62F4 end:0x802F62F8
-	.data       start:0x8034FCE8 end:0x8034FDF0
+	.data       start:0x8034FCC0 end:0x8034FDF0
+	.bss        start:0x80471AD8 end:0x80472480
+	.sdata      start:0x8049DF08 end:0x8049DF10
 	.sbss       start:0x8049EFC8 end:0x8049EFE8
 
-egg/eggStream.cpp:
+egg/core/eggStream.cpp:
 	.text       start:0x8027B74C end:0x8027D4CC
-	.data       start:0x8034FDF0 end:0x8034FE50
+	.data       start:0x8034FDF0 end:0x8034FE18
+	.bss        start:0x80472480 end:0x80472880
 
-egg/eggDvdRipper.cpp:
+egg/core/eggDvdRipper.cpp:
 	.text       start:0x8027D4CC end:0x8027D738
+	.sdata      start:0x8049DF10 end:0x8049DF18
 	.sbss       start:0x8049EFE8 end:0x8049EFF0
 
-egg/eggDvdFile.cpp:
+egg/core/eggDvdFile.cpp:
 	.text       start:0x8027D738 end:0x8027DA90
+	.data       start:0x8034FE18 end:0x8034FE40
+	.bss        start:0x80472880 end:0x80472890
 	.sbss       start:0x8049EFF0 end:0x8049EFF8
 
-egg/eggDisposer.cpp:
+egg/core/eggDisposer.cpp:
 	.text       start:0x8027DA90 end:0x8027DB58
+	.data       start:0x8034FE40 end:0x8034FE50
 
-egg/eggArchive.cpp:
+egg/core/eggArchive.cpp:
 	.text       start:0x8027DB58 end:0x8027DDD8
 	.data       start:0x8034FE50 end:0x8034FE60
+	.bss        start:0x80472890 end:0x804728A0
 	.sbss       start:0x8049EFF8 end:0x8049F000
 
-egg/eggLongStopWatch.cpp:
+egg/core/eggLongStopWatch.cpp:
 	.text       start:0x8027DDD8 end:0x8027DF08
 
-egg/eggDecomp.cpp:
+egg/core/eggDecomp.cpp:
 	.text       start:0x8027DF08 end:0x8027E23C
 
-egg/eggSaveBanner.cpp:
+egg/util/eggSaveBanner.cpp:
 	.text       start:0x8027E23C end:0x8027E670
-	.data       start:0x8034FE60 end:0x803507A8
+	.data       start:0x8034FE60 end:0x8034FE70
+	.sdata      start:0x8049DF18 end:0x8049DF20
 	.sbss       start:0x8049F000 end:0x8049F010
 
-nw4r/ut_list.cpp:
+nw4r/ut/ut_list.cpp:
 	.text       start:0x8027E670 end:0x8027E784
 
-nw4r/ut_LinkList.cpp:
+nw4r/ut/ut_LinkList.cpp:
 	.text       start:0x8027E784 end:0x8027E8AC
 
-nw4r/ut_binaryFileFormat.cpp:
+nw4r/ut/ut_binaryFileFormat.cpp:
 	.text       start:0x8027E8AC end:0x8027E920
 
-nw4r/ut_CharStrmReader.cpp:
+nw4r/ut/ut_CharStrmReader.cpp:
 	.text       start:0x8027E920 end:0x8027EA30
 
-nw4r/ut_TagProcessorBase.cpp:
+nw4r/ut/ut_TagProcessorBase.cpp:
 	.text       start:0x8027EA30 end:0x8027F100
+	.data       start:0x8034FE70 end:0x8034FE98
 
-nw4r/ut_LockedCache.cpp:
+nw4r/ut/ut_LockedCache.cpp:
 	.text       start:0x8027F100 end:0x8027F2AC
 	.ctors      start:0x802F62F8 end:0x802F62FC
 
-nw4r/ut_Font.cpp:
+nw4r/ut/ut_Font.cpp:
 	.text       start:0x8027F2AC end:0x8027F354
+	.data       start:0x8034FE98 end:0x8034FEC8
 
-nw4r/ut_RomFont.cpp:
+nw4r/ut/ut_RomFont.cpp:
 	.text       start:0x8027F354 end:0x8027F9B4
+	.data       start:0x8034FEC8 end:0x8034FF90
+	.sdata      start:0x8049DF20 end:0x8049DF28
 
-nw4r/ut_ResFontBase.cpp:
+nw4r/ut/ut_ResFontBase.cpp:
 	.text       start:0x8027F9B4 end:0x802800B4
+	.data       start:0x8034FF90 end:0x8034FFF8
 
-nw4r/ut_ResFont.cpp:
+nw4r/ut/ut_ResFont.cpp:
 	.text       start:0x802800B4 end:0x802803B8
+	.data       start:0x8034FFF8 end:0x803500E0
 
-nw4r/ut_CharWriter.cpp:
+nw4r/ut/ut_CharWriter.cpp:
 	.text       start:0x802803B8 end:0x80281AE0
 
-nw4r/ut_TextWriterBase.cpp:
+nw4r/ut/ut_TextWriterBase.cpp:
 	.text       start:0x80281AE0 end:0x80285F58
 	.ctors      start:0x802F62FC end:0x802F6300
+	.sdata      start:0x8049DF28 end:0x8049DF30
 	.sbss       start:0x8049F010 end:0x8049F028
 
-nw4r/math_arithmetic.cpp:
+nw4r/math/math_arithmetic.cpp:
 	.text       start:0x80285F58 end:0x80285F7C
 
-nw4r/math_triangular.cpp:
+nw4r/math/math_triangular.cpp:
 	.text       start:0x80285F7C end:0x802860A8
+	.rodata     start:0x8030D780 end:0x8030E790
 
-nw4r/math_types.cpp:
+nw4r/math/math_types.cpp:
 	.text       start:0x802860A8 end:0x802864EC
 
-nw4r/math_geometry.cpp:
+nw4r/math/math_geometry.cpp:
 	.text       start:0x802864EC end:0x80287080
 
-nw4r/db_directPrint.cpp:
+nw4r/db/db_directPrint.cpp:
 	.text       start:0x80287080 end:0x802870D0
 
-nw4r/db_console.cpp:
+nw4r/db/db_console.cpp:
 	.text       start:0x802870D0 end:0x802871A4
 
-nw4r/db_assert.cpp:
-	.text       start:0x802871A4 end:0x80295088
-	.sbss       start:0x8049F028 end:0x8049F060
+nw4r/db/db_assert.cpp:
+	.text       start:0x802871A4 end:0x80287634
+	.sdata      start:0x8049DF30 end:0x8049DF38
+	.sbss       start:0x8049F028 end:0x8049F038
 
-nw4r/g3d_state.cpp:
-	.text       start:0x80295088 end:0x8029582C
+nw4r/g3d/g3d_rescommon.cpp:
+	.text       start:0x80287634 end:0x802876D8
+
+nw4r/g3d/g3d_resdict.cpp:
+	.text       start:0x802876D8 end:0x802879D8
+
+nw4r/g3d/g3d_resfile.cpp:
+	.text       start:0x802879D8 end:0x8028876C
+	.data       start:0x803500E0 end:0x80350240
+
+nw4r/g3d/g3d_resmdl.cpp:
+	.text       start:0x8028876C end:0x802894C4
+
+nw4r/g3d/g3d_resshp.cpp:
+	.text       start:0x802894C4 end:0x80289AF0
+
+nw4r/g3d/g3d_restev.cpp:
+	.text       start:0x80289AF0 end:0x80289BC4
+	.rodata     start:0x8030E790 end:0x8030E7D0
+
+nw4r/g3d/g3d_resmat.cpp:
+	.text       start:0x80289BC4 end:0x8028B1F0
+
+nw4r/g3d/g3d_resvtx.cpp:
+	.text       start:0x8028B1F0 end:0x8028B5B0
+
+nw4r/g3d/g3d_restex.cpp:
+	.text       start:0x8028B5B0 end:0x8028B74C
+
+nw4r/g3d/g3d_resnode.cpp:
+	.text       start:0x8028B74C end:0x8028BA50
+
+nw4r/g3d/g3d_resanm.cpp:
+	.text       start:0x8028BA50 end:0x8028BC7C
+
+nw4r/g3d/g3d_resanmvis.cpp:
+	.text       start:0x8028BC7C end:0x8028BD9C
+
+nw4r/g3d/g3d_resanmclr.cpp:
+	.text       start:0x8028BD9C end:0x8028BF08
+
+nw4r/g3d/g3d_resanmtexpat.cpp:
+	.text       start:0x8028BF08 end:0x8028C2A4
+
+nw4r/g3d/g3d_resanmtexsrt.cpp:
+	.text       start:0x8028C2A4 end:0x8028C6B8
+
+nw4r/g3d/g3d_resanmchr.cpp:
+	.text       start:0x8028C6B8 end:0x8028DEFC
+	.rodata     start:0x8030E7D0 end:0x8030E7F0
+
+nw4r/g3d/g3d_anmvis.cpp:
+	.text       start:0x8028DEFC end:0x8028E61C
+	.rodata     start:0x8030E7F0 end:0x8030E818
+
+nw4r/g3d/g3d_anmclr.cpp:
+	.text       start:0x8028E61C end:0x8028F3A0
+	.rodata     start:0x8030E818 end:0x8030E848
+
+nw4r/g3d/g3d_anmtexpat.cpp:
+	.text       start:0x8028F3A0 end:0x8028FDCC
+	.rodata     start:0x8030E848 end:0x8030E878
+
+nw4r/g3d/g3d_anmtexsrt.cpp:
+	.text       start:0x8028FDCC end:0x80290848
+	.rodata     start:0x8030E878 end:0x8030E8A8
+
+nw4r/g3d/g3d_anmchr.cpp:
+	.text       start:0x80290848 end:0x8029143C
+	.rodata     start:0x8030E8A8 end:0x8030E8D0
+
+nw4r/g3d/g3d_anmshp.cpp:
+	.text       start:0x8029143C end:0x80291458
+	.rodata     start:0x8030E8D0 end:0x8030E8E0
+
+nw4r/g3d/g3d_anmscn.cpp:
+	.text       start:0x80291458 end:0x8029176C
+
+nw4r/g3d/g3d_obj.cpp:
+	.text       start:0x8029176C end:0x802917F4
+	.rodata     start:0x8030E8E0 end:0x8030E8F0
+
+nw4r/g3d/g3d_anmobj.cpp:
+	.text       start:0x802917F4 end:0x802918AC
+	.rodata     start:0x8030E8F0 end:0x8030E900
+	.sdata      start:0x8049DF38 end:0x8049DF40
+
+nw4r/g3d/g3d_gpu.cpp:
+	.text       start:0x802918AC end:0x80291DBC
+
+nw4r/g3d/g3d_cpu.cpp:
+	.text       start:0x80291DBC end:0x80291F60
+
+nw4r/g3d/g3d_state.cpp:
+	.text       start:0x80291F60 end:0x8029582C
 	.ctors      start:0x802F6300 end:0x802F6304
+	.sdata      start:0x8049DF40 end:0x8049DF50
 
-nw4r/g3d_draw1mat1shp.cpp:
+nw4r/g3d/g3d_draw1mat1shp.cpp:
 	.text       start:0x8029582C end:0x80296560
 
-nw4r/g3d_calcview.cpp:
+nw4r/g3d/g3d_calcview.cpp:
 	.text       start:0x80296560 end:0x80298400
+	.rodata     start:0x8030E940 end:0x8030E960
 
-nw4r/g3d_dcc.cpp:
+nw4r/g3d/g3d_dcc.cpp:
 	.text       start:0x80298400 end:0x802984DC
 
-nw4r/g3d_workmem.cpp:
+nw4r/g3d/g3d_workmem.cpp:
 	.text       start:0x802984DC end:0x8029851C
 
-nw4r/g3d_calcworld.cpp:
+nw4r/g3d/g3d_calcworld.cpp:
 	.text       start:0x8029851C end:0x80298DBC
 
-nw4r/g3d_draw.cpp:
+nw4r/g3d/g3d_draw.cpp:
 	.text       start:0x80298DBC end:0x8029ABEC
+	.sdata      start:0x8049DF50 end:0x8049DF60
 
-nw4r/g3d_camera.cpp:
+nw4r/g3d/g3d_camera.cpp:
 	.text       start:0x8029ABEC end:0x8029B780
 
-nw4r/g3d_basic.cpp:
-	.text       start:0x8029B780 end:0x802A6718
+nw4r/g3d/g3d_basic.cpp:
+	.text       start:0x8029B780 end:0x8029BA44
 
-nw4r/lyt_pane.cpp:
+nw4r/g3d/g3d_maya.cpp:
+	.text       start:0x8029BA44 end:0x8029C704
+
+nw4r/g3d/g3d_xsi.cpp:
+	.text       start:0x8029C704 end:0x8029D2C4
+
+nw4r/g3d/g3d_3dsmax.cpp:
+	.text       start:0x8029D2C4 end:0x8029DD74
+
+nw4r/g3d/g3d_scnobj.cpp:
+	.text       start:0x8029DD74 end:0x8029F47C
+	.rodata     start:0x8030EA08 end:0x8030EA38
+
+nw4r/g3d/g3d_scnroot.cpp:
+	.text       start:0x8029F47C end:0x802A0D30
+	.rodata     start:0x8030EA38 end:0x8030EA48
+	.sdata      start:0x8049DF60 end:0x8049DF70
+
+nw4r/g3d/g3d_scnmdlsmpl.cpp:
+	.text       start:0x802A0D30 end:0x802A2A78
+	.rodata     start:0x8030EA48 end:0x8030EA60
+
+nw4r/g3d/g3d_scnmdl.cpp:
+	.text       start:0x802A2A78 end:0x802A517C
+	.rodata     start:0x8030EA60 end:0x8030EA70
+
+nw4r/g3d/g3d_calcmaterial.cpp:
+	.text       start:0x802A517C end:0x802A558C
+
+nw4r/g3d/g3d_init.cpp:
+	.text       start:0x802A558C end:0x802A5688
+	.sdata      start:0x8049DF80 end:0x8049DF88
+
+nw4r/g3d/g3d_fog.cpp:
+	.text       start:0x802A5688 end:0x802A57FC
+
+nw4r/g3d/g3d_light.cpp:
+	.text       start:0x802A57FC end:0x802A5F20
+
+nw4r/g3d/g3d_calcvtx.cpp:
+	.text       start:0x802A5F20 end:0x802A6718
+
+nw4r/lyt/lyt_pane.cpp:
 	.text       start:0x802A6718 end:0x802A7590
 	.ctors      start:0x802F6304 end:0x802F6308
 	.data       start:0x803507A8 end:0x80350820
 	.sbss       start:0x8049F060 end:0x8049F068
 
-nw4r/lyt_group.cpp:
+nw4r/lyt/lyt_group.cpp:
 	.text       start:0x802A7590 end:0x802A78D0
 	.data       start:0x80350820 end:0x80350830
 
-nw4r/lyt_layout.cpp:
+nw4r/lyt/lyt_layout.cpp:
 	.text       start:0x802A78D0 end:0x802A88B0
 	.data       start:0x80350830 end:0x80350870
 	.sbss       start:0x8049F068 end:0x8049F070
 
-nw4r/lyt_picture.cpp:
+nw4r/lyt/lyt_picture.cpp:
 	.text       start:0x802A88B0 end:0x802A8E0C
 	.ctors      start:0x802F6308 end:0x802F630C
 	.data       start:0x80350870 end:0x803508E8
 	.sbss       start:0x8049F070 end:0x8049F078
 
-nw4r/lyt_textBox.cpp:
+nw4r/lyt/lyt_textBox.cpp:
 	.text       start:0x802A8E0C end:0x802AA5D4
 	.ctors      start:0x802F630C end:0x802F6310
 	.data       start:0x803508E8 end:0x80350970
 	.sbss       start:0x8049F078 end:0x8049F080
 
-nw4r/lyt_window.cpp:
+nw4r/lyt/lyt_window.cpp:
 	.text       start:0x802AA5D4 end:0x802ACB88
 	.ctors      start:0x802F6310 end:0x802F6314
 	.data       start:0x80350970 end:0x80350A38
 	.sbss       start:0x8049F080 end:0x8049F088
 
-nw4r/lyt_bounding.cpp:
+nw4r/lyt/lyt_bounding.cpp:
 	.text       start:0x802ACB88 end:0x802ACC34
 	.ctors      start:0x802F6314 end:0x802F6318
-	.data       start:0x80350A38 end:0x80350B58
+	.data       start:0x80350A38 end:0x80350AB0
 	.sbss       start:0x8049F088 end:0x8049F090
 
-nw4r/lyt_material.cpp:
+nw4r/lyt/lyt_material.cpp:
 	.text       start:0x802ACC34 end:0x802AF9DC
+	.data       start:0x80350AB0 end:0x80350B20
+	.sbss2      start:0x804A4238 end:0x804A4240
 
-nw4r/lyt_texMap.cpp:
+nw4r/lyt/lyt_texMap.cpp:
 	.text       start:0x802AF9DC end:0x802AFBB4
 
-nw4r/lyt_drawInfo.cpp:
+nw4r/lyt/lyt_drawInfo.cpp:
 	.text       start:0x802AFBB4 end:0x802AFC68
+	.data       start:0x80350B20 end:0x80350B30
 
-nw4r/lyt_animation.cpp:
+nw4r/lyt/lyt_animation.cpp:
 	.text       start:0x802AFC68 end:0x802B114C
+	.data       start:0x80350B30 end:0x80350B58
 
-nw4r/lyt_resourceAccessor.cpp:
+nw4r/lyt/lyt_resourceAccessor.cpp:
 	.text       start:0x802B114C end:0x802B11A4
 	.data       start:0x80350B58 end:0x80350B70
 
-nw4r/lyt_arcResourceAccessor.cpp:
+nw4r/lyt/lyt_arcResourceAccessor.cpp:
 	.text       start:0x802B11A4 end:0x802B1584
-	.data       start:0x80350B70 end:0x803510F0
+	.data       start:0x80350B70 end:0x80350B84
 
-nw4r/lyt_common.cpp:
+nw4r/lyt/lyt_common.cpp:
 	.text       start:0x802B1584 end:0x802B2074
 	.sbss       start:0x8049F090 end:0x8049F098
 
-nw4r/lyt_util.cpp:
-	.text       start:0x802B2074 end:0x802B24A8
+nw4r/lyt/lyt_util.cpp:
+	.text       start:0x802B2074 end:0x802B20E4
 
 System12/sys12System.cpp:
-	.text       start:0x802B24A8 end:0x802B509C
-	.sbss       start:0x8049F098 end:0x8049F0C8
+	.text       start:0x802B20E4 end:0x802B3910
+	.data       start:0x80350B88 end:0x80350E98
+	.sbss       start:0x8049F098 end:0x8049F0B0
+
+System12/system12Controller.cpp:
+	.text       start:0x802B3910 end:0x802B504C
+	.data       start:0x80350E98 end:0x80350EE8
+	.sbss       start:0x8049F0B0 end:0x8049F0C8
 
 System12/sys12GameConfig.cpp:
-	.text       start:0x802B509C end:0x802B9598
-	.sbss       start:0x8049F0C8 end:0x8049F148
+	.text       start:0x802B509C end:0x802B55DC
+	.data       start:0x80350EE8 end:0x80350F40
+	.sbss       start:0x8049F0C8 end:0x8049F0E8
+
+System12/sys12GamePointer.cpp:
+	.text       start:0x802B55DC end:0x802B91DC
+	.data       start:0x80350F40 end:0x80351090
 
 System12/sys12NANDMgr.cpp:
-	.text       start:0x802B9598 end:0x802BAD28
+	.text       start:0x802B91DC end:0x802B9F60
 	.ctors      start:0x802F6318 end:0x802F631C
+	.data       start:0x80351090 end:0x803510B0
+	.sbss       start:0x8049F0E8 end:0x8049F0F0
+
+System12/sys12SDMgr.cpp:
+	.text       start:0x802B9F60 end:0x802BA098
+	.sbss       start:0x8049F0F0 end:0x8049F0F8
+
+System12/sys12TagParms.cpp:
+	.text       start:0x802BA098 end:0x802BA324
+	.data       start:0x803510B0 end:0x803510E0
+
+System12/sys12gameNand.cpp:
+	.text       start:0x802BA324 end:0x802BACB0
+	.data       start:0x803510E0 end:0x803510F0
+	.sbss       start:0x8049F0F8 end:0x8049F100
 
 System12/sys12Language.cpp:
-	.text       start:0x802BAD28 end:0x802BC8F8
-	.data       start:0x803510F0 end:0x80351528
+	.text       start:0x802BACB0 end:0x802BB028
+	.data       start:0x803510F0 end:0x803511C0
+	.sbss       start:0x8049F100 end:0x8049F108
+
+System12/sys12HomeButtonMgr.cpp:
+	.text       start:0x802BB028 end:0x802BC368
+	.sbss       start:0x8049F108 end:0x8049F118
 
 System12/sys12RenderMode.cpp:
-	.text       start:0x802BC8F8 end:0x802BEF0C
+	.text       start:0x802BC368 end:0x802BCD74
 	.ctors      start:0x802F631C end:0x802F6320
+	.data       start:0x803511C0 end:0x80351450
 	.bss        start:0x80497030 end:0x80497058 align:4 common
 
+System12/sys12TransparentMgr.cpp:
+	.text       start:0x802BCD74 end:0x802BD4AC
+	.data       start:0x80351450 end:0x80351528
+	.sbss       start:0x8049F118 end:0x8049F120
+
+System12/sys12WarnWindow.cpp:
+	.text       start:0x802BD4AC end:0x802BEF0C
+	.sbss       start:0x8049F120 end:0x8049F128
+
 System12/sys12ControllerBatteryMgr.cpp:
-	.text       start:0x802BEF0C end:0x802BF394
+	.text       start:0x802BEF0C end:0x802BF298
 	.data       start:0x80351528 end:0x80351538
 	.bss        start:0x80497058 end:0x804970D8 align:4 common
+	.sbss       start:0x8049F128 end:0x8049F148
 
 System12/system12DvdLoader.cpp:
-	.text       start:0x802BF394 end:0x802BF524
+	.text       start:0x802BF298 end:0x802BF524
 
 System12/system12FrameCounter.cpp:
-	.text       start:0x802BF524 end:0x802BFB78
+	.text       start:0x802BF524 end:0x802BFB70
 	.data       start:0x80351538 end:0x80351568
 
 System12/system12Layout.cpp:
-	.text       start:0x802BFB78 end:0x802C3E74
+	.text       start:0x802BFB70 end:0x802C2CC4
 	.ctors      start:0x802F6320 end:0x802F6324
 	.data       start:0x80351568 end:0x80351938
 	.bss        start:0x804970D8 end:0x80497100 align:4 common
 
 System12/sys12THPPlayer.cpp:
-	.text       start:0x802C3E74 end:0x802C4724
+	.text       start:0x802C334C end:0x802C4724
 
 System12/sys12DebugDrawer.cpp:
 	.text       start:0x802C4724 end:0x802C48C8
 
 System12/system12WPMessage.cpp:
 	.text       start:0x802C48C8 end:0x802C56D0
-	.data       start:0x80351938 end:0x80356600
+	.rodata     start:0x80310620 end:0x80311D18
+	.data       start:0x80351938 end:0x80351C00
 	.sbss       start:0x8049F148 end:0x8049F150
 
 System12/system12WPTagProcessor.cpp:
 	.text       start:0x802C56D0 end:0x802C7494
 	.ctors      start:0x802F6324 end:0x802F6328
-	.bss        start:0x80497100 end:0x80497208 align:4 common
+	.bss        start:0x80497100 end:0x80497124 align:4 common
 
 System12/system12WPWideTextWriter.cpp:
-	.text       start:0x802C7494 end:0x802D267C
-	.ctors      start:0x802F6328 end:0x802F6334
-	.sbss       start:0x8049F150 end:0x8049F190
+	.text       start:0x802C7494 end:0x802C7D68
+	.ctors      start:0x802F6328 end:0x802F632C
+	.data       start:0x80351C00 end:0x80351F50
+	.bss        start:0x80497124 end:0x80497130 align:4 common
+	.sbss       start:0x8049F150 end:0x8049F158
+
+System12/sys12CursorMgr.cpp:
+	.text       start:0x802C7D68 end:0x802CA9D0
+	.sbss       start:0x8049F158 end:0x8049F168
+
+System12/sys12DvdErrorMsg.cpp:
+	.text       start:0x802CB740 end:0x802CBDC8
+	.sbss       start:0x8049F170 end:0x8049F178
+
+System12/system123D.cpp:
+	.text       start:0x802CBDC8 end:0x802CDA2C
+	.data       start:0x80351F50 end:0x80352188
+
+System12/sys12Renderer.cpp:
+	.text       start:0x802CDA2C end:0x802CDCE4
+	.data       start:0x80352188 end:0x803521A8
+
+System12/sys12Window.cpp:
+	.text       start:0x802CDCE4 end:0x802CDFDC
+
+System12/system12ResourceMgr.cpp:
+	.text       start:0x802CDFDC end:0x802CE1D4
+	.ctors      start:0x802F632C end:0x802F6330
+	.data       start:0x803521A8 end:0x80356600
+	.sbss       start:0x8049F180 end:0x8049F188
 
 System12/sys12DpdState.cpp:
+	.text       start:0x802D0C40 end:0x802D2450
+	.ctors      start:0x802F6330 end:0x802F6334
 	.sbss       start:0x8049F190 end:0x8049F198
 
+System12/eggSafeString.cpp:
+	.text       start:0x802D2450 end:0x802D251C
+
 System12/PSSpkSystem.cpp:
-	.text       start:0x802D267C end:0x802D2E6C
+	.text       start:0x802D251C end:0x802D2E6C
 	.sbss       start:0x8049F198 end:0x8049F1C0
 
 System12/SpkData.cpp:
-	.text       start:0x802D2E6C end:0x802D3578
+	.text       start:0x802D2E6C end:0x802D302C
+
+System12/SpkGadget.cpp:
+	.text       start:0x802D302C end:0x802D34E4
+	.bss        start:0x804971F8 end:0x80497208 align:4 common
 
 System12/SpkMixingBuffer.cpp:
-	.text       start:0x802D3578 end:0x802D3890
+	.text       start:0x802D34E4 end:0x802D3890
 
 System12/SpkSound.cpp:
 	.text       start:0x802D3890 end:0x802D4968
@@ -2991,116 +3759,118 @@ homebuttonLib/HBMRemoteSpk.cpp:
 
 homebuttonLib/HBMAxSound.cpp:
 	.text       start:0x802D8BE4 end:0x802D96F8
+	.rodata     start:0x80311D18 end:0x80311D58
 
 homebuttonLib/HBMCommon.c:
 	.text       start:0x802D96F8 end:0x802D9A38
 
 homebuttonLib/HBMBase.cpp:
 	.text       start:0x802D9A38 end:0x802E1D60
+	.rodata     start:0x80311D58 end:0x80312034
 
-homebuttonLib/lyt_animation.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_animation.cpp:
 	.text       start:0x802E1D60 end:0x802E28FC
 
-homebuttonLib/lyt_arcResourceAccessor.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_arcResourceAccessor.cpp:
 	.text       start:0x802E28FC end:0x802E2C88
 
-homebuttonLib/lyt_bounding.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_bounding.cpp:
 	.text       start:0x802E2C88 end:0x802E2DEC
 	.ctors      start:0x802F6338 end:0x802F633C
 
-homebuttonLib/lyt_common.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_common.cpp:
 	.text       start:0x802E2DEC end:0x802E3C00
 
-homebuttonLib/lyt_drawInfo.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_drawInfo.cpp:
 	.text       start:0x802E3C00 end:0x802E3CBC
 
-homebuttonLib/lyt_group.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_group.cpp:
 	.text       start:0x802E3CBC end:0x802E3FE8
 
-homebuttonLib/lyt_layout.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_layout.cpp:
 	.text       start:0x802E3FE8 end:0x802E4C94
 
-homebuttonLib/lyt_material.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_material.cpp:
 	.text       start:0x802E4C94 end:0x802E80C8
 
-homebuttonLib/lyt_pane.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_pane.cpp:
 	.text       start:0x802E80C8 end:0x802E903C
 	.ctors      start:0x802F633C end:0x802F6340
 
-homebuttonLib/lyt_picture.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_picture.cpp:
 	.text       start:0x802E903C end:0x802E9574
 	.ctors      start:0x802F6340 end:0x802F6344
 
-homebuttonLib/lyt_resourceAccessor.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_resourceAccessor.cpp:
 	.text       start:0x802E9574 end:0x802E95CC
 
-homebuttonLib/lyt_textBox.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_textBox.cpp:
 	.text       start:0x802E95CC end:0x802EAC60
 	.ctors      start:0x802F6344 end:0x802F6348
 
-homebuttonLib/lyt_window.cpp:
+homebuttonLib/nw4hbm/lyt/lyt_window.cpp:
 	.text       start:0x802EAC60 end:0x802ED110
 	.ctors      start:0x802F6348 end:0x802F634C
 
-homebuttonLib/math_triangular.cpp:
+homebuttonLib/nw4hbm/math/math_triangular.cpp:
 	.text       start:0x802ED110 end:0x802ED394
 
-homebuttonLib/ut_binaryFileFormat.cpp:
+homebuttonLib/nw4hbm/ut/ut_binaryFileFormat.cpp:
 	.text       start:0x802ED394 end:0x802ED408
 
-homebuttonLib/ut_CharStrmReader.cpp:
+homebuttonLib/nw4hbm/ut/ut_CharStrmReader.cpp:
 	.text       start:0x802ED408 end:0x802ED518
 
-homebuttonLib/ut_CharWriter.cpp:
+homebuttonLib/nw4hbm/ut/ut_CharWriter.cpp:
 	.text       start:0x802ED518 end:0x802EF008
 
-homebuttonLib/ut_Font.cpp:
+homebuttonLib/nw4hbm/ut/ut_Font.cpp:
 	.text       start:0x802EF008 end:0x802EF0B0
 
-homebuttonLib/ut_LinkList.cpp:
+homebuttonLib/nw4hbm/ut/ut_LinkList.cpp:
 	.text       start:0x802EF0B0 end:0x802EF1A8
 
-homebuttonLib/ut_list.cpp:
+homebuttonLib/nw4hbm/ut/ut_list.cpp:
 	.text       start:0x802EF1A8 end:0x802EF308
 
-homebuttonLib/ut_ResFont.cpp:
+homebuttonLib/nw4hbm/ut/ut_ResFont.cpp:
 	.text       start:0x802EF308 end:0x802EF60C
 
-homebuttonLib/ut_ResFontBase.cpp:
+homebuttonLib/nw4hbm/ut/ut_ResFontBase.cpp:
 	.text       start:0x802EF60C end:0x802EFBDC
 
-homebuttonLib/ut_TagProcessorBase.cpp:
+homebuttonLib/nw4hbm/ut/ut_TagProcessorBase.cpp:
 	.text       start:0x802EFBDC end:0x802F03AC
 
-homebuttonLib/ut_TextWriterBase.cpp:
+homebuttonLib/nw4hbm/ut/ut_TextWriterBase.cpp:
 	.text       start:0x802F03AC end:0x802F1E3C
 	.ctors      start:0x802F634C end:0x802F6350
 
-homebuttonLib/mix.c:
+homebuttonLib/sound/mix.c:
 	.text       start:0x802F1E3C end:0x802F375C
 
-homebuttonLib/syn.c:
+homebuttonLib/sound/syn.c:
 	.text       start:0x802F375C end:0x802F3BD0
 
-homebuttonLib/synctrl.c:
+homebuttonLib/sound/synctrl.c:
 	.text       start:0x802F3BD0 end:0x802F4068
 
-homebuttonLib/synenv.c:
+homebuttonLib/sound/synenv.c:
 	.text       start:0x802F4068 end:0x802F444C
 
-homebuttonLib/synmix.c:
+homebuttonLib/sound/synmix.c:
 	.text       start:0x802F444C end:0x802F4564
 
-homebuttonLib/synpitch.c:
+homebuttonLib/sound/synpitch.c:
 	.text       start:0x802F4564 end:0x802F47D4
 
-homebuttonLib/synsample.c:
+homebuttonLib/sound/synsample.c:
 	.text       start:0x802F47D4 end:0x802F4C44
 
-homebuttonLib/synvoice.c:
+homebuttonLib/sound/synvoice.c:
 	.text       start:0x802F4C44 end:0x802F4DE4
 
-homebuttonLib/seq.c:
+homebuttonLib/sound/seq.c:
 	.text       start:0x802F4DE4 end:0x802F56A4
 
 esp/esp.c:
