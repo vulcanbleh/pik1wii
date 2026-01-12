@@ -3621,12 +3621,12 @@ System12/sys12gameNand.cpp:
 
 System12/sys12Language.cpp:
 	.text       start:0x802BACB0 end:0x802BB028
-	.data       start:0x803510F0 end:0x80351184
+	.data       start:0x803510F0 end:0x80351168
 	.sbss       start:0x8049F100 end:0x8049F108
 
 System12/sys12HomeButtonMgr.cpp:
 	.text       start:0x802BB028 end:0x802BC368
-	.data       start:0x80351184 end:0x803511C0
+	.data       start:0x80351168 end:0x803511C0
 	.sbss       start:0x8049F108 end:0x8049F118
 
 System12/sys12RenderMode.cpp:

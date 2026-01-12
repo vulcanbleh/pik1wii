@@ -353,7 +353,6 @@ def MatchingFor(*versions):
 
 config.warn_missing_config = True
 config.warn_missing_source = False
-config.shift_jis = False
 config.libs = [
     {
         "lib": "sysBootup",
