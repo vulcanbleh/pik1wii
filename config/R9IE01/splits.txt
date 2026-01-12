@@ -39,7 +39,6 @@ jaudio/dummyrom.c:
 jaudio/audiothread.c:
 	.text       start:0x80007FE0 end:0x80008620
 	.bss        start:0x80356620 end:0x80356680
-	.bss        start:0x80490E40 end:0x80495480 align:4 common
 	.sbss       start:0x8049E060 end:0x8049E080
 
 jaudio/streamctrl.c:
@@ -127,7 +126,6 @@ jaudio/bankread.c:
 jaudio/waveread.c:
 	.text       start:0x8000EEA0 end:0x8000F480
 	.bss        start:0x8037D540 end:0x8037DD40
-	.bss        start:0x80495480 end:0x804954C0 align:4 common
 
 jaudio/connect.c:
 	.text       start:0x8000F480 end:0x8000FC20
@@ -144,7 +142,6 @@ jaudio/random.c:
 jaudio/aramcall.c:
 	.text       start:0x80010480 end:0x80010760
 	.data       start:0x80314C48 end:0x80314C88
-	.bss        start:0x804954C0 end:0x804954F0 align:4 common
 	.sdata      start:0x804973A8 end:0x804973B0
 	.sbss       start:0x8049E120 end:0x8049E128
 
@@ -220,7 +217,6 @@ jaudio/app_inter.c:
 jaudio/pikiinter.c:
 	.text       start:0x8001A720 end:0x8001B820
 	.data       start:0x80315688 end:0x80315D50
-	.bss        start:0x804954F0 end:0x80497030 align:4 common
 	.sbss       start:0x8049E1B8 end:0x8049E1C8
 
 jaudio/piki_player.c:
@@ -297,10 +293,10 @@ TRK_Hollywood_Revolution/nubinit.c:
 	.rodata     start:0x802F6DE8 end:0x802F6E08
 	.bss        start:0x803EB3F0 end:0x803EB3F8
 
-MSL_C.PPCEABI.bare.H/ctype.c:
+MSL_C/PPCEABI/bare/H/ctype.c:
 	.rodata     start:0x802F70E8 end:0x802F75F0
 
-MSL_C.PPCEABI.bare.H/wctype.c:
+MSL_C/PPCEABI/bare/H/wctype.c:
 	.rodata     start:0x802F7658 end:0x802F7C58
 
 TRK_Hollywood_Revolution/msg.c:
@@ -347,7 +343,7 @@ TRK_Hollywood_Revolution/targimpl.c:
 	.text       start:0x800247D4 end:0x800261F0
 	.bss        start:0x803ECDC8 end:0x803ED348
 
-TRK_Hollywood_Revolution/targsupp.s: comment:0
+TRK_Hollywood_Revolution/targsupp.c:
 	.text       start:0x800261F0 end:0x80026210
 
 TRK_Hollywood_Revolution/mpc_7xx_603e.c:
@@ -391,202 +387,202 @@ TRK_Hollywood_Revolution/CircleBuffer.c:
 TRK_Hollywood_Revolution/MWCriticalSection_gc.c:
 	.text       start:0x8002755C end:0x800275B4
 
-MSL_C.PPCEABI.bare.H/alloc.c:
+MSL_C/PPCEABI/bare/H/alloc.c:
 	extab       start:0x800064E0 end:0x800064F8
 	extabindex  start:0x80006940 end:0x80006964
 	.text       start:0x800275B4 end:0x80027AC8
 
-MSL_C.PPCEABI.bare.H/ansi_files.c:
+MSL_C/PPCEABI/bare/H/ansi_files.c:
 	extab       start:0x800064F8 end:0x80006508
 	extabindex  start:0x80006964 end:0x8000697C
 	.text       start:0x80027AC8 end:0x80027BD8
 
-MSL_C.PPCEABI.bare.H/ansi_fp.c:
+MSL_C/PPCEABI/bare/H/ansi_fp.c:
 	extab       start:0x80006508 end:0x80006540
 	extabindex  start:0x8000697C end:0x800069D0
 	.text       start:0x80027BD8 end:0x80029548
 
-MSL_C.PPCEABI.bare.H/arith.c:
+MSL_C/PPCEABI/bare/H/arith.c:
 	.text       start:0x80029548 end:0x80029558
 
-MSL_C.PPCEABI.bare.H/buffer_io.c:
+MSL_C/PPCEABI/bare/H/buffer_io.c:
 	extab       start:0x80006540 end:0x80006548
 	extabindex  start:0x800069D0 end:0x800069DC
 	.text       start:0x80029558 end:0x80029638
 
-MSL_C.PPCEABI.bare.H/direct_io.c:
+MSL_C/PPCEABI/bare/H/direct_io.c:
 	extab       start:0x80006548 end:0x80006550
 	extabindex  start:0x800069DC end:0x800069E8
 	.text       start:0x80029638 end:0x80029940
 
-MSL_C.PPCEABI.bare.H/file_io.c:
+MSL_C/PPCEABI/bare/H/file_io.c:
 	extab       start:0x80006550 end:0x80006560
 	extabindex  start:0x800069E8 end:0x80006A00
 	.text       start:0x80029940 end:0x80029B30
 
-MSL_C.PPCEABI.bare.H/FILE_POS.c:
+MSL_C/PPCEABI/bare/H/FILE_POS.c:
 	extab       start:0x80006560 end:0x80006568
 	extabindex  start:0x80006A00 end:0x80006A0C
 	.text       start:0x80029B30 end:0x80029DA0
 
-MSL_C.PPCEABI.bare.H/mbstring.c:
+MSL_C/PPCEABI/bare/H/mbstring.c:
 	extab       start:0x80006568 end:0x80006570
 	extabindex  start:0x80006A0C end:0x80006A18
 	.text       start:0x80029DA0 end:0x80029ED8
 
-MSL_C.PPCEABI.bare.H/mem.c:
+MSL_C/PPCEABI/bare/H/mem.c:
 	extab       start:0x80006570 end:0x80006578
 	extabindex  start:0x80006A18 end:0x80006A24
 	.text       start:0x80029ED8 end:0x8002A048
 
-MSL_C.PPCEABI.bare.H/mem_funcs.c:
+MSL_C/PPCEABI/bare/H/mem_funcs.c:
 	.text       start:0x8002A048 end:0x8002A318
 
-MSL_C.PPCEABI.bare.H/math_api.c:
+MSL_C/PPCEABI/bare/H/math_api.c:
 	extab       start:0x80006578 end:0x80006590
 	extabindex  start:0x80006A24 end:0x80006A48
 	.text       start:0x8002A318 end:0x8002A414
 
-MSL_C.PPCEABI.bare.H/misc_io.c:
+MSL_C/PPCEABI/bare/H/misc_io.c:
 	.text       start:0x8002A414 end:0x8002A424
 
-MSL_C.PPCEABI.bare.H/printf.c:
+MSL_C/PPCEABI/bare/H/printf.c:
 	extab       start:0x80006590 end:0x800065F0
 	extabindex  start:0x80006A48 end:0x80006AD8
 	.text       start:0x8002A424 end:0x8002C7EC
 	.sdata      start:0x804974C8 end:0x804974D0
 
-MSL_C.PPCEABI.bare.H/rand.c:
+MSL_C/PPCEABI/bare/H/rand.c:
 	.text       start:0x8002C7EC end:0x8002C80C
 	.sdata      start:0x804974D0 end:0x804974D8
 
-MSL_C.PPCEABI.bare.H/float.c:
+MSL_C/PPCEABI/bare/H/float.c:
 	.sdata      start:0x804974D8 end:0x804974E8
 
-MSL_C.PPCEABI.bare.H/scanf.c:
+MSL_C/PPCEABI/bare/H/scanf.c:
 	extab       start:0x800065F0 end:0x80006608
 	extabindex  start:0x80006AD8 end:0x80006AFC
 	.text       start:0x8002C80C end:0x8002DD78
 
-MSL_C.PPCEABI.bare.H/string.c:
+MSL_C/PPCEABI/bare/H/string.c:
 	.text       start:0x8002DD78 end:0x8002E134
 
-MSL_C.PPCEABI.bare.H/strtold.c:
+MSL_C/PPCEABI/bare/H/strtold.c:
 	extab       start:0x80006608 end:0x80006618
 	extabindex  start:0x80006AFC end:0x80006B14
 	.text       start:0x8002E134 end:0x8002F5AC
 
-MSL_C.PPCEABI.bare.H/strtoul.c:
+MSL_C/PPCEABI/bare/H/strtoul.c:
 	extab       start:0x80006618 end:0x80006640
 	extabindex  start:0x80006B14 end:0x80006B50
 	.text       start:0x8002F5AC end:0x800300F8
 
-MSL_C.PPCEABI.bare.H/wstring.c:
+MSL_C/PPCEABI/bare/H/wstring.c:
 	.text       start:0x800300F8 end:0x8003018C
 
-MSL_C.PPCEABI.bare.H/wchar_io.c:
+MSL_C/PPCEABI/bare/H/wchar_io.c:
 	.text       start:0x8003018C end:0x80030210
 
-MSL_C.PPCEABI.bare.H/uart_console_io_gcn.c:
+MSL_C/PPCEABI/bare/H/uart_console_io_gcn.c:
 	extab       start:0x80006640 end:0x80006648
 	extabindex  start:0x80006B50 end:0x80006B5C
 	.text       start:0x80030210 end:0x800302E0
 
-MSL_C.PPCEABI.bare.H/math_sun.c:
+MSL_C/PPCEABI/bare/H/math_sun.c:
 	extab       start:0x80006648 end:0x80006650
 	extabindex  start:0x80006B5C end:0x80006B68
 	.text       start:0x800302E0 end:0x80030320
 
-MSL_C.PPCEABI.bare.H/math_double.c:
+MSL_C/PPCEABI/bare/H/math_double.c:
 	extab       start:0x80006650 end:0x80006660
 	extabindex  start:0x80006B68 end:0x80006B80
 	.text       start:0x80030320 end:0x80030370
 
-MSL_C.PPCEABI.bare.H/extras.c:
+MSL_C/PPCEABI/bare/H/extras.c:
 	.text       start:0x80030370 end:0x80030418
 
-MSL_C.PPCEABI.bare.H/e_asin.c:
+MSL_C/PPCEABI/bare/H/e_asin.c:
 	.text       start:0x80030418 end:0x800306DC
 
-MSL_C.PPCEABI.bare.H/e_atan2.c:
+MSL_C/PPCEABI/bare/H/e_atan2.c:
 	.text       start:0x800306DC end:0x8003094C
 
-MSL_C.PPCEABI.bare.H/e_fmod.c:
+MSL_C/PPCEABI/bare/H/e_fmod.c:
 	.text       start:0x8003094C end:0x80030C7C
 
-MSL_C.PPCEABI.bare.H/e_log.c:
+MSL_C/PPCEABI/bare/H/e_log.c:
 	.text       start:0x80030C7C end:0x80030F30
 
-MSL_C.PPCEABI.bare.H/e_log10.c:
+MSL_C/PPCEABI/bare/H/e_log10.c:
 	.text       start:0x80030F30 end:0x80031044
 
-MSL_C.PPCEABI.bare.H/e_pow.c:
+MSL_C/PPCEABI/bare/H/e_pow.c:
 	.text       start:0x80031044 end:0x8003188C
 
-MSL_C.PPCEABI.bare.H/e_rem_pio2.c:
+MSL_C/PPCEABI/bare/H/e_rem_pio2.c:
 	.text       start:0x8003188C end:0x80031C24
 
-MSL_C.PPCEABI.bare.H/k_cos.c:
+MSL_C/PPCEABI/bare/H/k_cos.c:
 	.text       start:0x80031C24 end:0x80031D34
 
-MSL_C.PPCEABI.bare.H/k_rem_pio2.c:
+MSL_C/PPCEABI/bare/H/k_rem_pio2.c:
 	.text       start:0x80031D34 end:0x80033440
 
-MSL_C.PPCEABI.bare.H/k_sin.c:
+MSL_C/PPCEABI/bare/H/k_sin.c:
 	.text       start:0x80033440 end:0x80033500
 
-MSL_C.PPCEABI.bare.H/k_tan.c:
+MSL_C/PPCEABI/bare/H/k_tan.c:
 	.text       start:0x80033500 end:0x80033758
 
-MSL_C.PPCEABI.bare.H/s_atan.c:
+MSL_C/PPCEABI/bare/H/s_atan.c:
 	.text       start:0x80033758 end:0x80033998
 
-MSL_C.PPCEABI.bare.H/s_copysign.c:
+MSL_C/PPCEABI/bare/H/s_copysign.c:
 	.text       start:0x80033998 end:0x800339C4
 
-MSL_C.PPCEABI.bare.H/s_cos.c:
+MSL_C/PPCEABI/bare/H/s_cos.c:
 	.text       start:0x800339C4 end:0x80033A98
 
-MSL_C.PPCEABI.bare.H/s_floor.c:
+MSL_C/PPCEABI/bare/H/s_floor.c:
 	.text       start:0x80033A98 end:0x80033BDC
 
-MSL_C.PPCEABI.bare.H/s_frexp.c:
+MSL_C/PPCEABI/bare/H/s_frexp.c:
 	.text       start:0x80033BDC end:0x80033C64
 
-MSL_C.PPCEABI.bare.H/s_ldexp.c:
+MSL_C/PPCEABI/bare/H/s_ldexp.c:
 	.text       start:0x80033C64 end:0x80033DD0
 
-MSL_C.PPCEABI.bare.H/s_modf.c:
+MSL_C/PPCEABI/bare/H/s_modf.c:
 	.text       start:0x80033DD0 end:0x80033ECC
 
-MSL_C.PPCEABI.bare.H/s_sin.c:
+MSL_C/PPCEABI/bare/H/s_sin.c:
 	.text       start:0x80033ECC end:0x80033FA4
 
-MSL_C.PPCEABI.bare.H/s_tan.c:
+MSL_C/PPCEABI/bare/H/s_tan.c:
 	.text       start:0x80033FA4 end:0x8003401C
 
-MSL_C.PPCEABI.bare.H/w_asin.c:
+MSL_C/PPCEABI/bare/H/w_asin.c:
 	.text       start:0x8003401C end:0x80034020
 
-MSL_C.PPCEABI.bare.H/w_atan2.c:
+MSL_C/PPCEABI/bare/H/w_atan2.c:
 	.text       start:0x80034020 end:0x80034024
 
-MSL_C.PPCEABI.bare.H/w_exp.c:
+MSL_C/PPCEABI/bare/H/w_exp.c:
 	.text       start:0x80034024 end:0x80034028
 
-MSL_C.PPCEABI.bare.H/w_fmod.c:
+MSL_C/PPCEABI/bare/H/w_fmod.c:
 	.text       start:0x80034028 end:0x8003402C
 
-MSL_C.PPCEABI.bare.H/w_pow.c:
+MSL_C/PPCEABI/bare/H/w_pow.c:
 	.text       start:0x8003402C end:0x80034030
 
-MSL_C.PPCEABI.bare.H/e_sqrt.c:
+MSL_C/PPCEABI/bare/H/e_sqrt.c:
 	.text       start:0x80034030 end:0x80034278
 
-MSL_C.PPCEABI.bare.H/math_ppc.c:
+MSL_C/PPCEABI/bare/H/math_ppc.c:
 	.text       start:0x80034278 end:0x8003427C
 
-MSL_C.PPCEABI.bare.H/w_sqrt.c:
+MSL_C/PPCEABI/bare/H/w_sqrt.c:
 	.text       start:0x8003427C end:0x80034280
 
 ai/ai.c:
@@ -1418,6 +1414,7 @@ plugPikiColin/moviePlayer.cpp:
 plugPikiColin/movSample.cpp:
 	.text       start:0x800FD788 end:0x800FDC9C
 	.ctors      start:0x802F5E38 end:0x802F5E3C
+	.rodata     start:0x80300DD0 end:0x80300FA8
 	.data       start:0x803381C8 end:0x80338250
 
 plugPikiColin/newPikiGame.cpp:
@@ -2163,7 +2160,7 @@ plugPikiKando/smartPtr.cpp:
 plugPikiKando/soundMgr.cpp:
 	.text       start:0x801A4260 end:0x801A5900
 	.ctors      start:0x802F6038 end:0x802F603C
-	.rodata     start:0x803039FC end:0x80304EC8
+	.rodata     start:0x803039D8 end:0x80304EC8
 	.data       start:0x80341868 end:0x80343258
 	.sbss       start:0x8049EEC8 end:0x8049EED0
 
@@ -3105,39 +3102,39 @@ os/init/__start.c:
 os/init/__ppc_eabi_init.cpp:
 	.init       start:0x80006294 end:0x800062EC
 
-Runtime.PPCEABI.H/__mem.c:
+Runtime/PPCEABI/H/__mem.c:
 	.init       start:0x800062EC end:0x80006420
 	.text       start:0x80274B34 end:0x80274B50
 
-Runtime.PPCEABI.H/__va_arg.c:
+Runtime/PPCEABI/H/__va_arg.c:
 	.text       start:0x80274B50 end:0x80274C18
 
-Runtime.PPCEABI.H/global_destructor_chain.c:
+Runtime/PPCEABI/H/global_destructor_chain.c:
 	.text       start:0x80274C18 end:0x80274C78
 	.sbss       start:0x8049EF60 end:0x8049EF68
 
-Runtime.PPCEABI.H/NMWException.cp:
+Runtime/PPCEABI/H/NMWException.cp:
 	extab       start:0x80006660 end:0x800066A8
 	extabindex  start:0x80006B80 end:0x80006BBC
 	.text       start:0x80274C78 end:0x80275028
 
-Runtime.PPCEABI.H/ptmf.c:
+Runtime/PPCEABI/H/ptmf.c:
 	.text       start:0x80275028 end:0x80275050
 
-Runtime.PPCEABI.H/runtime.c:
+Runtime/PPCEABI/H/runtime.c:
 	.text       start:0x80275050 end:0x80275770
 
-Runtime.PPCEABI.H/__init_cpp_exceptions.cpp:
+Runtime/PPCEABI/H/__init_cpp_exceptions.cpp:
 	.text       start:0x80275770 end:0x802757E0
 	.ctors      start:0x802F5DA0 end:0x802F5DA4 rename:.ctors$10
 	.dtors      start:0x802F6360 end:0x802F6364 rename:.dtors$10
 	.dtors      start:0x802F6364 end:0x802F6368 rename:.dtors$15
 	.sdata      start:0x8049DED0 end:0x8049DED8
 
-Runtime.PPCEABI.H/Gecko_ExceptionPPC.cp:
+Runtime/PPCEABI/H/Gecko_ExceptionPPC.cp:
 	.text       start:0x802757E0 end:0x80275844
 
-Runtime.PPCEABI.H/GCN_mem_alloc.c:
+Runtime/PPCEABI/H/GCN_mem_alloc.c:
 	.text       start:0x80275844 end:0x802758FC
 
 egg/gfx/eggCamera.cpp:
@@ -3624,33 +3621,33 @@ System12/sys12gameNand.cpp:
 
 System12/sys12Language.cpp:
 	.text       start:0x802BACB0 end:0x802BB028
-	.data       start:0x803510F0 end:0x803511C0
+	.data       start:0x803510F0 end:0x80351184
 	.sbss       start:0x8049F100 end:0x8049F108
 
 System12/sys12HomeButtonMgr.cpp:
 	.text       start:0x802BB028 end:0x802BC368
+	.data       start:0x80351184 end:0x803511C0
 	.sbss       start:0x8049F108 end:0x8049F118
 
 System12/sys12RenderMode.cpp:
 	.text       start:0x802BC368 end:0x802BCD74
 	.ctors      start:0x802F631C end:0x802F6320
 	.data       start:0x803511C0 end:0x80351450
-	.bss        start:0x80497030 end:0x80497058 align:4 common
 
 System12/sys12TransparentMgr.cpp:
 	.text       start:0x802BCD74 end:0x802BD4AC
-	.data       start:0x80351450 end:0x80351528
+	.data       start:0x80351450 end:0x80351460
 	.sbss       start:0x8049F118 end:0x8049F120
 
 System12/sys12WarnWindow.cpp:
 	.text       start:0x802BD4AC end:0x802BEF0C
+	.data       start:0x80351460 end:0x80351528
 	.sbss       start:0x8049F120 end:0x8049F128
 
 System12/sys12ControllerBatteryMgr.cpp:
 	.text       start:0x802BEF0C end:0x802BF298
 	.data       start:0x80351528 end:0x80351538
-	.bss        start:0x80497058 end:0x804970D8 align:4 common
-	.sbss       start:0x8049F128 end:0x8049F148
+	.sbss       start:0x8049F128 end:0x8049F130
 
 System12/system12DvdLoader.cpp:
 	.text       start:0x802BF298 end:0x802BF524
@@ -3663,13 +3660,14 @@ System12/system12Layout.cpp:
 	.text       start:0x802BFB70 end:0x802C2CC4
 	.ctors      start:0x802F6320 end:0x802F6324
 	.data       start:0x80351568 end:0x80351938
-	.bss        start:0x804970D8 end:0x80497100 align:4 common
 
 System12/sys12THPPlayer.cpp:
 	.text       start:0x802C334C end:0x802C4724
+	.sbss       start:0x8049F130 end:0x8049F140
 
 System12/sys12DebugDrawer.cpp:
 	.text       start:0x802C4724 end:0x802C48C8
+	.sbss       start:0x8049F140 end:0x8049F148
 
 System12/system12WPMessage.cpp:
 	.text       start:0x802C48C8 end:0x802C56D0
@@ -3680,17 +3678,16 @@ System12/system12WPMessage.cpp:
 System12/system12WPTagProcessor.cpp:
 	.text       start:0x802C56D0 end:0x802C7494
 	.ctors      start:0x802F6324 end:0x802F6328
-	.bss        start:0x80497100 end:0x80497124 align:4 common
 
 System12/system12WPWideTextWriter.cpp:
 	.text       start:0x802C7494 end:0x802C7D68
 	.ctors      start:0x802F6328 end:0x802F632C
-	.data       start:0x80351C00 end:0x80351F50
-	.bss        start:0x80497124 end:0x80497130 align:4 common
+	.data       start:0x80351C00 end:0x80351C20
 	.sbss       start:0x8049F150 end:0x8049F158
 
 System12/sys12CursorMgr.cpp:
 	.text       start:0x802C7D68 end:0x802CA9D0
+	.data       start:0x80351C20 end:0x80351CE8
 	.sbss       start:0x8049F158 end:0x8049F168
 
 System12/sys12DvdErrorMsg.cpp:
@@ -3711,7 +3708,7 @@ System12/sys12Window.cpp:
 System12/system12ResourceMgr.cpp:
 	.text       start:0x802CDFDC end:0x802CE1D4
 	.ctors      start:0x802F632C end:0x802F6330
-	.data       start:0x803521A8 end:0x80356600
+	.data       start:0x803521A8 end:0x803521C0
 	.sbss       start:0x8049F180 end:0x8049F188
 
 System12/sys12DpdState.cpp:
@@ -3731,7 +3728,6 @@ System12/SpkData.cpp:
 
 System12/SpkGadget.cpp:
 	.text       start:0x802D302C end:0x802D34E4
-	.bss        start:0x804971F8 end:0x80497208 align:4 common
 
 System12/SpkMixingBuffer.cpp:
 	.text       start:0x802D34E4 end:0x802D3890
@@ -3742,7 +3738,6 @@ System12/SpkSound.cpp:
 System12/SpkSpeakerCtrl.cpp:
 	.text       start:0x802D4968 end:0x802D52F8
 	.ctors      start:0x802F6334 end:0x802F6338
-	.bss        start:0x80497208 end:0x80497348 align:4 common
 	.sbss       start:0x8049F1C0 end:0x8049F1C4
 
 System12/SpkSystem.cpp:
