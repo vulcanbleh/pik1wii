@@ -1183,6 +1183,8 @@ sysCommon/ayuStack.cpp:
 
 sysCommon/baseApp.cpp:
 	.text       start:0x800B6AEC end:0x800B6D10
+	.rodata     start:0x802FDFE8 end:0x802FE018
+	.data       start:0x803354D8 end:0x80335524
 
 sysCommon/camera.cpp:
 	.text       start:0x800B6D10 end:0x800B9204
@@ -1936,8 +1938,8 @@ plugPikiKando/keyItem.cpp:
 
 plugPikiKando/kio.cpp:
 	.text       start:0x80161BD4 end:0x80161C8C
-	.sdata      start:0x8049A338 end:0x8049A340
-	.sbss       start:0x8049EE10 end:0x8049EE20
+	.sdata      start:0x8049A338 end:0x8049A33C
+	.sbss       start:0x8049EE10 end:0x8049EE1C
 
 plugPikiKando/kmath.cpp:
 	.text       start:0x80161C8C end:0x80162798
