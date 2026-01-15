@@ -378,13 +378,16 @@ bool TAIAlookAround::act(Teki& teki)
 
 		if (teki.mTekiAnimator->getCurrentMotionIndex() != motionID || teki.mTekiAnimator->isFinished()) {
 			if (!teki.mTekiAnimator->isFinished()) {
-				teki.mTekiAnimator->finishMotion(PaniMotionInfo(PANI_NO_MOTION, &teki));
+				PaniMotionInfo anim1(PANI_NO_MOTION, &teki);
+				teki.mTekiAnimator->finishMotion(anim1);
 			}
 			if (teki.mTekiAnimator->isFinishing()) {
-				teki.mTekiAnimator->startMotion(PaniMotionInfo(motionID, &teki));
+				PaniMotionInfo anim2(motionID, &teki);
+				teki.mTekiAnimator->startMotion(anim2);
 			}
 		} else if (teki.turnToward(teki.mTargetAngle, teki.getParameterF(TPF_TurnVelocity))) {
-			teki.mTekiAnimator->finishMotion(PaniMotionInfo(PANI_NO_MOTION, &teki));
+			PaniMotionInfo anim3(PANI_NO_MOTION, &teki);
+			teki.mTekiAnimator->finishMotion(anim3);
 			teki.setFrameCounter(0.0f);
 			teki.setStatus(1);
 		}
@@ -394,10 +397,12 @@ bool TAIAlookAround::act(Teki& teki)
 	{
 		if (teki.mTekiAnimator->getCurrentMotionIndex() != mMotionID || teki.mTekiAnimator->isFinished()) {
 			if (!teki.mTekiAnimator->isFinished()) {
-				teki.mTekiAnimator->finishMotion(PaniMotionInfo(PANI_NO_MOTION, &teki));
+				PaniMotionInfo anim4(PANI_NO_MOTION, &teki);
+				teki.mTekiAnimator->finishMotion(anim4);
 			}
 			if (teki.mTekiAnimator->isFinishing()) {
-				teki.mTekiAnimator->startMotion(PaniMotionInfo(mMotionID, &teki));
+				PaniMotionInfo anim5(mMotionID, &teki);
+				teki.mTekiAnimator->startMotion(anim5);
 			}
 		} else {
 			teki.addFrameCounter(gsys->getFrameTime());
@@ -405,14 +410,14 @@ bool TAIAlookAround::act(Teki& teki)
 				teki.setFrameCounter(0.0f);
 				teki.setStatus(0);
 				setTargetDirection(teki, 40.0f * PI / 180.0f);
-				teki.mTekiAnimator->finishMotion(PaniMotionInfo(PANI_NO_MOTION, &teki));
+				PaniMotionInfo anim6(PANI_NO_MOTION, &teki);
+				teki.mTekiAnimator->finishMotion(anim6);
 			}
 		}
 		break;
 	}
 	}
 
-	STACK_PAD_VAR(2);
 	return false;
 }
 
@@ -450,10 +455,12 @@ bool TAIAturnToTarget::act(Teki& teki)
 	int motionID = getTurnMotionIndex(teki);
 	if (teki.mTekiAnimator->getCurrentMotionIndex() != motionID || teki.mTekiAnimator->isFinished()) {
 		if (!teki.mTekiAnimator->isFinished()) {
-			teki.mTekiAnimator->finishMotion(PaniMotionInfo(PANI_NO_MOTION, &teki));
+			PaniMotionInfo anim1(PANI_NO_MOTION, &teki);
+			teki.mTekiAnimator->finishMotion(anim1);
 		}
 		if (teki.mTekiAnimator->isFinishing()) {
-			teki.mTekiAnimator->startMotion(PaniMotionInfo(motionID, &teki));
+			PaniMotionInfo anim2(motionID, &teki);
+			teki.mTekiAnimator->startMotion(anim2);
 		}
 	} else {
 		teki.mTargetVelocity.set(0.0f, 0.0f, 0.0f);
@@ -465,7 +472,8 @@ bool TAIAturnToTarget::act(Teki& teki)
 		} else {
 			if (teki.turnToward(teki.mTargetAngle, getTurnVelocity(teki))) {
 				if (_14) {
-					teki.mTekiAnimator->finishMotion(PaniMotionInfo(PANI_NO_MOTION, &teki));
+					PaniMotionInfo anim3(PANI_NO_MOTION, &teki);
+					teki.mTekiAnimator->finishMotion(anim3);
 				}
 				res = true;
 			}
@@ -509,7 +517,6 @@ bool TAIArandomWalk::act(Teki& teki)
 		}
 	}
 
-	STACK_PAD_VAR(1);
 	return res;
 }
 
@@ -688,10 +695,12 @@ bool TAIApatrol::act(Teki& teki)
 	{
 		if (teki.mTekiAnimator->getCurrentMotionIndex() != _20 || teki.mTekiAnimator->isFinished()) {
 			if (!teki.mTekiAnimator->isFinished()) {
-				teki.mTekiAnimator->finishMotion(PaniMotionInfo(PANI_NO_MOTION, &teki));
+				PaniMotionInfo anim1(PANI_NO_MOTION, &teki);
+				teki.mTekiAnimator->finishMotion(anim1);
 			}
 			if (teki.mTekiAnimator->isFinishing()) {
-				teki.mTekiAnimator->startMotion(PaniMotionInfo(_20, &teki));
+				PaniMotionInfo anim2(_20, &teki);
+				teki.mTekiAnimator->startMotion(anim2);
 			}
 		} else {
 			f32 dist = teki.mTargetPosition.distance(teki.getPosition());
@@ -702,7 +711,8 @@ bool TAIApatrol::act(Teki& teki)
 					teki.setTableIndex(0);
 				}
 				setTargetPosition(teki);
-				teki.mTekiAnimator->finishMotion(PaniMotionInfo(PANI_NO_MOTION, &teki));
+				PaniMotionInfo anim3(PANI_NO_MOTION, &teki);
+				teki.mTekiAnimator->finishMotion(anim3);
 				changeStatus(1, teki);
 			} else {
 				teki.moveToward(teki.mTargetPosition, teki.getParameterF(TPF_WalkVelocity));
@@ -717,7 +727,6 @@ bool TAIApatrol::act(Teki& teki)
 	}
 	}
 
-	STACK_PAD_TERNARY(&teki, 1);
 	return false;
 }
 
