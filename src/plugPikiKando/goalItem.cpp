@@ -64,6 +64,33 @@ static void printMatrix(immut char* name, immut Matrix4f& mat)
 /**
  * @todo: Documentation
  */
+Colour GoalItem::getPelletColor()
+{
+	Colour colour;
+	switch (mOnionColour){
+	case Red:
+	{
+		colour.set(255, 48, 48, 255);
+		break;
+	}
+	case Blue:
+	{
+		colour.set(64, 64, 255, 255);
+		break;
+	}
+	case Yellow:
+	{
+		colour.set(239, 239, 0, 255);
+		break;
+	}
+	}
+
+	return colour;
+}
+
+/**
+ * @todo: Documentation
+ */
 bool GoalItem::insideSafeArea(immut Vector3f& pos)
 {
 	Vector3f diff = pos - mSRT.t;
@@ -190,11 +217,13 @@ void GoalItem::playEffect(int id)
 				effectMgr->create(EffectMgr::EFF_Onyon_Bubbles, pos2, nullptr, nullptr);
 				zen::particleGenerator* efx = effectMgr->create(EffectMgr::EFF_Onyon_Ripples2, pos2, nullptr, nullptr);
 				if (efx) {
-					efx->setOrientedNormalVector(Vector3f(0.0f, 1.0f, 0.0f));
+					Vector3f pos(0.0f, 1.0f, 0.0f);
+					efx->setOrientedNormalVector(pos);
 				}
 				efx = effectMgr->create(EffectMgr::EFF_Onyon_Ripples1, pos2, nullptr, nullptr);
 				if (efx) {
-					efx->setOrientedNormalVector(Vector3f(0.0f, 1.0f, 0.0f));
+					Vector3f pos(0.0f, 1.0f, 0.0f);
+					efx->setOrientedNormalVector(pos);
 				}
 			} else {
 				effectMgr->create(EffectMgr::EFF_Rocket_Suck1, pos2, nullptr, nullptr);
@@ -235,8 +264,6 @@ void GoalItem::playEffect(int id)
 		break;
 	}
 	}
-
-	STACK_PAD_TERNARY(id, 1);
 }
 
 /**
@@ -613,9 +640,11 @@ void GoalItem::startAI(int)
 	mHeldPikis[Leaf] = mHeldPikis[Bud] = mHeldPikis[Flower] = 0;
 	mCollInfo->initInfo(mItemShapeObject->mShape, nullptr, nullptr);
 	mWaypointIdx = routeMgr->findNearestWayPoint('test', mSRT.t, false)->mIndex;
+	
+	Vector3f pos(posX, posY, posZ);
+	Vector3f rot(rotateX[0], rotateY[0], rotateZ[0]);
 
-	mSpotModelEff = effectMgr->create((EffectMgr::modelTypeTable)mOnionColour, mSRT.t, Vector3f(posX, posY, posZ),
-	                                  Vector3f(rotateX[0], rotateY[0], rotateZ[0]));
+	mSpotModelEff = effectMgr->create((EffectMgr::modelTypeTable)mOnionColour, mSRT.t, pos, rot);
 	f32 scale     = 1.0f;
 	mSRT.s.set(scale, scale, scale);
 	mCurrAnimId = 0;
@@ -656,7 +685,8 @@ void GoalItem::startAI(int)
 		wp->setFlag(false);
 	} else {
 		setMotionSpeed(30.0f);
-		mItemAnimator.startMotion(PaniMotionInfo(1));
+		PaniMotionInfo anim(1);
+		mItemAnimator.startMotion(anim);
 		C_SAI(this)->start(this, GoalAI::GOAL_Wait);
 		disableColorAnim();
 		wp->setFlag(true);
@@ -809,7 +839,4 @@ void GoalItem::refresh(Graphics& gfx)
 			printMatrix("invCam", gfx.mCamera->mInverseLookAtMtx);
 		}
 	}
-
-	STACK_PAD_TERNARY(mCollInfo, 1);
-	STACK_PAD_VAR(3);
 }

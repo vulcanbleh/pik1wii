@@ -122,15 +122,9 @@ void GaugeInfo::update()
  */
 void GaugeInfo::showDigits(Vector3f centerPos, immut Colour& colour, int number, f32 digitHalfWidth, f32 digitHalfHeight)
 {
-#if defined(VERSION_PIKIDEMO) || defined(VERSION_GPIJ01_01)
-	STACK_PAD_VAR(2);
-	// NB: if number = 100, digits will start overlapping
-	int num = number;
-#else
 	// clamp number to two digits, because that's all this is coded to handle
 	// (in practice, I don't think anything can be carried/pushed by 100 Pikmin at once, but this is safer)
 	int num = number > 99 ? 99 : number;
-#endif
 
 	int numDigits = num >= 10 ? 2 : 1;
 
@@ -163,7 +157,6 @@ void GaugeInfo::showDigits(Vector3f centerPos, immut Colour& colour, int number,
 		// adjust left to draw tens digit if required
 		centerPos.x -= digitHalfWidth * 1.5f;
 	}
-	FORCE_DONT_INLINE;
 }
 
 /**
@@ -180,12 +173,18 @@ void GaugeInfo::refresh(Graphics& gfx)
 	// bottom value first (red, changing value showing how many Pikmin are lifting/pushing/moving the object)
 	Colour colour;
 	colour.set(255, 32, 32, (int)mDisplayAlpha);
+	
+	
 
 	// makes a visually "dominant" value by scaling down the other digit to 75%
 	// - when we're below the minimum number to move the object, make top value (target number) dominant
 	// - when we're able to move the object, make bottom value (current number) dominant
 	f32 bottomScale = (mStickCount < mMinCount) ? 0.75f : 1.0f;
 	f32 topScale    = (mStickCount < mMinCount) ? 1.0f : 0.75f;
+	
+	if (mParentLifeGauge->mUseColor){
+		colour.set(mParentLifeGauge->mColor.r, mParentLifeGauge->mColor.g, mParentLifeGauge->mColor.b, (int)mDisplayAlpha);
+	}
 
 	// draw bottom digit (current number)
 	showDigits(pos, colour, mStickCount, mDigitHalfWidth * bottomScale, mDigitHalfHeight * bottomScale);
@@ -208,10 +207,12 @@ void GaugeInfo::refresh(Graphics& gfx)
 	// draw center of top number (blue, static value showing target amount to move object) 10 units above line
 	pos.y += 10.0f;
 	colour.set(32, 32, 255, (int)mDisplayAlpha);
+	
+	if (mParentLifeGauge->mUseColor){
+		colour.set(mParentLifeGauge->mColor.r, mParentLifeGauge->mColor.g, mParentLifeGauge->mColor.b, (int)mDisplayAlpha);
+	}
+	
 	showDigits(pos, colour, mMinCount, mDigitHalfWidth * topScale, mDigitHalfHeight * topScale);
-
-	STACK_PAD_VAR(1);
-	FORCE_DONT_INLINE;
 }
 
 /**
@@ -332,7 +333,7 @@ LifeGauge::LifeGauge()
 	mScale             = 48.0f;
 	mActiveCarryNumber = nullptr;
 	mColor.set(255, 255, 255, 255);
-	mUnk        = false;
+	mUseColor        = false;
 }
 
 /**
@@ -447,29 +448,38 @@ void LifeGauge::refresh(Graphics& gfx)
 	f32 depth1 = gfx.mCamera->projectWorldPoint(gfx, pos1); // which means these are the same
 	f32 depth2 = gfx.mCamera->projectWorldPoint(gfx, pos2);
 
-	gfx.setColour(COLOUR_WHITE, true);
-	gfx.setAuxColour(COLOUR_WHITE);
-
-	STACK_PAD_VAR(2);
+	Colour colour1(COLOUR_WHITE);
+	gfx.setColour(colour1, true);
+	Colour colour2(COLOUR_WHITE);
+	gfx.setAuxColour(colour2);
 
 	// don't bother drawing points behind the camera (negative depths)
 	if (depth1 > 0.0f && depth2 > 0.0f) {
 		if (mRenderStyle == LifeGauge::Bar) {
 			// never used in-game, but fun!
 			// draw border of bar gauge
-			gfx.setColour(Colour(lgborder.r, lgborder.g, lgborder.b, (int)(f32(lgborder.a) * mFadeTransitionValue)), true);
-			gfx.setAuxColour(Colour(lgborder.r, lgborder.g, lgborder.b, (int)(f32(lgborder.a) * mFadeTransitionValue)));
-			gfx.lineRectangle(RectArea(pos2.x - 19.0f, pos2.y - 10.0f, pos2.x + 19.0f, pos2.y - 6.0f));
+			Colour colour1(lgborder.r, lgborder.g, lgborder.b, (int)(f32(lgborder.a) * mFadeTransitionValue));
+			gfx.setColour(colour1, true);
+			Colour colour2(lgborder.r, lgborder.g, lgborder.b, (int)(f32(lgborder.a) * mFadeTransitionValue));
+			gfx.setAuxColour(colour2);
+			RectArea area1(pos2.x - 19.0f, pos2.y - 10.0f, pos2.x + 19.0f, pos2.y - 6.0f);
+			gfx.lineRectangle(area1);
 
 			// draw text bubble-like callout lines
-			gfx.drawLine(Vector3f(pos2.x - 10.0f, pos2.y - 5.0f, 0.0f), Vector3f(pos1.x, pos1.y, 0.0f));
-			gfx.drawLine(Vector3f(pos2.x - 5.0f, pos2.y - 5.0f, 0.0f), Vector3f(pos1.x, pos1.y, 0.0f));
+			Vector3f point1(pos2.x - 10.0f, pos2.y - 5.0f, 0.0f);
+			Vector3f point2(pos1.x, pos1.y, 0.0f);
+			gfx.drawLine(point1, point2);
+			Vector3f point3(pos2.x - 5.0f, pos2.y - 5.0f, 0.0f);
+			Vector3f point4(pos1.x, pos1.y, 0.0f);
+			gfx.drawLine(point3, point4);
 
 			// draw coloured part of gauge
-			gfx.setColour(Colour(gaugeColour.r, gaugeColour.g, gaugeColour.b, (int)(f32(gaugeColour.a) * mFadeTransitionValue)), true);
-			gfx.setAuxColour(Colour(gaugeColour.r, gaugeColour.g, gaugeColour.b, (int)(f32(gaugeColour.a) * mFadeTransitionValue)));
-			gfx.fillRectangle(
-			    RectArea(pos2.x - 18.0f, pos2.y - 9.0f, pos2.x - 18.0f + (mCurrentDisplayHealthRatio * 37.0f), pos2.y - 7.0f));
+			Colour colour3(gaugeColour.r, gaugeColour.g, gaugeColour.b, (int)(f32(gaugeColour.a) * mFadeTransitionValue));
+			gfx.setColour(colour3, true);
+			Colour colour4(gaugeColour.r, gaugeColour.g, gaugeColour.b, (int)(f32(gaugeColour.a) * mFadeTransitionValue));
+			gfx.setAuxColour(colour4);
+			RectArea area2(pos2.x - 18.0f, pos2.y - 9.0f, pos2.x - 18.0f + (mCurrentDisplayHealthRatio * 37.0f), pos2.y - 7.0f);
+			gfx.fillRectangle(area2);
 		} else {
 			f32 innerRadius = mScale * (1.0f - depth1); // radius of the actual coloured section
 			f32 outerRadius = innerRadius * 1.1666f;    // radius of the background black circle
@@ -497,7 +507,8 @@ void LifeGauge::refresh(Graphics& gfx)
 					gfx.drawOneTri(vertices, nullptr, texCoords, 3);
 				} else {
 					// draw remaining triangles a slightly transparent dark grey
-					gfx.setColour(Colour(32, 32, 32, 192), true);
+					Colour grey(32, 32, 32, 192);
+					gfx.setColour(grey, true);
 					gfx.drawOneTri(vertices, nullptr, texCoords, 3);
 				}
 
@@ -507,7 +518,8 @@ void LifeGauge::refresh(Graphics& gfx)
 				vertices[2].set(sinf(startAngle) * -outerRadius + pos2.x, cosf(startAngle) * -outerRadius + pos2.y, 0.0f);
 				vertices[3].set(sinf(startAngle) * -innerRadius + pos2.x, cosf(startAngle) * -innerRadius + pos2.y, 0.0f);
 
-				gfx.setColour(COLOUR_BLACK, true);
+				Colour black(COLOUR_BLACK);
+				gfx.setColour(black, true);
 				gfx.drawOneTri(vertices, nullptr, texCoords, 4);
 			}
 		}
@@ -561,8 +573,6 @@ void LifeGauge::countOn(immut Vector3f& position, int stickCount, int minCount)
 		// this is never used
 		mActiveCarryNumber->mCachedOwnerPosition = mPosition;
 	}
-
-	STACK_PAD_VAR(1);
 }
 
 /**
