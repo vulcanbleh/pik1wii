@@ -3304,7 +3304,7 @@ egg/util/eggSaveBanner.cpp:
 	.text       start:0x8027E23C end:0x8027E670
 	.data       start:0x8034FE60 end:0x8034FE70
 	.sdata      start:0x8049DF18 end:0x8049DF20
-	.sbss       start:0x8049F000 end:0x8049F010
+	.sbss       start:0x8049F000 end:0x8049F008
 
 nw4r/ut/ut_list.cpp:
 	.text       start:0x8027E670 end:0x8027E784
@@ -3345,6 +3345,7 @@ nw4r/ut/ut_ResFont.cpp:
 
 nw4r/ut/ut_CharWriter.cpp:
 	.text       start:0x802803B8 end:0x80281AE0
+	.sbss       start:0x8049F008 end:0x8049F010
 
 nw4r/ut/ut_TextWriterBase.cpp:
 	.text       start:0x80281AE0 end:0x80285F58
@@ -3690,7 +3691,7 @@ System12/system12FrameCounter.cpp:
 System12/system12Layout.cpp:
 	.text       start:0x802BFB70 end:0x802C2CC4
 	.ctors      start:0x802F6320 end:0x802F6324
-	.data       start:0x80351568 end:0x80351938
+	.data       start:0x80351568 end:0x80351910
 
 System12/sys12THPPlayer.cpp:
 	.text       start:0x802C334C end:0x802C4724
