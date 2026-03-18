@@ -265,7 +265,7 @@ cflags_jaudio = [
     "-fp hardware",
     "-Cpp_exceptions off",
     # "-W all",
-    "-O4,s",
+    "-O4,p",
     "-inline off",
     '-pragma "cats off"',
     '-pragma "warn_notinlined off"',
