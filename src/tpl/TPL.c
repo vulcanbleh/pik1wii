@@ -1,0 +1,61 @@
+#include <RevoSDK/os.h>
+#include <RevoSDK/tpl.h>
+
+#define TPL_VERSION 2142000
+
+void TPLBind(TPLPalette* pal) {
+    u16 i;
+
+    if (pal->versionNumber != TPL_VERSION) {
+        OSErrorLine(25, "invalid version number for texture palette");
+    }
+	
+
+    pal->descriptorArray =
+        (TPLDescriptor*)((char*)pal->descriptorArray + (u32)pal);
+
+    for (i = 0; i < pal->numDescriptors; i++) {
+        if (pal->descriptorArray[i].textureHeader != NULL) {
+            // Convert header offset into pointer
+            pal->descriptorArray[i].textureHeader =
+                (TPLHeader*)((char*)pal +
+                             (u32)pal->descriptorArray[i].textureHeader);
+
+            if (!pal->descriptorArray[i].textureHeader->unpacked) {
+                // Convert data offset into pointer
+                pal->descriptorArray[i].textureHeader->data =
+                    (char*)pal +
+                    (u32)pal->descriptorArray[i].textureHeader->data;
+
+                pal->descriptorArray[i].textureHeader->unpacked = TRUE;
+            }
+        }
+
+        if (pal->descriptorArray[i].CLUTHeader != NULL) {
+            // Convert header offset into pointer
+            pal->descriptorArray[i].CLUTHeader =
+                (TPLClutHeader*)((char*)pal +
+                                 (u32)pal->descriptorArray[i].CLUTHeader);
+
+            if (!pal->descriptorArray[i].CLUTHeader->unpacked) {
+                // Convert data offset into pointer
+                pal->descriptorArray[i].CLUTHeader->data =
+                    (char*)pal + (u32)pal->descriptorArray[i].CLUTHeader->data;
+
+                pal->descriptorArray[i].CLUTHeader->unpacked = TRUE;
+            }
+        }
+    }
+}
+
+TPLDescriptor* TPLGet(TPLPalette* pal, u32 id) {
+    return &pal->descriptorArray[id % pal->numDescriptors];
+}
+
+void TPLGetGXTexObjFromPalette(TPLPalette* pal, GXTexObj* texObj, u32 id) {
+    TPLDescriptor* descriptor = TPLGet(pal, id);
+    GXBool hasMipMap = descriptor->textureHeader->minLOD == descriptor->textureHeader->maxLOD ? GX_FALSE : GX_TRUE;
+    
+    GXInitTexObj(texObj, descriptor->textureHeader->data, descriptor->textureHeader->width, descriptor->textureHeader->height, descriptor->textureHeader->format, descriptor->textureHeader->wrapS, descriptor->textureHeader->wrapT, hasMipMap);
+    GXInitTexObjLOD(texObj, descriptor->textureHeader->minFilter,descriptor->textureHeader->magFilter, descriptor->textureHeader->minLOD,descriptor->textureHeader->maxLOD, descriptor->textureHeader->LODBias, GX_FALSE, descriptor->textureHeader->edgeLODEnable, GX_ANISO_1);
+}

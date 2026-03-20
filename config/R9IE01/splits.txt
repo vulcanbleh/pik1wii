@@ -868,6 +868,9 @@ thp/THPAudio.c:
 
 tpl/TPL.c:
 	.text       start:0x80066BE8 end:0x80066DFC
+	.data       start:0x8032C308 end:0x8032C338
+	.sdata      start:0x804976D8 end:0x804976E0
+	.sdata2     start:0x8049FB38 end:0x8049FB40
 
 usb/usb.c:
 	.text       start:0x80066DFC end:0x80067F28
@@ -1171,13 +1174,18 @@ nand/NANDLogging.c:
 sc/scsystem.c:
 	.text       start:0x800B4090 end:0x800B59F4
 	.rodata     start:0x802FDF90 end:0x802FDFE8
+	.data       start:0x803352A8 end:0x80335480
 	.bss        start:0x80446A00 end:0x8044EBA0
+	.sdata      start:0x80497898 end:0x804979A0
+	.sbss       start:0x8049EB28 end:0x8049EB40
 
 sc/scapi.c:
 	.text       start:0x800B59F4 end:0x800B5E78
 
 sc/scapi_prdinfo.c:
 	.text       start:0x800B5E78 end:0x800B60EC
+	.data       start:0x80335480 end:0x803354D8
+	.sdata      start:0x804979A0 end:0x804979B0
 
 sysCommon/atx.cpp:
 	.text       start:0x800B60EC end:0x800B6440
