@@ -63,7 +63,7 @@ public:
 	enum FileOperateMode {
 		Normal = 0, // Standard file selection mode
 		Copy   = 1, // File copying mode
-		Delete = 2,  // File deletion mode
+		Delete = 2  // File deletion mode
 	};
 
 	/**
@@ -154,9 +154,6 @@ private:
 	void DeleteEffectStart();
 	void MoveCpyCursor(int targetSlotIndex, f32 animationSpeed);
 	void CopyEffectStart();
-	
-	void loadFileKako();
-	void growingup();
 
 	EffectMgr2D* mFxMgr;                                   // _00
 	particleGenerator* mFileCopyEffectOnyon;               // _04
