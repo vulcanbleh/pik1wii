@@ -2535,13 +2535,15 @@ plugPikiNishimura/SpiderAi.cpp:
 plugPikiNishimura/SpiderLeg.cpp:
 	.text       start:0x801E702C end:0x801EBAE4
 	.ctors      start:0x802F611C end:0x802F6120
-	.data       start:0x803478C0 end:0x80347958
+	.data       start:0x803478C0 end:0x80347938
 	.sbss       start:0x8049EEF8 end:0x8049EF00
 
 plugPikiNishimura/Boss.cpp:
 	.text       start:0x801EBAE4 end:0x801EDC54
 	.ctors      start:0x802F6120 end:0x802F6124
-	.data       start:0x80347958 end:0x80347AA0
+	.data       start:0x80347938 end:0x80347AA0
+	.sdata      start:0x8049C1D8 end:0x8049C290
+	.sdata2     start:0x804A2250 end:0x804A22C8
 
 plugPikiNishimura/BossAnimMgr.cpp:
 	.text       start:0x801EDC54 end:0x801EDCD0
@@ -2552,16 +2554,24 @@ plugPikiNishimura/BossCnd.cpp:
 	.text       start:0x801EDCD0 end:0x801EDE58
 	.ctors      start:0x802F6124 end:0x802F6128
 	.data       start:0x80347AD0 end:0x80347AE8
+	.sdata      start:0x8049C290 end:0x8049C2A8
+	.sdata2     start:0x804A22C8 end:0x804A22E0
 
 plugPikiNishimura/BossMgr.cpp:
 	.text       start:0x801EDE58 end:0x801F0748
 	.ctors      start:0x802F6128 end:0x802F612C
+	.rodata     start:0x803065E0 end:0x80306938
 	.data       start:0x80347AE8 end:0x80347BC8
+	.sdata      start:0x8049C2A8 end:0x8049C2D8
 	.sbss       start:0x8049EF00 end:0x8049EF08
+	.sdata2     start:0x804A22E0 end:0x804A22E8
 
 plugPikiNishimura/BossShapeObj.cpp:
 	.text       start:0x801F0748 end:0x801F0884
 	.ctors      start:0x802F612C end:0x802F6130
+	.rodata     start:0x80306938 end:0x80306970
+	.sdata      start:0x8049C2D8 end:0x8049C2F0
+	.sdata2     start:0x804A22E8 end:0x804A22F0
 
 plugPikiNishimura/CoreNucleus.cpp:
 	.text       start:0x801F0884 end:0x801F0C04
