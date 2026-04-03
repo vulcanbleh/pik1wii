@@ -1638,7 +1638,7 @@ config.libs = [
     },
     {
         "lib": "homebuttonLib",
-        "cflags": cflags_pikmin,
+        "cflags": [*cflags_revo, "-RTTI on", "-str noreadonly", "-sdata 0", "-sdata2 0"],
         "mw_version": "GC/3.0a5",
         "progress_category": "hbm",
         "objects": [
