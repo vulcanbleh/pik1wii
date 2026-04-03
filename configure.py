@@ -904,6 +904,7 @@ config.libs = [
             Object(NonMatching, "nand/nand.c"),
             Object(NonMatching, "nand/NANDOpenClose.c"),
             Object(NonMatching, "nand/NANDCore.c"),
+            Object(NonMatching, "nand/NANDSecret.c"),
             Object(NonMatching, "nand/NANDCheck.c"),
             Object(NonMatching, "nand/NANDLogging.c"),
         ],
