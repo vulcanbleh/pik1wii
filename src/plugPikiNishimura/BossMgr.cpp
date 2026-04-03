@@ -679,6 +679,8 @@ Creature* BossMgr::create(int genBossID, BirthInfo& birthInfo, GenObjectBoss* ge
 			boss->initBoss(birthInfo, OBJTYPE_King);
 			boss->init(birthInfo.mPosition);
 			setBossParam(boss, genBoss);
+			static_cast<King*>(boss)->mMaxLife	   = 27000.0f;
+			static_cast<King*>(boss)->mCurrentLife = 27000.0f;
 		}
 		break;
 	}
@@ -765,12 +767,10 @@ void BossMgr::kill(Creature* target)
  */
 void BossMgr::killAll()
 {
-	CoreNode* node;
 	CoreNode* next;
 
 	for (int i = BOSS_IDSTART; i < BOSS_IDCOUNT; i++) {
-
-		node = mActiveNodes[i].mChild;
+		CoreNode* node = mActiveNodes[i].mChild;
 		while (node) {
 			BossNode* bNode = static_cast<BossNode*>(node);
 			next            = node->mNext;
