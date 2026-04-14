@@ -1236,7 +1236,10 @@ sysCommon/graphics.cpp:
 sysCommon/grLight.cpp:
 	.text       start:0x800BE278 end:0x800BE934
 	.ctors      start:0x802F5DB0 end:0x802F5DB4
+	.rodata     start:0x802FE160 end:0x802FE180
 	.data       start:0x803360D8 end:0x80336108
+	.sdata      start:0x80497AF0 end:0x80497B30
+	.sdata2     start:0x8049FD28 end:0x8049FD78
 
 sysCommon/id32.cpp:
 	.text       start:0x800BE934 end:0x800BEC60
@@ -1245,37 +1248,55 @@ sysCommon/matMath.cpp:
 	.text       start:0x800BEC60 end:0x800BFC58
 	.ctors      start:0x802F5DB4 end:0x802F5DB8
 	.bss        start:0x8044EBA0 end:0x80456BE0
+	.sdata      start:0x80497B30 end:0x80497B50
+	.sdata2     start:0x8049FD78 end:0x8049FD88
 
 sysCommon/node.cpp:
 	.text       start:0x800BFC58 end:0x800BFF98
 	.ctors      start:0x802F5DB8 end:0x802F5DBC
+	.rodata     start:0x802FE180 end:0x802FE1A8
 	.data       start:0x80336108 end:0x80336138
+	.sdata      start:0x80497B50 end:0x80497B68
 	.sbss       start:0x8049EB68 end:0x8049EB70
 
 sysCommon/shapeBase.cpp:
 	.text       start:0x800BFF98 end:0x800CB984
 	.ctors      start:0x802F5DBC end:0x802F5DC0
+	.rodata     start:0x802FE1A8 end:0x802FE530
 	.data       start:0x80336138 end:0x80336278
 	.bss        start:0x80456BE0 end:0x8045ACE0
+	.sdata      start:0x80497B68 end:0x80497BF8
 	.sbss       start:0x8049EB70 end:0x8049EB80
+	.sdata2     start:0x8049FD88 end:0x8049FDD0
 
 sysCommon/shpLightFlares.cpp:
 	.text       start:0x800CB984 end:0x800CBF64
 	.ctors      start:0x802F5DC0 end:0x802F5DC4
+	.rodata     start:0x802FE530 end:0x802FE658
+	.sdata      start:0x80497BF8 end:0x80497C10
 
 sysCommon/shpObjColl.cpp:
 	.text       start:0x800CBF64 end:0x800CC2F4
 	.ctors      start:0x802F5DC4 end:0x802F5DC8
+	.rodata     start:0x802FE658 end:0x802FE720
+	.sdata      start:0x80497C10 end:0x80497C38
+	.sdata2     start:0x8049FDD0 end:0x8049FDE8
 
 sysCommon/shpRoutes.cpp:
 	.text       start:0x800CC2F4 end:0x800CD44C
 	.ctors      start:0x802F5DC8 end:0x802F5DCC
+	.rodata     start:0x802FE720 end:0x802FE838
 	.data       start:0x80336278 end:0x803362B0
+	.sdata      start:0x80497C38 end:0x80497C68
+	.sdata2     start:0x8049FDE8 end:0x8049FE10
 
 sysCommon/stdSystem.cpp:
 	.text       start:0x800CD44C end:0x800CEC24
 	.ctors      start:0x802F5DCC end:0x802F5DD0
+	.rodata     start:0x802FE838 end:0x802FE8B0
 	.data       start:0x803362B0 end:0x80336338
+	.sdata      start:0x80497C68 end:0x80497C88
+	.sdata2     start:0x8049FE10 end:0x8049FE18
 
 sysCommon/stream.cpp:
 	.text       start:0x800CEC24 end:0x800CF06C
@@ -1291,6 +1312,7 @@ sysCommon/sysMath.cpp:
 	.text       start:0x800CF398 end:0x800D5354
 	.ctors      start:0x802F5DD0 end:0x802F5DD4
 	.sdata      start:0x80497C88 end:0x80497CB8
+	.sdata2     start:0x8049FE18 end:0x8049FE48
 
 sysCommon/timers.cpp:
 	.text       start:0x800D5354 end:0x800D53C0
@@ -2470,7 +2492,10 @@ plugPikiNakata/taibasicactions.cpp:
 plugPikiNakata/taichappy.cpp:
 	.text       start:0x801CC1E4 end:0x801CE0D4
 	.ctors      start:0x802F60DC end:0x802F60E0
+	.rodata     start:0x80306328 end:0x80306380
 	.data       start:0x80345FA0 end:0x803460C0
+	.sdata      start:0x8049BAE8 end:0x8049BB18
+	.sdata2     start:0x804A1D40 end:0x804A1DC0
 
 plugPikiNakata/taicollec.cpp:
 	.text       start:0x801CE0D4 end:0x801D1288
