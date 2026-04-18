@@ -1386,7 +1386,7 @@ bool BTeki::attackTarget(Creature& target, f32 range, f32 damage, immut Conditio
 		return false;
 	}
 
-	InteractAttack attack(this, nullptr, damage, false);
+	const InteractAttack attack(this, nullptr, damage, false);
 	target.stimulate(attack);
 	return true;
 }

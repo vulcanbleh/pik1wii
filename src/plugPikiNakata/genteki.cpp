@@ -17,7 +17,7 @@ DEFINE_ERROR(13)
  * @todo: Documentation
  * @note UNUSED Size: 0000F0
  */
-DEFINE_PRINT(nullptr)
+DEFINE_PRINT("genTeki")
 
 /**
  * @todo: Documentation

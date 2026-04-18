@@ -353,18 +353,26 @@ void PaniTestNode::updatePikis()
 	}
 
 	if (mController->keyUnClick(KBBTN_A)) {
-		mTestPikiList[0]->mPikiAnimMgr.startMotion(&PaniMotionInfo(mMotionId, this), &PaniMotionInfo(mMotionId));
+		PaniMotionInfo anim1(mMotionId, this);
+		PaniMotionInfo anim2(mMotionId);
+		mTestPikiList[0]->mPikiAnimMgr.startMotion(&anim1, &anim2);
 
 		for (i = 1; i < mTestPikiCount; i++) {
-			mTestPikiList[i]->mPikiAnimMgr.startMotion(&PaniMotionInfo(mMotionId, nullptr), &PaniMotionInfo(mMotionId));
+			PaniMotionInfo anim1(mMotionId, nullptr);
+			PaniMotionInfo anim2(mMotionId);
+			mTestPikiList[i]->mPikiAnimMgr.startMotion(&anim1, &anim2);
 		}
 	}
 
 	if (mController->keyUnClick(KBBTN_X)) {
-		mTestPikiList[0]->mPikiAnimMgr.finishMotion(&PaniMotionInfo(PANI_NO_MOTION, this), &PaniMotionInfo(PANI_NO_MOTION));
+		PaniMotionInfo anim1(PANI_NO_MOTION, this);
+		PaniMotionInfo anim2(PANI_NO_MOTION);
+		mTestPikiList[0]->mPikiAnimMgr.finishMotion(&anim1, &anim2);
 
 		for (i = 1; i < mTestPikiCount; i++) {
-			mTestPikiList[i]->mPikiAnimMgr.finishMotion(&PaniMotionInfo(PANI_NO_MOTION, nullptr), &PaniMotionInfo(PANI_NO_MOTION));
+			PaniMotionInfo anim1(PANI_NO_MOTION, nullptr);
+			PaniMotionInfo anim2(PANI_NO_MOTION);
+			mTestPikiList[i]->mPikiAnimMgr.finishMotion(&anim1, &anim2);
 		}
 	}
 }
@@ -419,16 +427,16 @@ void PaniTestNode::draw(Graphics& gfx)
 {
 	mapMgr->preRender(gfx);
 
-	RectArea area1(AREA_FULL_SCREEN(gfx));
+	const RectArea area1(AREA_FULL_SCREEN(gfx));
 	gfx.setViewport(area1);
-	RectArea area2(AREA_FULL_SCREEN(gfx));
+	const RectArea area2(AREA_FULL_SCREEN(gfx));
 	gfx.setScissor(area2);
-	Colour colour1(96, 128, 255, 0);
+	const Colour colour1(96, 128, 255, 0);
 	gfx.setClearColour(colour1);
 	gfx.clearBuffer(3, false);
 
 	Matrix4f mtx1;
-	RectArea area3(AREA_FULL_SCREEN(gfx));
+	const RectArea area3(AREA_FULL_SCREEN(gfx));
 	gfx.setOrthogonal(mtx1.mMtx, area3);
 	mActiveCamera.update(f32(gfx.mScreenWidth) / f32(gfx.mScreenHeight), mActiveCamera.mFov, 1.0f, 1000.0f);
 	gfx.setCamera(&mActiveCamera);
@@ -470,13 +478,13 @@ void PaniTestNode::draw(Graphics& gfx)
 	gfx.setDepth(0);
 	gfx.setLighting(false, nullptr);
 	gfx.useTexture(mShadowTexture, GX_TEXMAP0);
-	Colour colour2(COLOUR_WHITE);
+	const Colour colour2(COLOUR_WHITE);
 	gfx.setColour(colour2, true);
 	gfx.setCBlending(blend);
 	gfx.setDepth(1);
 
 	Matrix4f mtx4;
-	RectArea area4(AREA_FULL_SCREEN(gfx));
+	const RectArea area4(AREA_FULL_SCREEN(gfx));
 	gfx.setOrthogonal(mtx4.mMtx, area4);
 	Node::draw(gfx);
 

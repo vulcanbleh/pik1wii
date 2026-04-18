@@ -94,7 +94,7 @@ bool zen::DrawHiScore::update(Controller* controller)
 	}
 	case MODE_Operation:
 	{
-		if (controller->keyClick(KBBTN_B)) {
+		if (controller->keyClick(KBBTN_A | KBBTN_B)) {
 			SeSystem::playSysSe(SYSSE_CANCEL);
 			mMode = MODE_FadeOut;
 			Colour colour(COLOUR_BLACK);
@@ -146,13 +146,13 @@ void zen::DrawHiScore::draw(Graphics& gfx)
 
 	if (check) {
 		Matrix4f mtx;
-		RectArea area1(AREA_FULL_SCREEN(gfx));
+		const RectArea area1(AREA_FULL_SCREEN(gfx));
 		gfx.setOrthogonal(mtx.mMtx, area1);
-		Colour colour1(COLOUR_BLACK);
+		const Colour colour1(COLOUR_BLACK);
 		gfx.setColour(colour1, true);
-		Colour colour2(0, 0, 64, 255);
+		const Colour colour2(0, 0, 64, 255);
 		gfx.setAuxColour(colour2);
-		RectArea area2(AREA_FULL_SCREEN(gfx));
+		const RectArea area2(AREA_FULL_SCREEN(gfx));
 		gfx.fillRectangle(area2);
 		mScreen->draw();
 	}

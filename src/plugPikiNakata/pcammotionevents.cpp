@@ -34,7 +34,7 @@ PcamLongVibrationEvent::PcamLongVibrationEvent(PcamCamera* camera)
  */
 void PcamLongVibrationEvent::makePcamLongVibrationEvent(f32 aDuration, f32 bDuration, f32 intensity, f32 frequency)
 {
-	NVector3f NRef dir = NVector3f(mCamera->getViewpoint(), mCamera->getWatchpoint());
+	NVector3f NRef dir = NVector3f( mCamera->getWatchpoint());
 	dir.normalize();
 	NOrientation NRef orient = NOrientation(dir);
 	orient.normalize();
@@ -59,7 +59,7 @@ PcamVibrationEvent::PcamVibrationEvent(PcamCamera* camera)
  */
 void PcamVibrationEvent::makePcamVibrationEvent()
 {
-	NVector3f NRef dir = NVector3f(mCamera->getViewpoint(), mCamera->getWatchpoint());
+	NVector3f NRef dir = NVector3f(mCamera->getWatchpoint());
 	dir.normalize();
 	NOrientation NRef orient = NOrientation(dir);
 	orient.normalize();
@@ -84,7 +84,7 @@ PcamDamageEvent::PcamDamageEvent(PcamCamera* camera)
  */
 void PcamDamageEvent::makePcamDamageEvent()
 {
-	NVector3f NRef dir = NVector3f(mCamera->getViewpoint(), mCamera->getWatchpoint());
+	NVector3f NRef dir = NVector3f(mCamera->getWatchpoint());
 	dir.normalize();
 	makeVibrationEvent(mVibrationDuration, &mPostureIO, dir, mVibrationAmplitude, mVibrationFrequency,
 	                   -mVibrationFrequency / mVibrationDuration);
