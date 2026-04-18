@@ -3,7 +3,7 @@
 
 #include <egg/egg_types.h>
 
-#include <egg/core/eggBitFlag.h>
+#include <egg/prim/eggBitFlag.h>
 
 namespace EGG {
 
