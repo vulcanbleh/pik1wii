@@ -1063,7 +1063,7 @@ void SnakeAi::initGointo(int nextState)
  * @todo: Documentation
  * @note UNUSED Size: 000108
  */
-void SnakeAi::initUnder(int nextState)
+inline void SnakeAi::initUnder(int nextState)
 {
 	mSnake->setNextState(nextState);
 	mSnake->setMotionFinish(false);
