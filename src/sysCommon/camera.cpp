@@ -51,9 +51,9 @@ void CullFrustum::draw(Graphics& gfx)
 	bool prevLightSetting = gfx.setLighting(false, nullptr);
 	gfx.useMatrix(gfx.mCamera->mLookAtMtx, 0);
 	gfx.useTexture(nullptr, GX_TEXMAP0);
-	Colour white1(COLOUR_WHITE);
+	const Colour white1(COLOUR_WHITE);
 	gfx.setColour(white1, true);
-	Colour white2(COLOUR_WHITE);
+	const Colour white2(COLOUR_WHITE);
 	gfx.setAuxColour(white2);
 	gfx.drawLine(mPosition, mFocus);
 
@@ -112,7 +112,7 @@ void CullFrustum::draw(Graphics& gfx)
 	Vector3f odir3(vec11.DP(mViewXAxis) + odir.x, vec11.DP(mViewYAxis) + odir.y, vec11.DP(mViewZAxis) + odir.z);
 	Vector3f odir4(vec12.DP(mViewXAxis) + odir.x, vec12.DP(mViewYAxis) + odir.y, vec12.DP(mViewZAxis) + odir.z);
 
-	Colour colour1(32, 255, 32, 128);
+	const Colour colour1(32, 255, 32, 128);
 	gfx.setColour(colour1, true);
 	gfx.drawLine(dir1, dir2);
 	gfx.drawLine(dir2, dir3);
@@ -129,7 +129,7 @@ void CullFrustum::draw(Graphics& gfx)
 	gfx.drawLine(targ3, targ4);
 	gfx.drawLine(targ4, targ1);
 
-	Colour colour2(255, 32, 32, 128);
+	const Colour colour2(255, 32, 32, 128);
 	gfx.setColour(colour2, true);
 	gfx.drawLine(odir1, odir2);
 	gfx.drawLine(odir2, odir3);
@@ -141,7 +141,7 @@ void CullFrustum::draw(Graphics& gfx)
 	gfx.drawLine(odir3, targ3);
 	gfx.drawLine(odir4, targ4);
 
-	Colour colour3(255, 0, 0, 16);
+	const Colour colour3(255, 0, 0, 16);
 	gfx.setColour(colour3, true);
 	Vector3f vec3Block1[4];
 	Vector2f vec2Block1[4];
@@ -156,7 +156,7 @@ void CullFrustum::draw(Graphics& gfx)
 	vec3Block1[3] = odir2;
 	gfx.drawOneTri(vec3Block1, nullptr, vec2Block1, 4);
 
-	Colour colour4(255, 0, 32, 16);
+	const Colour colour4(255, 0, 32, 16);
 	gfx.setColour(colour4, true);
 	vec3Block1[0] = dir3;
 	vec3Block1[1] = dir2;
@@ -164,7 +164,7 @@ void CullFrustum::draw(Graphics& gfx)
 	vec3Block1[3] = odir3;
 	gfx.drawOneTri(vec3Block1, nullptr, vec2Block1, 4);
 
-	Colour colour5(255, 0, 0, 16);
+	const Colour colour5(255, 0, 0, 16);
 	gfx.setColour(colour5, true);
 	vec3Block1[0] = dir4;
 	vec3Block1[1] = dir3;
@@ -172,7 +172,7 @@ void CullFrustum::draw(Graphics& gfx)
 	vec3Block1[3] = odir4;
 	gfx.drawOneTri(vec3Block1, nullptr, vec2Block1, 4);
 
-	Colour colour6(255, 0, 32, 16);
+	const Colour colour6(255, 0, 32, 16);
 	gfx.setColour(colour6, true);
 	vec3Block1[0] = dir1;
 	vec3Block1[1] = dir4;
@@ -476,16 +476,16 @@ void LightCamera::calcProjection(Graphics& gfx, bool p2, Node* p3)
 		f32 height = 2.0f * mLightMap->mHeight;
 		gfx.setPerspective(mPerspectiveMatrix.mMtx, mFov, mAspectRatio, 30.0f, mFar, 1.0f);
 
-		RectArea area1(-(mProjectionX * width), -(height * mProjectionY), width + (int(width * mProjectionX)),
+		const RectArea area1(-(mProjectionX * width), -(height * mProjectionY), width + (int(width * mProjectionX)),
 		                         height + (int(height * mProjectionY)));
 		gfx.setViewport(area1);
 
 		Camera* cam = gfx.mCamera;
-		Colour transparent(COLOUR_TRANSPARENT);
+		const Colour transparent(COLOUR_TRANSPARENT);
 		gfx.setClearColour(transparent);
 		gfx.clearBuffer(3, 0);
 
-		RectArea area2(4, 4, int(width) - 4, int(height) - 4);
+		const RectArea area2(4, 4, int(width) - 4, int(height) - 4);
 		gfx.setScissor(area2);
 		gfx.setFog(false);
 		gfx.setLighting(false, nullptr);

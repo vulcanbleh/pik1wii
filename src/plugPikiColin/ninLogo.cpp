@@ -21,7 +21,7 @@ DEFINE_ERROR(__LINE__) // Never used in the DLL
 /**
  * @note UNUSED Size: 0000F0
  */
-DEFINE_PRINT(nullptr);
+DEFINE_PRINT("ninLogo");
 
 /// "Would you like to display in Progressive Scan mode?" screen.
 static zen::DrawProgre* progresWindow;
@@ -43,14 +43,6 @@ struct NinLogoSetupSection : public Node {
 		mController   = new Controller(1);
 		progresWindow = nullptr;
 
-#if defined(VERSION_GPIP01_00)
-		// no progressive mode for PAL
-#else
-		if ((VIGetDTVStatus() && OSGetProgressiveMode()) || (VIGetDTVStatus() && gsys->mControllerMgr.keyDown(KBBTN_DPAD_RIGHT))) {
-			progresWindow = new zen::DrawProgre();
-			progresWindow->start();
-		}
-#endif
 		mActiveDebugMenu                 = nullptr;
 		gameflow.mGamePrefs.mHasSaveGame = true;
 		gsys->setFade(1.0f);
@@ -71,14 +63,12 @@ struct NinLogoSetupSection : public Node {
 		if (progresWindow) {
 			zen::DrawProgre::returnStatusFlag scanMode = progresWindow->update(mController);
 			if (scanMode == zen::DrawProgre::RETSTATE_Progressive) {
-				OSSetProgressiveMode(TRUE);
 				gsys->mDGXGfx->mRenderMode = 1;
 				gsys->mDGXGfx->videoReset();
 				progresWindow = nullptr;
 				return;
 			}
 			if (scanMode == zen::DrawProgre::RETSTATE_Interlaced) {
-				OSSetProgressiveMode(FALSE);
 				progresWindow = nullptr;
 				return;
 			}
@@ -95,21 +85,21 @@ struct NinLogoSetupSection : public Node {
 	 */
 	virtual void draw(Graphics& gfx) // _14
 	{
-		RectArea area1(AREA_FULL_SCREEN(gfx));
+		const RectArea area1(AREA_FULL_SCREEN(gfx));
 		gfx.setViewport(area1);
-		RectArea area2(AREA_FULL_SCREEN(gfx));
+		const RectArea area2(AREA_FULL_SCREEN(gfx));
 		gfx.setScissor(area2);
-		Colour transparent(COLOUR_TRANSPARENT);
+		const Colour transparent(COLOUR_TRANSPARENT);
 		gfx.setClearColour(transparent);
 		gfx.clearBuffer(3, false);
 
 		// draw debug menu or progressive scan choice screen full-screen
 		Matrix4f orthoMtx;
-		RectArea area3(AREA_FULL_SCREEN(gfx));
+		const RectArea area3(AREA_FULL_SCREEN(gfx));
 		gfx.setOrthogonal(orthoMtx.mMtx, area3);
-		Colour colour1(255, 255, 64, 255);
+		const Colour colour1(255, 255, 64, 255);
 		gfx.setColour(colour1, true);
-		Colour colour2(255, 0, 64, 255);
+		const Colour colour2(255, 0, 64, 255);
 		gfx.setAuxColour(colour2);
 
 		if (mActiveDebugMenu) {
@@ -120,9 +110,6 @@ struct NinLogoSetupSection : public Node {
 
 		// keep Nintendo logo open while progressive scan mode choice is going
 		gameflow.drawLoadLogo(gfx, false, gameflow.mLevelBannerTex, gameflow.mLevelBannerFadeValue);
-
-		// either this is a lot of inlines or there's a lot of debug stuff here.
-		STACK_PAD_VAR(64);
 	}
 
 	/**

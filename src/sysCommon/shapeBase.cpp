@@ -1975,7 +1975,7 @@ void BaseShape::drawculled(Graphics& gfx, Camera& cam, ShapeDynMaterials* dynMat
 		for (int i = 0; i < mJointCount; i++) {
 			gfx.useMatrix(gfx.mCamera->mLookAtMtx, 0);
 			gfx.useTexture(nullptr, GX_TEXMAP0);
-			Colour colour(255, 32, 32, 255);
+			const Colour colour(255, 32, 32, 255);
 			gfx.setColour(colour, true);
 			bool lighting = gfx.setLighting(false, nullptr);
 			mJointList[i].mBounds.draw(gfx);
@@ -1986,7 +1986,7 @@ void BaseShape::drawculled(Graphics& gfx, Camera& cam, ShapeDynMaterials* dynMat
 			if (cam.isBoundVisible(box, 0x8000 | 0x10 | 0x20 | 0x1 | 0x2 | 0x4 | 0x8)) {
 				bool lighting = gfx.setLighting(false, nullptr);
 				gfx.useMatrix(Matrix4f::ident, 0);
-				Colour colour2(COLOUR_WHITE);
+				const Colour colour2(COLOUR_WHITE);
 				gfx.setColour(colour2, true);
 				int blend = gfx.setCBlending(BLEND_Alpha);
 				Vector3f centre((box.mMax.x + box.mMin.x) * 0.5f, (box.mMax.y + box.mMin.y) * 0.5f + 10.0f,

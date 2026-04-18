@@ -49,7 +49,7 @@ void LightPool::draw(Graphics& gfx)
 
 	// draw "box" - rectangle showing the light's "beam" from its camera to the focus
 	gfx.useTexture(mBeamTexture, GX_TEXMAP0);
-	Colour colour1(255, 255, 64, 64);
+	const Colour colour1(255, 255, 64, 64);
 	gfx.setColour(colour1, true);
 	gfx.setColour(mColour, true);
 
@@ -89,7 +89,7 @@ void LightPool::draw(Graphics& gfx)
 	gfx.useMatrix(gfx.mCamera->mLookAtMtx, 0);
 	gfx.useTexture(mParticleTexture, GX_TEXMAP0);
 	gfx.setCBlending(BLEND_AdditiveNoZ);
-	Colour colour2(COLOUR_WHITE);
+	const Colour colour2(COLOUR_WHITE);
 	gfx.setColour(colour2, true);
 
 	if (gfx.initParticle(true)) {

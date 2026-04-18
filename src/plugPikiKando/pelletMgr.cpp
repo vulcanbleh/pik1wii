@@ -334,7 +334,7 @@ bool Pellet::isVisible()
 		return false;
 	}
 
-	if (state == PELSTATE_Goal || state == PELSTATE_Appear || state == PELSTATE_Dead) {
+	if (state == PELSTATE_Appear || state ==  PELSTATE_Goal || state == PELSTATE_Dead) {
 		return false;
 	}
 	return true;
@@ -474,14 +474,18 @@ void Pellet::doCarry(Creature* carryingPiki, immut Vector3f& direction, u16 carr
 		}
 
 		if (mPikiCarrier->getStickObject() == this && mCarrierCount > carrierCount) {
+#ifdef DEVELOP
 			PRINT("%s win\n", ObjType::getName(mPikiCarrier->mObjType));
+#endif
 			return;
 		}
 
 		mCarryDirection = direction;
 		mPikiCarrier    = carryingPiki;
 		mCarrierCount   = carrierCount;
+#ifdef DEVELOP
 		PRINT("%s win\n", ObjType::getName(mPikiCarrier->mObjType));
+#endif
 		mCarryState      = 1;
 		mTransitionTimer = 3.5f;
 
@@ -880,7 +884,8 @@ void Pellet::finishMotion()
 	if (mPelletView) {
 		mPelletView->viewFinishMotion();
 	} else {
-		mAnimator.finishMotion(&PaniMotionInfo(PANI_NO_MOTION), nullptr);
+		PaniMotionInfo info(PANI_NO_MOTION);
+		mAnimator.finishMotion(&info, nullptr);
 	}
 }
 
@@ -1068,25 +1073,6 @@ void Pellet::startAI(int doSpawnScaleOff)
 
 	mIsAIActive = true;
 }
-
-#if defined(VERSION_GPIJ01_01)
-// see PelletBounceSoundID in Pellet.h
-static u32 bounceSounds[] = {
-	SE_PELLET_BOUND,   SE_UFOPARTS_BOUND, SE_UFOPARTS_SPRING, SE_UFOPARTS_MONEYBOX, SE_UFOPARTS_BOUND, SE_UFOPARTS_BOUND,
-	SE_UFOPARTS_BOUND, SE_UFOPARTS_BOUND, SE_UFOPARTS_BOUND,  SE_UFOPARTS_BOUND,    SE_UFOPARTS_BOUND, SE_UFOPARTS_BOUND,
-};
-
-NumberPel numberPellets[13] = {
-	{ PELCOLOR_Blue, NUMPEL_OnePellet, 'pb01' },   { PELCOLOR_Blue, NUMPEL_FivePellet, 'pb05' },
-	{ PELCOLOR_Blue, NUMPEL_TenPellet, 'pb10' },   { PELCOLOR_Blue, NUMPEL_TwentyPellet, 'pb20' },
-	{ PELCOLOR_Red, NUMPEL_OnePellet, 'pr01' },    { PELCOLOR_Red, NUMPEL_FivePellet, 'pr05' },
-	{ PELCOLOR_Red, NUMPEL_TenPellet, 'pr10' },    { PELCOLOR_Red, NUMPEL_TwentyPellet, 'pr20' },
-	{ PELCOLOR_Yellow, NUMPEL_OnePellet, 'py01' }, { PELCOLOR_Yellow, NUMPEL_FivePellet, 'py05' },
-	{ PELCOLOR_Yellow, NUMPEL_TenPellet, 'py10' }, { PELCOLOR_Yellow, NUMPEL_TwentyPellet, 'py20' },
-	{ PELCOLOR_NULL, NUMPEL_NULL, 'ujaa' },
-};
-#else
-#endif
 
 /**
  * @todo: Documentation
@@ -1322,7 +1308,8 @@ void Pellet::update()
 		}
 
 		f32 angle = angDist(atan2f(mVelocity.x, mVelocity.z), targetAngle);
-		if (absF(angle) > PI / 20.0f) {
+		f32 pidiv = PI / 20.0f;
+		if (absF(angle) > pidiv) {
 			f32 val = ((6.0f / getBottomRadius()) * 0.7f);
 			rotateY(gsys->getFrameTime() * angle * val);
 		}
