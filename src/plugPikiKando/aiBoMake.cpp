@@ -102,9 +102,9 @@ void ActBoMake::initWork()
 	}
 
 	mPiki->startStickObject(mBuildObject, mBuildObject->mCollInfo->getSphere('cent'), -1, 0.0f);
-	PaniMotionInfo anim1(PIKIANIM_Kuttuku, this);
 	PaniMotionInfo anim2(PIKIANIM_Kuttuku);
-	mPiki->startMotion(anim1, anim2);
+	PaniMotionInfo anim1(PIKIANIM_Kuttuku, this);
+	mPiki->startMotion(anim2, anim1);
 }
 
 /**

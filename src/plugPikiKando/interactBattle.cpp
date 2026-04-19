@@ -170,7 +170,7 @@ bool InteractBubble::actPiki(Piki* piki) immut
 
 	int state = piki->getState();
 
-	if (state == PIKISTATE_Dying || state == PIKISTATE_Dead || state == PIKISTATE_Bubble) {
+	if (state == PIKISTATE_Dead || state == PIKISTATE_Dying || state == PIKISTATE_Bubble) {
 		return false;
 	}
 
@@ -220,7 +220,7 @@ bool InteractWind::actPiki(Piki* piki) immut
 	}
 
 	int state = piki->getState();
-	if (state == PIKISTATE_Dying || state == PIKISTATE_Drown || state == PIKISTATE_Flown) {
+	if (state == PIKISTATE_Flown || state == PIKISTATE_Dying || state == PIKISTATE_Drown) {
 		return false;
 	}
 
@@ -397,8 +397,8 @@ bool InteractAttack::actPiki(Piki* piki) immut
 		piki->finishDamage();
 		piki->mFSM->transit(piki, PIKISTATE_Dying);
 	} else {
-		PaniMotionInfo anim1(PIKIANIM_Damage, piki);
-		PaniMotionInfo anim2(PIKIANIM_Damage);
+		PaniMotionInfo anim1(PIKIANIM_Damage);
+		PaniMotionInfo anim2(PIKIANIM_Damage, piki);
 		piki->startMotion(anim1, anim2);
 	}
 	return true;

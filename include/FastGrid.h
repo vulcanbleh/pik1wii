@@ -44,7 +44,6 @@ struct FastGrid {
 	s16 mHeight;        // _10
 	u16 _12;            // _12
 	u16 mNeighbourSize; // _14
-	u16 _16;            // _16
 };
 
 #endif

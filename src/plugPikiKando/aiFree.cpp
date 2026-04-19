@@ -70,8 +70,8 @@ void ActFree::exeBoid()
 		mIsBoidActive       = false;
 		mPiki->mTargetVelocity.set(0.0f, 0.0f, 0.0f);
 		if (mPiki->isHolding() && mPiki->mPikiAnimMgr.getUpperAnimator().getCurrentMotionIndex() != PIKIANIM_Pick) {
-			PaniMotionInfo anim1(PIKIANIM_Pick, this);
-			PaniMotionInfo anim2(PIKIANIM_Pick);
+			PaniMotionInfo anim1(PIKIANIM_Pick);
+			PaniMotionInfo anim2(PIKIANIM_Pick, this);
 			mPiki->startMotion(anim1, anim2);
 			mPiki->mPikiAnimMgr.getUpperAnimator().mAnimationCounter = 18.0f;
 			mPiki->mPikiAnimMgr.getLowerAnimator().mAnimationCounter = 18.0f;
@@ -96,8 +96,8 @@ void ActFree::init(Creature*)
 	mPiki->mTargetVelocity.set(0.0f, 0.0f, 0.0f);
 	if (mPiki->isHolding()) {
 		PRINT("### piki is holding !\n");
-		PaniMotionInfo anim1(PIKIANIM_Wait, this);
-		PaniMotionInfo anim2(PIKIANIM_Wait);
+		PaniMotionInfo anim1(PIKIANIM_Wait);
+		PaniMotionInfo anim2(PIKIANIM_Wait, this);
 		mPiki->startMotion(anim1, anim2);
 	} else {
 		f32 r         = gsys->getRand(1.0f);
@@ -105,8 +105,8 @@ void ActFree::init(Creature*)
 		if (motionIdx >= numMotions) {
 			motionIdx = 0;
 		}
-		PaniMotionInfo anim1(motions[motionIdx], this);
-		PaniMotionInfo anim2(motions[motionIdx]);
+		PaniMotionInfo anim1(motions[motionIdx]);
+		PaniMotionInfo anim2(motions[motionIdx], this);
 		mPiki->startMotion(anim1, anim2);
 	}
 
@@ -136,21 +136,11 @@ void ActFree::init(Creature*)
  */
 void ActFree::cleanup()
 {
-	// This might not be right but its the only way the stack will co-operate with the error
-#if defined(VERSION_GPIJ01_01)
-	mPiki->mCreatureFlags &= ~CF_AllowFixPosition;
-#else
 	mPiki->disableFixPos();
-#endif
 	mPiki->mCreatureFlags &= ~CF_IsPositionFixed;
 	mPiki->mFreeLightEffect->kill();
 	GameStat::workPikis.inc(mPiki->mColor);
 	GameStat::freePikis.dec(mPiki->mColor);
-#if defined(VERSION_GPIJ01_01)
-	if (GameStat::freePikis < 0) {
-		ERROR("counter minus(fp)");
-	}
-#endif
 	GameStat::update();
 }
 
@@ -167,7 +157,6 @@ void ActFree::animationKeyUpdated(immut PaniAnimKeyEvent&)
 int ActFree::exec()
 {
 	Creature* target;
-	STACK_PAD_VAR(23); // huh.
 
 	if (mCollisionCooldownTimer > 0.0f) {
 		mCollisionCooldownTimer -= gsys->getFrameTime();

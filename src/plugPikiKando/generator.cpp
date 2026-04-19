@@ -543,8 +543,9 @@ void Generator::loadCreature(RandomAccessStream& input)
 void Generator::saveCreature(RandomAccessStream& output)
 {
 	if (mLatestSpawnCreature) {
+#ifdef DEVELOP
 		PRINT("SAVING CREATURE %s\n", ObjType::getName(mLatestSpawnCreature->mObjType));
-
+#endif
 		if (mCarryOverFlags & GENCARRY_SaveProperties) {
 			mLatestSpawnCreature->save(output, true);
 		} else {
@@ -648,8 +649,10 @@ void Generator::informDeath(Creature* creature)
 
 	if (creature->mObjType == OBJTYPE_Teki) {
 		int count = mAliveCount;
+#ifdef DEVELOP
 		PRINT("GENERATOR * CREATURE(%s/%s) DEAD : %d\n", ObjType::getName(creature->mObjType),
 		      TekiMgr::getTypeName(static_cast<Teki*>(creature)->mTekiType), count);
+#endif
 	}
 
 	if (mAliveCount <= 0) {
@@ -734,9 +737,10 @@ void Generator::read(RandomAccessStream& input)
 		mLatestSpawnDay  = input.readShort();
 		mRespawnInterval = input.readShort();
 		mDayLimit        = input.readShort();
-
+#ifdef DEVELOP
 		PRINT("****** GENERATOR READ @ %d (count=%d saveday=%d interval=%d limit=%d)\n", input.getPosition(), mAliveCount, mLatestSpawnDay,
 		      mRespawnInterval, mDayLimit);
+#endif
 	}
 
 	if (ramMode) {
@@ -821,8 +825,10 @@ void Generator::write(RandomAccessStream& output)
 		output.writeShort(mLatestSpawnDay);
 		output.writeShort(getRebirthDay());
 		output.writeShort(mDayLimit);
+#ifdef DEVELOP
 		PRINT("****** GENERATOR WRITE @ %d (count=%d saveday=%d interval=%d limit=%d)\n", output.getPosition(), mAliveCount,
 		      mLatestSpawnDay, getRebirthDay(), mDayLimit);
+#endif
 	}
 
 	if (ramMode) {

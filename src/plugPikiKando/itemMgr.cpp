@@ -483,10 +483,10 @@ void ItemMgr::initialise()
 
 	registerClass(OBJTYPE_Seed, new SeedItem(new SeedProp(), seedShapes), sizeof(SeedItem));
 
-	registerClass(OBJTYPE_Key, new KeyItem(new KeyProp(), keyShape), sizeof(KeyItem));
+	registerClass(OBJTYPE_Key, new KeyItem(new KeyProp(), nullptr), sizeof(KeyItem));
 
-	registerClass(OBJTYPE_Door, new DoorItem(OBJTYPE_Door, new DoorProp(), doorShape), sizeof(DoorItem));
-	registerClass(OBJTYPE_Gate, new DoorItem(OBJTYPE_Gate, new DoorProp(), gateShape), sizeof(DoorItem));
+	registerClass(OBJTYPE_Door, new DoorItem(OBJTYPE_Door, new DoorProp(), nullptr), sizeof(DoorItem));
+	registerClass(OBJTYPE_Gate, new DoorItem(OBJTYPE_Gate, new DoorProp(), nullptr), sizeof(DoorItem));
 	registerClass(OBJTYPE_BombGen, new BombGenItem(nullptr), sizeof(BombGenItem));
 
 	if (useObjType(OBJTYPE_Kusa)) {
@@ -875,19 +875,6 @@ bool InteractBomb::actItem(ItemCreature* item) immut
 		}
 		return true;
 	}
-
-	if (item->mObjType == OBJTYPE_Bomb) {
-		BombItem* bomb = static_cast<BombItem*>(item);
-		int state      = item->mStateMachine->getCurrID(item);
-		PRINT("bomb got bomb interaction!\n");
-		if (state != BombAI::BOMB_Bomb && state != BombAI::BOMB_Mizu && state != BombAI::BOMB_Die) {
-			MsgUser msg(1);
-			PRINT("bomb renbaku!\n");
-			item->mCurrAnimId = 1;
-			C_SAI(item)->procMsg(item, &msg);
-		}
-	}
-
 	return false;
 }
 

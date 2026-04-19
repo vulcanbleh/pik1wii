@@ -21,7 +21,7 @@ DEFINE_ERROR(10)
  * @todo: Documentation
  * @note UNUSED Size: 0000F0
  */
-DEFINE_PRINT(nullptr);
+DEFINE_PRINT("dynC");
 
 DynParticleHeap* particleHeap;
 
@@ -172,12 +172,6 @@ void DynCreature::addParticle(f32 mass, immut Vector3f& position)
 
 		mMass += mass;
 		mParticleCount++;
-	} else {
-#if defined(VERSION_GPIE01_00) || defined(VERSION_GPIE01_01) || defined(VERSION_GPIP01_00)
-#else
-		PRINT("PARTICLE ADD FAILED ! (%s)\n", ObjType::getName(mObjType));
-		ERROR("ZANNEN !\n");
-#endif
 	}
 }
 
@@ -496,18 +490,18 @@ void DynCreature::refresh(Graphics& gfx)
 	gfx.useMatrix(mtx2, 0);
 
 	gfx.useTexture(nullptr, GX_TEXMAP0);
-	Colour colour1(0, 255, 0, 255);
+	const Colour colour1(0, 255, 0, 255);
 	gfx.setColour(colour1, true);
 
 	for (DynParticle* ptcl = mParticleList; ptcl; ptcl = ptcl->mNextParticle) {
 		bool isLight = gfx.setLighting(false, nullptr);
-		Colour colour(0, 255, 100, 255);
+		const Colour colour(0, 255, 100, 255);
 		gfx.setColour(colour, true);
 		drawCube(gfx, ptcl->mWorldPosition, 2.0f);
 		gfx.setLighting(isLight, nullptr);
 	}
 
-	Colour colour2(255, 100, 0, 255);
+	const Colour colour2(255, 100, 0, 255);
 	gfx.setColour(colour2, true);
 	Vector3f vec(0.0f, 0.0f, 0.0f);
 	gfx.drawSphere(vec, 4.0f, mtx2);

@@ -45,6 +45,7 @@
 #include "teki.h"
 #include "zen/Math.h"
 #include "zen/ogTutorial.h"
+#include "RevoSDK/wpad.h"
 
 bool DelayPikiBirth = true;
 
@@ -476,8 +477,8 @@ Navi::Navi(CreatureProp* props, int naviID)
 	_818              = 1.0f;
 	_810              = 0;
 	mFormationPriMode = 0;
-	PaniMotionInfo anim1(PIKIANIM_Walk, this);
-	PaniMotionInfo anim2(PIKIANIM_Walk);
+	PaniMotionInfo anim1(PIKIANIM_Walk);
+	PaniMotionInfo anim2(PIKIANIM_Walk, this);
 	startMotion(anim1, anim2);
 
 	f32 s = 1.0f;
@@ -768,17 +769,16 @@ void Navi::updateWalkAnimation()
 		if (currLowerMotionID == PIKIANIM_Wait || currLowerMotionID == PIKIANIM_Asibumi || desiredLowerMotionID == PIKIANIM_Wait
 		    || desiredLowerMotionID == PIKIANIM_Asibumi) {
 			if (!doMotionBlend()) {
-				PaniMotionInfo anim1(desiredLowerMotionID);
-				PaniMotionInfo anim2(desiredLowerMotionID, motionListener);
+				PaniMotionInfo anim1(desiredLowerMotionID, motionListener);
+				PaniMotionInfo anim2(desiredLowerMotionID);
 				startMotion(anim1, anim2);
 			} else {
 				PaniMotionInfo anim(desiredLowerMotionID, motionListener);
 				mNaviAnimMgr.getLowerAnimator().startMotion(anim);
 			}
 		} else if (!doMotionBlend()) {
-			
-			PaniMotionInfo anim1(desiredLowerMotionID);
-			PaniMotionInfo anim2(desiredLowerMotionID, motionListener);
+			PaniMotionInfo anim1(desiredLowerMotionID, motionListener);
+			PaniMotionInfo anim2(desiredLowerMotionID);
 			swapMotion(anim1, anim2);
 		} else {
 			f32 savedLowerAnimCounter = mNaviAnimMgr.getLowerAnimator().mAnimationCounter;
@@ -813,6 +813,7 @@ void Navi::update()
 			PRINT("mapY %.1f srt.t.y %.1f\n", maxY, mSRT.t.y);
 			PRINT("navi almost fall !\n");
 			mSRT.t.y = maxY;
+			mVelocity.y = 0.0f;
 		}
 	}
 
@@ -820,6 +821,10 @@ void Navi::update()
 	if (movieMode()) {
 		mVolatileVelocity.set(0.0f, 0.0f, 0.0f);
 		return;
+	}
+	
+	if (_360 > 0){
+		_360 -= 1;
 	}
 
 	if (mIsPlucking) {
@@ -1108,6 +1113,7 @@ void Navi::callPikis(f32 radius)
  */
 void Navi::callDebugs(f32 radius)
 {
+#ifdef DEVELOP
 	Iterator iterPiki(pikiMgr);
 	int pikiCount = 0;
 	CI_LOOP(iterPiki)
@@ -1141,6 +1147,7 @@ void Navi::callDebugs(f32 radius)
 			tekiCount++;
 		}
 	}
+#endif
 }
 
 /**
@@ -1357,6 +1364,7 @@ bool Navi::procActionButton()
 					if (idx == -1) {
 						ERROR("WHY !! THIS IS NOT UFO PARTS!!\n");
 					}
+					OSReport("id = [%s]\n", pellet->mConfig->mModelId.mStringID);
 					mSelectedShipPart = pellet;
 					mStateMachine->transit(this, NAVISTATE_PartsAccess);
 					return true;
@@ -2233,6 +2241,12 @@ bool InteractBury::actNavi(Navi* navi) immut
 	if (state->invincible(navi)) {
 		return false;
 	}
+	
+	if (navi->_360 > 0) {
+		return false;
+	}
+	
+	navi->_360 = 60;
 
 	navi->mStateMachine->transit(navi, NAVISTATE_Bury);
 	rumbleMgr->start(RUMBLE_Unk1, 0, nullptr);
@@ -2256,6 +2270,12 @@ bool InteractWind::actNavi(Navi* navi) immut
 	if (state->invincible(navi)) {
 		return false;
 	}
+	
+	if (navi->_360 > 0) {
+		return false;
+	}
+	
+	navi->_360 = 60;
 
 	navi->mVelocity       = mVelocity;
 	navi->mTargetVelocity = mVelocity;
@@ -2282,6 +2302,12 @@ bool InteractSuck::actNavi(Navi* navi) immut
 	if (navi->mStateMachine->getNaviState(navi)->invincible(navi)) {
 		return false;
 	}
+	
+	if (navi->_360 > 0) {
+		return false;
+	}
+	
+	navi->_360 = 60;
 
 	PRINT_GLOBAL("invicible check false");
 	navi->mHealth -= mDamage;
@@ -2310,27 +2336,33 @@ bool InteractAttack::actNavi(Navi* navi) immut
 	if (navi->isDamaged()) {
 		return false;
 	}
+	
+	if (navi->_360 > 0) {
+		return false;
+	}
+	
+	navi->_360 = 60;
 
 	if (!navi->startDamage()) {
 		return false;
 	}
 
 	rumbleMgr->start(RUMBLE_Unk1, 0, nullptr);
-	SeSystem::playPlayerSe(SE_DAMAGED);
 	navi->mHealth -= mDamage;
 	navi->mLifeGauge.updValue(navi->mHealth, C_NAVI_PROP(navi).mHealth());
 	if (navi->mHealth <= 1.0f) {
 		GameCoreSection::startPause(COREPAUSE_Unk1 | COREPAUSE_Unk3 | COREPAUSE_Unk16);
 		PRINT("ATTACK DEAD ******\n");
 	} else {
-		PaniMotionInfo anim1(PIKIANIM_Damage, navi);
-		PaniMotionInfo anim2(PIKIANIM_Damage);
+		PaniMotionInfo anim1(PIKIANIM_Damage);
+		PaniMotionInfo anim2(PIKIANIM_Damage, navi);
 		navi->startMotion(anim1, anim2);
+		WPADControlMotor(WPAD_CHAN0, WPAD_MOTOR_RUMBLE);
 	}
 
 	PRINT("navi got attack interaction!\n");
-	PaniMotionInfo anim1(PIKIANIM_Damage, navi);
-	PaniMotionInfo anim2(PIKIANIM_Damage);
+	PaniMotionInfo anim1(PIKIANIM_Damage);
+	PaniMotionInfo anim2(PIKIANIM_Damage, navi);
 	navi->startMotion(anim1, anim2);
 	return true;
 }
@@ -2347,6 +2379,12 @@ bool InteractPress::actNavi(Navi* navi) immut
 	if (navi->mStateMachine->getNaviState(navi)->invincible(navi)) {
 		return false;
 	}
+	
+	if (navi->_360 > 0) {
+		return false;
+	}
+	
+	navi->_360 = 60;
 
 	rumbleMgr->start(RUMBLE_Unk1, 0, nullptr);
 	navi->mHealth -= mDamage;
@@ -2368,6 +2406,12 @@ bool InteractPress::actNavi(Navi* navi) immut
 bool InteractSwallow::actNavi(Navi* navi) immut
 {
 	PRINT("NAVI GOT SWALLOW INTERACTION !\n");
+	if (navi->_360 > 0) {
+		return false;
+	}
+	
+	navi->_360 = 60;
+	
 	if (!navi->startDamage()) {
 		return false;
 	}
@@ -2378,18 +2422,16 @@ bool InteractSwallow::actNavi(Navi* navi) immut
 
 	rumbleMgr->start(RUMBLE_Unk1, 0, nullptr);
 	navi->mHealth -= 10.0f;
-	SeSystem::playPlayerSe(SE_DAMAGED);
-	navi->startDamageEffect();
 	if (navi->mHealth <= 1.0f) {
 		GameCoreSection::startPause(COREPAUSE_Unk1 | COREPAUSE_Unk3 | COREPAUSE_Unk16);
 		PRINT("SWALLOW DEAD ******\n");
 	} else {
-		PaniMotionInfo anim1(PIKIANIM_Damage, navi);
-		PaniMotionInfo anim2(PIKIANIM_Damage);
+		PaniMotionInfo anim1(PIKIANIM_Damage);
+		PaniMotionInfo anim2(PIKIANIM_Damage, navi);
 		navi->startMotion(anim1, anim2);
 	}
-	PaniMotionInfo anim1(PIKIANIM_Damage, navi);
-	PaniMotionInfo anim2(PIKIANIM_Damage);
+	PaniMotionInfo anim1(PIKIANIM_Damage);
+	PaniMotionInfo anim2(PIKIANIM_Damage, navi);
 	navi->startMotion(anim1, anim2);
 
 	navi->mLifeGauge.updValue(navi->mHealth, C_NAVI_PROP(navi).mHealth());
@@ -2404,13 +2446,18 @@ bool InteractBomb::actNavi(Navi* navi) immut
 	if (navi->mStateMachine->getNaviState(navi)->invincible(navi)) {
 		return false;
 	}
+	
+	if (navi->_360 > 0) {
+		return false;
+	}
+	
+	navi->_360 = 60;
 
 	if (navi->mStateMachine->getCurrID(navi) == NAVISTATE_PikiZero) {
 		return false;
 	}
 
 	rumbleMgr->start(RUMBLE_Unk1, 0, nullptr);
-	SeSystem::playPlayerSe(SE_DAMAGED);
 	navi->mHealth -= mDamage;
 	navi->mLifeGauge.updValue(navi->mHealth, C_NAVI_PROP(navi).mHealth());
 	navi->startDamageEffect();
@@ -2445,6 +2492,12 @@ bool InteractFlick::actNavi(Navi* navi) immut
 	if (navi->mStateMachine->getNaviState(navi)->invincible(navi)) {
 		return false;
 	}
+	
+	if (navi->_360 > 0) {
+		return false;
+	}
+	
+	navi->_360 = 60;
 
 	if (mDamage > 0.0f) {
 		rumbleMgr->start(RUMBLE_Unk10, 0, nullptr);
@@ -2453,7 +2506,6 @@ bool InteractFlick::actNavi(Navi* navi) immut
 		rumbleMgr->start(RUMBLE_Unk10, 0, nullptr);
 	}
 
-	SeSystem::playPlayerSe(SE_DAMAGED);
 	navi->mHealth -= mDamage;
 	navi->mLifeGauge.updValue(navi->mHealth, C_NAVI_PROP(navi).mHealth());
 	navi->mFlickIntensity = mIntensity;
@@ -2475,11 +2527,16 @@ bool InteractBubble::actNavi(Navi* navi) immut
 	if (navi->mStateMachine->getNaviState(navi)->invincible(navi)) {
 		return false;
 	}
+	
+	if (navi->_360 > 0) {
+		return false;
+	}
+	
+	navi->_360 = 60;
 
 	navi->mHealth -= mDamage;
 	navi->mLifeGauge.updValue(navi->mHealth, C_NAVI_PROP(navi).mHealth());
 	rumbleMgr->start(RUMBLE_Unk1, 0, nullptr);
-	SeSystem::playPlayerSe(SE_FIRED);
 	navi->startDamageEffect();
 	if (navi->mHealth <= 1.0f) {
 		GameCoreSection::startPause(COREPAUSE_Unk1 | COREPAUSE_Unk3 | COREPAUSE_Unk16);
@@ -2497,6 +2554,12 @@ bool InteractFire::actNavi(Navi* navi) immut
 	if (navi->mStateMachine->getNaviState(navi)->invincible(navi)) {
 		return false;
 	}
+	
+	if (navi->_360 > 0) {
+		return false;
+	}
+	
+	navi->_360 = 60;
 
 	navi->mHealth -= mDamage;
 	navi->mLifeGauge.updValue(navi->mHealth, C_NAVI_PROP(navi).mHealth());

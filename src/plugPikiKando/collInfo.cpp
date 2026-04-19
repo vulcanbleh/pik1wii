@@ -253,7 +253,9 @@ bool CollPart::isStickable()
 
 	if (isPlatformType()) {
 		if (getCode().match('c***')) {
+#ifdef DEVELOP
 			PRINT("collide with code c**** : code(%s) id(%s)\n", getCode().mStringID, getID().mStringID);
+#endif
 			return false;
 		}
 
@@ -440,32 +442,32 @@ void CollPart::update(Graphics& gfx, bool drawDebug)
 		switch (mPartType) {
 		case PART_BoundSphere:
 		{
-			Colour colour1(255, 180, 180, 255);
+			const Colour colour1(255, 180, 180, 255);
 			gfx.setColour(colour1, true); // pink
 			break;
 		}
 		case PART_Collision:
 		{
-			Colour colour2(255, 0, 0, 255);
+			const Colour colour2(255, 0, 0, 255);
 			gfx.setColour(colour2, true); // red
 			break;
 		}
 		case PART_Tube:
 		case PART_TubeChild:
 		{
-			Colour colour3(255, 0, 255, 255);
+			const Colour colour3(255, 0, 255, 255);
 			gfx.setColour(colour3, true); // purple
 			break;
 		}
 		case PART_Reference:
 		{
-			Colour colour4(255, 215, 20, 255);
+			const Colour colour4(255, 215, 20, 255);
 			gfx.setColour(colour4, true); // yellow
 			break;
 		}
 		case PART_Platform: // this is never called
 		{
-			Colour colour5(50, 150, 255, 255);
+			const Colour colour5(50, 150, 255, 255);
 			gfx.setColour(colour5, true); // blue
 			break;
 		}
