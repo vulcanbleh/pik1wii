@@ -81,7 +81,6 @@ struct MapSelectSetupSection : public Node {
 		makeMapsMenu();
 
 		parent.mReturnMenu = mMapListMenu;
-		STACK_PAD_TERNARY(parent.mReturnMenu, 1);
 	}
 
 	/**
@@ -99,7 +98,6 @@ struct MapSelectSetupSection : public Node {
 		makeMapsMenu();
 
 		parent.mReturnMenu = mMapListMenu;
-		STACK_PAD_TERNARY(parent.mReturnMenu, 1);
 	}
 
 	/// Constructs map select debug menu, adding any stages that are open (and marked visible in their .ini files).
@@ -110,7 +108,7 @@ struct MapSelectSetupSection : public Node {
 		mMapListMenu->mCenterPoint.mMinY = glnHeight / 2 + 30;
 
 		// select with A or START
-		mMapListMenu->addKeyEvent(Menu::KeyEventType::OnConfirm, KBBTN_START | KBBTN_A,
+		mMapListMenu->addKeyEvent(Menu::KeyEventType::OnConfirm, KBBTN_A,
 		                          new Delegate1<MapSelectSetupSection, Menu&>(this, &MapSelectSetupSection::menuSelectOption));
 
 		// exit menu/submenu with B
@@ -133,8 +131,6 @@ struct MapSelectSetupSection : public Node {
 				}
 			}
 		}
-
-		STACK_PAD_VAR(2);
 	}
 
 	/**
@@ -195,12 +191,8 @@ struct MapSelectSetupSection : public Node {
 			bool old = gsys->mTogglePrint != FALSE;
 			// you wanna hear this, I promise - Colin, probably.
 			gsys->mTogglePrint = TRUE;
-#if defined(VERSION_PIKIDEMO)
-			_Print("opening map window with %d : %d\n", gameflow.mPendingStageUnlockID, gameflow.mCurrentStageID);
-#else
 			(gameflow.mCurrentStageID != 0); // huh?
 			PRINT("opening map window with %d : %d\n", gameflow.mPendingStageUnlockID, gameflow.mCurrentStageID);
-#endif
 			gsys->mTogglePrint = old;
 
 			// start world map screen, including the right cursor location and any unlock animations
@@ -323,22 +315,22 @@ struct MapSelectSetupSection : public Node {
 	virtual void draw(Graphics& gfx) // _14 (weak)
 	{
 		// full-screen
-		RectArea area1(AREA_FULL_SCREEN(gfx));
+		const RectArea area1(AREA_FULL_SCREEN(gfx));
 		gfx.setViewport(area1);
-		RectArea area2(AREA_FULL_SCREEN(gfx));
+		const RectArea area2(AREA_FULL_SCREEN(gfx));
 		gfx.setScissor(area2);
-		Colour colour1(COLOUR_TRANSPARENT);
+		const Colour colour1(COLOUR_TRANSPARENT);
 		gfx.setClearColour(colour1);
 		gfx.clearBuffer(3, false);
 		Matrix4f orthoMtx;
-		RectArea area3(AREA_FULL_SCREEN(gfx));
+		const RectArea area3(AREA_FULL_SCREEN(gfx));
 		gfx.setOrthogonal(orthoMtx.mMtx, area3);
-		Colour colour2(COLOUR_BLACK);
+		const Colour colour2(COLOUR_BLACK);
 		gfx.setColour(colour2, true);
-		Colour colour3(0, 0, 64, 255);
+		const Colour colour3(0, 0, 64, 255);
 		gfx.setAuxColour(colour3);
-		RectArea area4(AREA_FULL_SCREEN(gfx));
-		gfx.fillRectangle(area4);
+		const RectArea area4(AREA_FULL_SCREEN(gfx));
+		gfx.lineRectangle(area4);
 
 		// draw challenge mode select
 		if (selectWindow) {
@@ -352,7 +344,7 @@ struct MapSelectSetupSection : public Node {
 
 		// draw debug menu over the top
 		Matrix4f orthoMtxDebug;
-		RectArea area5(AREA_FULL_SCREEN(gfx));
+		const RectArea area5(AREA_FULL_SCREEN(gfx));
 		gfx.setOrthogonal(orthoMtxDebug.mMtx, area5);
 
 		if (mActiveOverlayMenu) {

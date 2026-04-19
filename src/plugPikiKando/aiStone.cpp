@@ -157,8 +157,8 @@ int ActStone::exeAdjust()
 void ActStone::initAttack()
 {
 	mState = STATE_Attack;
-	PaniMotionInfo anim1(PIKIANIM_Job2, this);
-	PaniMotionInfo anim2(PIKIANIM_Job2);
+	PaniMotionInfo anim1(PIKIANIM_Job2);
+	PaniMotionInfo anim2(PIKIANIM_Job2, this);
 	mPiki->startMotion(anim1, anim2);
 	mIsAttackReady = false;
 	mPiki->enableFixPos();

@@ -307,8 +307,8 @@ void ActTransport::animationKeyUpdated(immut PaniAnimKeyEvent& event)
 			break;
 		}
 		if (mState == STATE_Lift) {
-			PaniMotionInfo anim1(PIKIANIM_PickLoop, this);
-			PaniMotionInfo anim2(PIKIANIM_PickLoop);
+			PaniMotionInfo anim1(PIKIANIM_PickLoop);
+			PaniMotionInfo anim2(PIKIANIM_PickLoop, this);
 			mPiki->startMotion(anim1, anim2);
 			mIsLiftActionDone = false;
 			mLiftRetryCount   = int(3.0f * gsys->getRand(1.0f)) + 5;
@@ -382,8 +382,8 @@ int ActTransport::execJump()
 		mPiki->mSRT.r.y       = mPiki->mFaceDirection;
 		mState                = STATE_Lift;
 
-		PaniMotionInfo anim1(PIKIANIM_PickLoop, this);
-		PaniMotionInfo anim2(PIKIANIM_PickLoop);
+		PaniMotionInfo anim1(PIKIANIM_PickLoop);
+		PaniMotionInfo anim2(PIKIANIM_PickLoop, this);
 		mPiki->startMotion(anim1, anim2);
 		mPiki->enableMotionBlend();
 		PRINT("start try sound \n");
@@ -487,8 +487,8 @@ bool ActTransport::gotoLiftPos()
 		mPiki->mFaceDirection = roundAng(atan2f(slotDirection.x, slotDirection.z));
 		mPiki->mSRT.r.y       = mPiki->mFaceDirection;
 		mState                = STATE_Lift;
-		PaniMotionInfo anim1(PIKIANIM_PickLoop, this);
-		PaniMotionInfo anim2(PIKIANIM_PickLoop);
+		PaniMotionInfo anim1(PIKIANIM_PickLoop);
+		PaniMotionInfo anim2(PIKIANIM_PickLoop, this);
 		mPiki->startMotion(anim1, anim2);
 		mPiki->enableMotionBlend();
 		if (pellet->isCreatureFlag(CF_IsPositionFixed)) {

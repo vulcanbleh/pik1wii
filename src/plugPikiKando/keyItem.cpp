@@ -98,8 +98,6 @@ void KeyItem::update()
 	mFaceDirection = roundAng(mFaceDirection);
 	mGrid.updateGrid(mSRT.t);
 	updateAI();
-
-	STACK_PAD_VAR(2);
 }
 
 /**
@@ -272,7 +270,7 @@ void DoorItem::refresh(Graphics& gfx)
 
 	char str[256];
 
-	Colour colour(COLOUR_WHITE);
+	const Colour colour(COLOUR_WHITE);
 	gfx.setColour(colour, true);
 	gfx.useTexture(gsys->mConsFont->mTexture, GX_TEXMAP0);
 	int blend = gfx.setCBlending(BLEND_Alpha);

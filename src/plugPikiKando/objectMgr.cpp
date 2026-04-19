@@ -291,7 +291,9 @@ void MonoObjectMgr::update()
 			kill(mObjectList[i]);
 			mEntryStatus[i] = -1;
 		} else if (mEntryStatus[i] == -2) {
+#ifdef DEVELOP
 			PRINT(" objetcts[%d] : %s cannot die ! %d cnt\n", i, ObjType::getName(mObjectList[i]->mObjType), mObjectList[i]->getCnt());
+#endif
 			mObjectList[i]->clearCnt();
 		}
 	}
@@ -613,7 +615,9 @@ void PolyObjectMgr::update()
 		}
 
 		if (mObjectIndices[i] == -2 && get(i)->removable()) {
+#ifdef DEVELOP
 			PRINT_KANDO("killing ... %x\n", get(i));
+#endif
 			kill(get(i));
 		} else if (mObjectIndices[i] == -2) {
 			get(i)->clearCnt();

@@ -153,7 +153,8 @@ public:
 	// _2B8-_2BC = PaniAnimKeyListener
 	// _2BC-_2C4 = PelletView
 	OdoMeter mOdoMeter;                   // _2C4
-	u8 _2DC[0x88];                         // _2DC, unknown, new in Wii version
+	u8 _2DC[0x84];                        // _2DC, unknown, new in Wii version
+	int _360;  							  // _2D4
 	zen::particleGenerator* mDamageEfxA;  // _2D4
 	zen::particleGenerator* mDamageEfxB;  // _2D8
 	zen::particleGenerator* mDamageEfxC;  // _2DC

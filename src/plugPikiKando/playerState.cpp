@@ -399,7 +399,9 @@ void PlayerState::saveCard(RandomAccessStream& data)
 	for (i = 0; i < mTotalRegisteredParts; i++) {
 		data.writeByte(mUfoParts[i].mPartVisType);
 	}
+#ifdef DEVELOP
 	PRINT("**** SAVING @ %d (%d,%d,%d)\n", data.getPosition());
+#endif
 	data.writeInt(mSproutedNum);
 	data.writeInt(mLostBattlePikis);
 	data.writeInt(mLeftBehindPikis);
@@ -433,7 +435,9 @@ void PlayerState::saveCard(RandomAccessStream& data)
 	id.write(data);
 
 	node = (StageInfo*)flowCont.mStageList.mChild;
+#ifdef DEVELOP
 	PRINT("SAVE VISIT FLAGS FROM %d\n", data.getPosition());
+#endif
 	for (i = 0; i < STAGE_COUNT; i++) {
 		PRINT("\t++++ STAGE %d as %s\n", i, node->mHasInitialised ? "VISITED" : "NEVER VISITED");
 		data.writeByte(node->mHasInitialised);
@@ -481,11 +485,15 @@ void PlayerState::loadCard(RandomAccessStream& data)
 	mResultFlags.loadCard(data);
 
 	int parts = data.readInt();
+#ifdef DEVELOP
 	PRINT("**** BEFORE UFO PARTS :: %d \n", data.getPosition());
+#endif
 	for (i = 0; i < parts; i++) {
 		mUfoParts[i].mPartVisType = data.readByte();
 	}
+#ifdef DEVELOP
 	PRINT("**** LOADING @ %d\n", data.getPosition());
+#endif
 
 	mSproutedNum           = data.readInt();
 	mLostBattlePikis       = data.readInt();
@@ -516,8 +524,9 @@ void PlayerState::loadCard(RandomAccessStream& data)
 		}
 		node = (StageInfo*)node->mNext;
 	}
-
+#ifdef DEVELOP
 	PRINT("LOAD VISIT FLAGS FROM %d\n", data.getPosition());
+#endif
 	id.read(data);
 	PRINT("___ CARD * <%s> BLOCK ___\n", id.mStringID);
 	node = (StageInfo*)flowCont.mStageList.mChild;

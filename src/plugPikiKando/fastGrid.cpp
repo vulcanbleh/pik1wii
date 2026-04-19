@@ -41,8 +41,10 @@ void FastGrid::initAIGrid(u8 shift)
 	aiGridMap = new (0x20) u8[aiGridSize * aiGridSize];
 	clearAIGrid();
 	memStat->end("aiGrid");
+#ifdef DEVELOP
 	PRINT("aiGridSize = %d : total = %d (KBytes)\n", aiGridSize, aiGridSize * aiGridSize);
 	PRINT("@@@@@@@@@@ aiGridSize = %d : griz size = %f\n", aiGridSize, 32768.0f / aiGridSize);
+#endif
 }
 
 /**

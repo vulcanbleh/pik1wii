@@ -21,7 +21,7 @@ DEFINE_ERROR(__LINE__) // Never used in the DLL
  * @todo: Documentation
  * @note UNUSED Size: 0000F0
  */
-DEFINE_PRINT(nullptr)
+DEFINE_PRINT("Bore")
 
 /**
  * @todo: Documentation
@@ -43,8 +43,9 @@ ActFreeSelect::ActFreeSelect(Piki* piki)
  */
 void ActFreeSelect::init(Creature* creature)
 {
-	PaniMotionInfo anim1(PIKIANIM_Wait, mPiki);
-	PaniMotionInfo anim2(PIKIANIM_Wait);
+	
+	PaniMotionInfo anim1(PIKIANIM_Wait);
+	PaniMotionInfo anim2(PIKIANIM_Wait, mPiki);
 	mPiki->startMotion(anim1, anim2);
 	mActionTimer   = 2.0f + gsys->getFrameTime();
 	mIsTimerActive = true;
@@ -234,8 +235,8 @@ ActBoreSelect::ActBoreSelect(Piki* piki)
  */
 void ActBoreSelect::init(Creature* creature)
 {
-	PaniMotionInfo anim1(PIKIANIM_Wait, mPiki);
-	PaniMotionInfo anim2(PIKIANIM_Wait);
+	PaniMotionInfo anim1(PIKIANIM_Wait);
+	PaniMotionInfo anim2(PIKIANIM_Wait, mPiki);
 	mPiki->startMotion(anim1, anim2);
 	mActionTimer   = 2.0f + gsys->getFrameTime();
 	mIsTimerActive = true;
@@ -336,8 +337,8 @@ void ActBoreSelect::procAnimMsg(Piki* piki, MsgAnim* msg)
 	switch (msg->mKeyEvent->mEventType) {
 	case KEY_Finished:
 	{
-		PaniMotionInfo anim1(PIKIANIM_Wait, piki);
-		PaniMotionInfo anim2(PIKIANIM_Wait);
+		PaniMotionInfo anim1(PIKIANIM_Wait);
+		PaniMotionInfo anim2(PIKIANIM_Wait, piki);
 		piki->startMotion(anim1, anim2);
 		break;
 	}
@@ -452,12 +453,13 @@ void ActBoreTalk::startTalk()
 	CI_LOOP(iter)
 	{
 		Creature* c = *iter;
-		InteractTalk talk(mPiki);
+		const InteractTalk talk(mPiki);
 		c->stimulate(talk);
 	}
 
-	PaniMotionInfo anim1(PIKIANIM_Chatting, this);
-	PaniMotionInfo anim2(PIKIANIM_Chatting);
+	
+	PaniMotionInfo anim1(PIKIANIM_Chatting);
+	PaniMotionInfo anim2(PIKIANIM_Chatting, this);
 	mPiki->startMotion(anim1, anim2);
 	mPiki->enableMotionBlend();
 	f32 r      = gsys->getRand(1.0f);
@@ -596,8 +598,8 @@ void ActBoreOneshot::init(Creature* creature)
 
 	int randAnim = selectRandomly(choices, 4);
 
-	PaniMotionInfo anim1(randAnim, this);
-	PaniMotionInfo anim2(randAnim);
+	PaniMotionInfo anim1(randAnim);
+	PaniMotionInfo anim2(randAnim, this);
 	mPiki->startMotion(anim1, anim2);
 }
 
@@ -659,16 +661,18 @@ void ActBoreRest::sitDown()
 	switch (mRestState) {
 	case 0:
 	{
-		PaniMotionInfo anim1(PIKIANIM_Suwaru, this);
-		PaniMotionInfo anim2(PIKIANIM_Suwaru);
+		
+		PaniMotionInfo anim1(PIKIANIM_Suwaru);
+		PaniMotionInfo anim2(PIKIANIM_Suwaru, this);
 		mPiki->startMotion(anim1, anim2);
 		mRestState = 1;
 		break;
 	}
 	case 1:
 	{
-		PaniMotionInfo anim1(PIKIANIM_Neru, this);
-		PaniMotionInfo anim2(PIKIANIM_Neru);
+		
+		PaniMotionInfo anim1(PIKIANIM_Neru);
+		PaniMotionInfo anim2(PIKIANIM_Neru, this);
 		mPiki->startMotion(anim1, anim2);
 		mRestState = 3;
 		break;
@@ -760,8 +764,8 @@ void ActBoreRest::animationKeyUpdated(immut PaniAnimKeyEvent& event)
 			{
 				mIsAnimFinished = false;
 				mRestState      = 1;
-				PaniMotionInfo anim1(PIKIANIM_Suwaru, this);
-				PaniMotionInfo anim2(PIKIANIM_Suwaru);
+				PaniMotionInfo anim1(PIKIANIM_Suwaru);
+				PaniMotionInfo anim2(PIKIANIM_Suwaru, this);
 				mPiki->startMotion(anim1, anim2);
 				mPiki->mPikiAnimMgr.getUpperAnimator().mAnimationCounter = 30.0f;
 				mPiki->mPikiAnimMgr.getLowerAnimator().mAnimationCounter = 30.0f;
