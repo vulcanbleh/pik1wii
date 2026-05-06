@@ -28,6 +28,21 @@ WPTagProcessor::~WPTagProcessor()
 
 }
 
+int WPTagProcessor::CalcStrLen(const wchar_t* str, int trg_page)
+{
+	int j;
+	wchar_t buffer [2048];
+	PreProcessWithNumWords(str, 0x10000, buffer, 0x1000, &j, 0, trg_page);
+	return j;
+}
+int WPTagProcessor::CalcStrLenAppointingNumWord(const wchar_t* str, int p2, int* p3, int trg_page)
+{
+	int j;
+	wchar_t buffer [2048];
+	PreProcessWithNumWords(str, p2, buffer, 0x1000, &j, p3, trg_page);
+	return j;
+}
+
 nw4r::ut::TagProcessorBase<wchar_t>::Operation WPTagProcessor::Process(u16 ch, nw4r::ut::TagProcessorBase<wchar_t>::ContextType* pCtx)
 {
 	RuntimeProcess(nullptr, ch, pCtx);
@@ -75,7 +90,7 @@ void WPTagProcessor::ProcessTagFontColor(nw4r::ut::Rect* rec, nw4r::ut::PrintCon
 {
 	EGG_ASSERT(524, pContext);
 	EGG_ASSERT(525, pParam);
-	u8 colorIdx = *static_cast<const char*>(pParam);
+	u8 colorIdx = *static_cast<const u8*>(pParam);
 	EGG_ASSERT(531, sizeof( FONT_COLOR_TABLE ) / sizeof( nw4r::ut::Color ) > colorIdx);
 	pContext->writer->SetTextColor(FONT_COLOR_TABLE[colorIdx]);
 }
