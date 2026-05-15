@@ -17,6 +17,7 @@ public:
 
 	// _00     = VTBL
 	// _00-_10 = EGG::Disposer
+	// _10-_14 = TagParameters
 	int _18;                                      // _18
 	int _1C;                                      // _1C
 	PrimTagParm<int> mEnableOSReport;             // _20
