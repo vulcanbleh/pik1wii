@@ -51,6 +51,13 @@ typedef unsigned long long int	byte8_t;
 
 typedef byte1_t					byte_t;
 
+#define unk1_t char
+#define unk2_t short
+#define unk4_t int
+#define unk8_t long long
+
+#define unk_t unk4_t
+
 // For Windows-specific types
 #ifdef WIN32
 #include <windows.h>
