@@ -1624,7 +1624,6 @@ config.libs = [
             Object(NonMatching, "System12/system12ResourceMgr.cpp"),
             # TODO: split another 1-3 files in between here
             Object(NonMatching, "System12/sys12DpdState.cpp"),
-            Object(NonMatching, "System12/eggSafeString.cpp"),
             Object(NonMatching, "System12/PSSpkSystem.cpp"),
             Object(NonMatching, "System12/SpkData.cpp"),
             Object(NonMatching, "System12/SpkGadget.cpp"),
