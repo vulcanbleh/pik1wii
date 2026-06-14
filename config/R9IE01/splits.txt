@@ -3922,15 +3922,13 @@ System12/system12ResourceMgr.cpp:
 	.sbss       start:0x8049F180 end:0x8049F188
 
 System12/sys12DpdState.cpp:
-	.text       start:0x802D0C40 end:0x802D2450
+	.text       start:0x802D0C40 end:0x802D251C
 	.ctors      start:0x802F6330 end:0x802F6334
 	.sbss       start:0x8049F190 end:0x8049F198
 
-System12/eggSafeString.cpp:
-	.text       start:0x802D2450 end:0x802D251C
-
 System12/PSSpkSystem.cpp:
 	.text       start:0x802D251C end:0x802D2E6C
+	.rodata     start:0x80311970 end:0x803119C8
 	.sbss       start:0x8049F198 end:0x8049F1C0
 
 System12/SpkData.cpp:
