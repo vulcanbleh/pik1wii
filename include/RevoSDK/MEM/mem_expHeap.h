@@ -67,15 +67,15 @@ u32 MEMGetAllocatableSizeForExpHeapEx(MEMiHeapHead* heap, s32 align);
 u32 MEMGetTotalFreeSizeForExpHeap(MEMiHeapHead*);
 u32 MEMAdjustExpHeap(MEMiHeapHead* heap);
 
-static MEMiHeapHead* MEMCreateExpHeap(void* start, u32 size) {
+static inline MEMiHeapHead* MEMCreateExpHeap(void* start, u32 size) {
     return MEMCreateExpHeapEx(start, size, 0);
 }
 
-static void* MEMAllocFromExpHeap(MEMiHeapHead* heap, u32 size) {
+static inline void* MEMAllocFromExpHeap(MEMiHeapHead* heap, u32 size) {
     return MEMAllocFromExpHeapEx(heap, size, 4);
 }
 
-static u32 MEMGetAllocatableSizeForExpHeap(MEMiHeapHead* heap) {
+static inline u32 MEMGetAllocatableSizeForExpHeap(MEMiHeapHead* heap) {
     return MEMGetAllocatableSizeForExpHeapEx(heap, 4);
 }
 

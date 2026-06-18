@@ -217,7 +217,7 @@ vu32 __EXIRegs[16] AT_ADDRESS(0xCC006800);
 #define EXI_CHAN_2_IMM      (14) // immediate data
 
 // Audio Streaming Interface registers.
-vu32 __AIRegs[8] AT_ADDRESS(0xCC006C00);
+vu32 __AIRegs[8] AT_ADDRESS(0xCD006C00);
 
 // offsets for __AIRegs[i]
 #define AI_CONTROL        (0) // control

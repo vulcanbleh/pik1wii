@@ -587,41 +587,66 @@ MSL_C/PPCEABI/bare/H/w_sqrt.c:
 
 ai/ai.c:
 	.text       start:0x80034280 end:0x8003485C
-	.sdata      start:0x804974E8 end:0x804974F0
+	.data       start:0x80317878 end:0x803178BF
+	.sdata      start:0x804974E8 end:0x804974EC
+	.sbss       start:0x8049E2F8 end:0x8049E338
 
 ax/AX.c:
 	.text       start:0x8003485C end:0x800348B8
-	.sdata      start:0x804974F0 end:0x804974F8
-
-ax/DSPCode.c:
-	.sdata      start:0x804974F8 end:0x80497500
+	.data       start:0x803178C0 end:0x80317907
+	.sdata      start:0x804974F0 end:0x804974F4
+	.sbss       start:0x8049E338 end:0x8049E33C
 
 ax/AXAlloc.c:
 	.text       start:0x800348B8 end:0x80034CD4
+	.bss        start:0x803EDBC0 end:0x803EDCC0
+	.sbss       start:0x8049E340 end:0x8049E344
 
 ax/AXAux.c:
 	.text       start:0x80034CD4 end:0x800354C4
+	.bss        start:0x803EDCC0 end:0x803F0E40
+	.sbss       start:0x8049E348 end:0x8049E38F
 
 ax/AXCL.c:
 	.text       start:0x800354C4 end:0x80035F28
+	.bss        start:0x803F0E40 end:0x803F0F40
+	.sbss       start:0x8049E390 end:0x8049E3AC
 
 ax/AXOut.c:
 	.text       start:0x80035F28 end:0x8003660C
+	.bss        start:0x803F0F40 end:0x803F1D40
+	.sbss       start:0x8049E3B0 end:0x8049E3EC
 
 ax/AXSPB.c:
 	.text       start:0x8003660C end:0x80036A2C
+	.bss        start:0x803F1D40 end:0x803F1DB8
+	.sbss       start:0x8049E3F0 end:0x8049E440
 
 ax/AXVPB.c:
 	.text       start:0x80036A2C end:0x80037594
+	.data       start:0x80317908 end:0x80317998
+	.bss        start:0x803F1DC0 end:0x804034C0
+	.sbss       start:0x8049E440 end:0x8049E45C
+
+ax/AXComp.c:
+	.data       start:0x803179A0 end:0x80318960
+
+ax/DSPCode.c:
+	.data       start:0x80318960 end:0x8031A960
+	.sdata      start:0x804974F8 end:0x804974FE
 
 ax/AXProf.c:
 	.text       start:0x80037594 end:0x800375D4
+	.sbss       start:0x8049E460 end:0x8049E470
 
-ax/AXFXReverbHi.c:
+axfx/AXFXReverbHi.c:
 	.text       start:0x800375D4 end:0x80037660
+	.sdata2     start:0x8049F908 end:0x8049F910
 
-ax/AXFXReverbHiExp.c:
+axfx/AXFXReverbHiExp.c:
 	.text       start:0x80037660 end:0x8003843C
+	.data       start:0x8031A960 end:0x8031AB00
+	.sdata2     start:0x8049F910 end:0x8049F950
 
 axfx/AXFXHooks.c:
 	.text       start:0x8003843C end:0x80038474
@@ -873,7 +898,7 @@ thp/THPAudio.c:
 
 tpl/TPL.c:
 	.text       start:0x80066BE8 end:0x80066DFC
-	.data       start:0x8032C308 end:0x8032C338
+	.data       start:0x8032C308 end:0x8032C334
 	.sdata      start:0x804976D8 end:0x804976E0
 	.sdata2     start:0x8049FB38 end:0x8049FB40
 
@@ -1517,18 +1542,23 @@ THPSimple.c:
 plugPikiKando/testSoundSection.cpp:
 	.text       start:0x80106960 end:0x80106A80
 	.ctors      start:0x802F5E50 end:0x802F5E54
+	.sdata2     start:0x804A02D8 end:0x804A02E8
 
 plugPikiKando/ufoAnim.cpp:
 	.text       start:0x80106A80 end:0x801074D0
 	.ctors      start:0x802F5E54 end:0x802F5E58
+	.rodata     start:0x80301220 end:0x803012F0
 	.data       start:0x80338950 end:0x80338970
 	.sdata      start:0x80498908 end:0x80498920
+	.sdata2     start:0x804A02E8 end:0x804A0300
 
 plugPikiKando/ufoItem.cpp:
 	.text       start:0x801074D0 end:0x8010A210
 	.ctors      start:0x802F5E58 end:0x802F5E5C
+	.rodata     start:0x803012F0 end:0x80301378
 	.data       start:0x80338970 end:0x80338B88
 	.sdata      start:0x80498920 end:0x80498A50
+	.sdata2     start:0x804A0300 end:0x804A0358
 
 plugPikiKando/updateMgr.cpp:
 	.text       start:0x8010A210 end:0x8010A4C4
@@ -1551,6 +1581,7 @@ plugPikiKando/utkando.cpp:
 plugPikiKando/viewPiki.cpp:
 	.text       start:0x8010DAD0 end:0x801106B8
 	.ctors      start:0x802F5E68 end:0x802F5E6C
+	.rodata     start:0x80301378 end:0x80301450
 	.data       start:0x80338F88 end:0x803390C8
 	.bss        start:0x8046DB60 end:0x8046DB70
 	.sdata      start:0x80498B38 end:0x80498C10
@@ -2871,32 +2902,42 @@ plugPikiYamashita/zenMath.cpp:
 
 plugPikiYamashita/zenSys.cpp:
 	.text       start:0x8022A6F0 end:0x8022A964
+	.rodata     start:0x803093B8 end:0x803093D8
 
 plugPikiYamashita/alphaWipe.cpp:
 	.text       start:0x8022A964 end:0x8022AD1C
 	.ctors      start:0x802F61F0 end:0x802F61F4
+	.sdata      start:0x8049D020 end:0x8049D038
+	.sdata2     start:0x804A2CF8 end:0x804A2D08
 
 plugPikiYamashita/bBoardColourAnim.cpp:
 	.text       start:0x8022AD1C end:0x8022B134
 	.ctors      start:0x802F61F4 end:0x802F61F8
+	.sdata      start:0x8049D038 end:0x8049D054
+	.sdata2     start:0x804A2D08 end:0x804A2D20
 
 plugPikiYamashita/damageEffect.cpp:
 	.text       start:0x8022B134 end:0x8022B644
 	.ctors      start:0x802F61F8 end:0x802F61FC
+	.sdata      start:0x8049D054 end:0x8049D06C
+	.sdata2     start:0x804A2D20 end:0x804A2D40
 
 plugPikiYamashita/drawAccount.cpp:
 	.text       start:0x8022B644 end:0x8022CE90
 	.ctors      start:0x802F61FC end:0x802F6200
+	.rodata     start:0x803093D8 end:0x80309410
 	.data       start:0x80349D38 end:0x80349D88
 
 plugPikiYamashita/drawCMbest.cpp:
 	.text       start:0x8022CE90 end:0x8022D7CC
 	.ctors      start:0x802F6200 end:0x802F6204
+	.rodata     start:0x80309410 end:0x80309438
 	.data       start:0x80349D88 end:0x80349E48
 
 plugPikiYamashita/drawCMcourseSelect.cpp:
 	.text       start:0x8022D7CC end:0x8022E7FC
 	.ctors      start:0x802F6204 end:0x802F6208
+	.rodata     start:0x80309438 end:0x803094C8
 	.data       start:0x80349E48 end:0x80349F08
 
 plugPikiYamashita/drawCMresult.cpp:

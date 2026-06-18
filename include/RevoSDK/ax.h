@@ -521,6 +521,7 @@ AXOutCallback AXRegisterCallback(AXOutCallback callback);
 s32 AXRmtGetSamplesLeft(void);
 s32 AXRmtGetSamples(s32 chan, s16* out, s32 num);
 s32 AXRmtAdvancePtr(s32 num);
+void AXRegisterExceedCallback(AXExceedCallback callback);
 
 AXPROFILE* __AXGetCurrentProfile(void);
 

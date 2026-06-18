@@ -198,7 +198,7 @@ extern void GXBeginDisplayList(void* list, u32 size);
 extern u32 GXEndDisplayList();
 extern void GXCallDisplayList(void* list, u32 numBytes);
 
-static void GXFastCallDisplayList(void* list, u32 size)
+static inline void GXFastCallDisplayList(void* list, u32 size)
 {
 	GXWGFifo.u8  = GX_FIFO_CMD_CALL_DL;
 	GXWGFifo.v   = list;

@@ -572,29 +572,30 @@ config.libs = [
     RevolutionLib(
         "ai",
         [
-            Object(NonMatching, "ai/ai.c"),
+            Object(Matching, "ai/ai.c"),
         ],
     ),
     RevolutionLib(
         "ax",
         [
-            Object(NonMatching, "ax/AX.c"),
-            Object(NonMatching, "ax/AXAlloc.c"),
-            Object(NonMatching, "ax/AXAux.c"),
-            Object(NonMatching, "ax/AXCL.c"),
-            Object(NonMatching, "ax/AXOut.c"),
-            Object(NonMatching, "ax/AXSPB.c"),
-            Object(NonMatching, "ax/AXVPB.c"),
-            Object(NonMatching, "ax/AXProf.c"),
-            Object(NonMatching, "ax/AXFXReverbHi.c"),
-            Object(NonMatching, "ax/AXFXReverbHiExp.c"),
-            Object(NonMatching, "ax/DSPCode.c"),
+            Object(Matching, "ax/AX.c"),
+            Object(Matching, "ax/AXAlloc.c"),
+            Object(Matching, "ax/AXAux.c"),
+            Object(Matching, "ax/AXCL.c"),
+            Object(Matching, "ax/AXOut.c"),
+            Object(Matching, "ax/AXSPB.c"),
+            Object(Matching, "ax/AXVPB.c"),
+            Object(Matching, "ax/AXComp.c"),
+            Object(Matching, "ax/DSPCode.c"),
+            Object(Matching, "ax/AXProf.c"),            
         ],
     ),
     RevolutionLib(
         "axfx",
         [
-            Object(NonMatching, "axfx/AXFXHooks.c"),
+            Object(Matching, "axfx/AXFXReverbHi.c"),
+            Object(NonMatching, "axfx/AXFXReverbHiExp.c"),
+            Object(Matching, "axfx/AXFXHooks.c"),
         ],
     ),
     RevolutionLib(
@@ -716,8 +717,8 @@ config.libs = [
     RevolutionLib(
         "pad",
         [
-            Object(NonMatching, "pad/Padclamp.c"),
-            Object(NonMatching, "pad/Pad.c"),
+            Object(Matching, "pad/Padclamp.c"),
+            Object(Matching, "pad/Pad.c"),
         ],
     ),
     RevolutionLib(
@@ -745,7 +746,7 @@ config.libs = [
     RevolutionLib(
         "tpl",
         [
-            Object(NonMatching, "tpl/TPL.c"),
+            Object(Matching, "tpl/TPL.c"),
         ],
     ),
     RevolutionLib(
