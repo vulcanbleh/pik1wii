@@ -607,7 +607,7 @@ config.libs = [
     RevolutionLib(
         "db",
         [
-            Object(NonMatching, "db/db.c"),
+            Object(Matching, "db/db.c"),
         ],
     ),
     RevolutionLib(
@@ -781,7 +781,7 @@ config.libs = [
     RevolutionLib(
         "arc",
         [
-            Object(NonMatching, "arc/arc.c"),
+            Object(Matching, "arc/arc.c"),
         ],
     ),
     RevolutionLib(

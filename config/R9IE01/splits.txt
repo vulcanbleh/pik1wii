@@ -654,9 +654,12 @@ axfx/AXFXHooks.c:
 
 base/PPCArch.c:
 	.text       start:0x80038474 end:0x800385E4
+	.data       start:0x8031AB00 end:0x8031AB38
 
 db/db.c:
 	.text       start:0x800385E4 end:0x800386CC
+	.data       start:0x8031AB38 end:0x8031AB50
+	.sbss       start:0x8049E470 end:0x8049E478
 
 dsp/dsp.c:
 	.text       start:0x800386CC end:0x800388D4
@@ -935,6 +938,7 @@ wud/debug_msg.c:
 
 arc/arc.c:
 	.text       start:0x8007B084 end:0x8007BA04
+	.data       start:0x8032F760 end:0x8032F7D0
 	.sdata      start:0x80497710 end:0x80497718
 
 bte/bta_dm_cfg.c:
