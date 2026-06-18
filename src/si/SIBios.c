@@ -308,9 +308,9 @@ void SIInit(void)
 {
 	static BOOL Initialized = FALSE;
 
-    if (Initialized) {
-        return;
-    }
+	if (Initialized) {
+		return;
+	}
 
 	OSRegisterVersion(__SIVersion);
 
@@ -333,7 +333,7 @@ void SIInit(void)
 	SIGetType(2);
 	SIGetType(3);
 
-    Initialized = TRUE;
+	Initialized = TRUE;
 }
 
 /**

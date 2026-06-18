@@ -35,7 +35,6 @@ static const PADClampRegion ClampRegion = {
 	44,
 };
 
-
 /**
  * @TODO: Documentation
  */

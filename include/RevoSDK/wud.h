@@ -4,21 +4,13 @@
 #include "types.h"
 #include "RevoSDK/bte.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+BEGIN_SCOPE_EXTERN_C
 
 #include <RevoSDK/WUD/WUDHidHost.h>
 #include <RevoSDK/WUD/WUDInternal.h>
 #include <RevoSDK/WUD/debug_msg.h>
 #include <RevoSDK/WUD/wud.h>
 
-#ifdef __cplusplus
-}
-#endif
-
-#ifdef __cplusplus
-};
-#endif // ifdef __cplusplus
+END_SCOPE_EXTERN_C
 
 #endif

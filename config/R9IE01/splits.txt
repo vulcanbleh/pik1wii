@@ -927,25 +927,36 @@ usb/usb.c:
 
 wenc/wenc.c:
 	.text       start:0x80067F28 end:0x80068200
+	.rodata     start:0x802F8058 end:0x802F8098
+	.sdata2     start:0x8049FB40 end:0x8049FB48
 
 wpad/WPAD.c:
 	.text       start:0x80068200 end:0x8006FA34
+	.rodata     start:0x802F8098 end:0x802F80D2
 	.data       start:0x8032C9C8 end:0x8032CD00
-	.bss        start:0x8040AC20 end:0x8040E348
-	.sdata      start:0x804976F0 end:0x80497708
-	.sbss       start:0x8049E9D8 end:0x8049EA10
+	.bss        start:0x8040AC20 end:0x8040E342
+	.sdata      start:0x804976F0 end:0x80497704
+	.sbss       start:0x8049E9D8 end:0x8049EA0B
+	.sdata2     start:0x8049FB48 end:0x8049FB4F
 
 wpad/WPADHIDParser.c:
 	.text       start:0x8006FA34 end:0x80074ED4
+	.data       start:0x8032CD00 end:0x8032D2A0
+	.bss        start:0x8040E348 end:0x8040E3B0
+	.sbss       start:0x8049EA10 end:0x8049EA28
+	.sdata2     start:0x8049FB50 end:0x8049FBB0
 
 wpad/WPADEncrypt.c:
 	.text       start:0x80074ED4 end:0x80075F7C
+	.data       start:0x8032D2A0 end:0x8032E5C8
+	.sbss       start:0x8049EA28 end:0x8049EA30
 
 wpad/debug_msg.c:
 	.text       start:0x80075F7C end:0x80075FCC
 
 wud/WUD.c:
 	.text       start:0x80075FCC end:0x8007AA38
+	.data       start:0x8032E5C8 end:0x8032F4E0
 	.sdata      start:0x80497708 end:0x80497710
 
 wud/WUDHidHost.c:
@@ -974,6 +985,7 @@ bte/gki_ppc.c:
 
 bte/hcisu_h2.c:
 	.text       start:0x8007D630 end:0x8007DCCC
+	.rodata     start:0x802F80D8 end:0x802F80F0
 
 bte/uusb_ppc.c:
 	.text       start:0x8007DCCC end:0x8007E8D0

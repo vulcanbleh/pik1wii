@@ -232,6 +232,18 @@ vu32 __AIRegs[8] AT_ADDRESS(0xCD006C00);
 #define AI_CONTROL_STREAM_SAMPLE_COUNT (0x20)
 #define AI_CONTROL_DSP_SAMPLE_RATE     (0x40)
 
+vu32 __ACRRegs[89] AT_ADDRESS(0xCD000000);
+
+vu32 __IPCRegs[4] AT_ADDRESS((0xC000 << 16) + 0x0d000000);
+
+inline u32 ACRReadReg(u32 offset) {
+    return __ACRRegs[offset >> 2];
+}
+
+inline void ACRWriteReg(u32 offset, u32 val) {
+    __ACRRegs[offset >> 2] = val;
+}
+
 //////////////////////////////////
 
 END_SCOPE_EXTERN_C

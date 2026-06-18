@@ -758,7 +758,7 @@ config.libs = [
     RevolutionLib(
         "wenc",
         [
-            Object(NonMatching, "wenc/wenc.c"),
+            Object(Matching, "wenc/wenc.c"),
         ],
     ),
     RevolutionLib(
