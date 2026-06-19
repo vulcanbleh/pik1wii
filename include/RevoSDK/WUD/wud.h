@@ -83,7 +83,7 @@ void WUDSetSniffMode(BD_ADDR addr, s32 interval);
 
 WUDSyncDeviceCallback WUDSetSyncDeviceCallback(WUDSyncDeviceCallback cb);
 WUDSyncDeviceCallback WUDSetSyncSimpleCallback(WUDSyncDeviceCallback cb);
-//WUDClearDeviceCallback *WUDSetClearDeviceCallback(WUDClearDeviceCallback *cb);
+WUDClearDeviceCallback WUDSetClearDeviceCallback(WUDClearDeviceCallback cb);
 
 BOOL WUDStartSyncDevice(void);
 BOOL WUDStartFastSyncSimple(void);

@@ -166,7 +166,7 @@ vu32 __DIRegs[16] AT_ADDRESS(0xCC006000);
 #define DI_CONFIG       (9)
 
 // Serial Interface registers.
-vu32 __SIRegs[64] AT_ADDRESS(0xCC006400);
+vu32 __SIRegs[64] AT_ADDRESS(0xCD006400);
 
 // offsets for __SIRegs[i]
 // Channel 0/Joy-channel 1
@@ -217,7 +217,7 @@ vu32 __EXIRegs[16] AT_ADDRESS(0xCC006800);
 #define EXI_CHAN_2_IMM      (14) // immediate data
 
 // Audio Streaming Interface registers.
-vu32 __AIRegs[8] AT_ADDRESS(0xCC006C00);
+vu32 __AIRegs[8] AT_ADDRESS(0xCD006C00);
 
 // offsets for __AIRegs[i]
 #define AI_CONTROL        (0) // control
@@ -231,6 +231,18 @@ vu32 __AIRegs[8] AT_ADDRESS(0xCC006C00);
 #define AI_CONTROL_UNKNOWN8            (0x8)
 #define AI_CONTROL_STREAM_SAMPLE_COUNT (0x20)
 #define AI_CONTROL_DSP_SAMPLE_RATE     (0x40)
+
+vu32 __ACRRegs[89] AT_ADDRESS(0xCD000000);
+
+vu32 __IPCRegs[4] AT_ADDRESS((0xC000 << 16) + 0x0d000000);
+
+inline u32 ACRReadReg(u32 offset) {
+    return __ACRRegs[offset >> 2];
+}
+
+inline void ACRWriteReg(u32 offset, u32 val) {
+    __ACRRegs[offset >> 2] = val;
+}
 
 //////////////////////////////////
 

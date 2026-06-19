@@ -3,6 +3,14 @@
 #include "RevoSDK/hw_regs.h"
 #include "RevoSDK/os.h"
 
+static BOOL __DSP_init_flag = 0;
+extern DSPTaskInfo* __DSP_curr_task;
+extern DSPTaskInfo* __DSP_first_task;
+extern DSPTaskInfo* __DSP_last_task;
+extern DSPTaskInfo* __DSP_tmp_task;
+
+const char* __DSPVersion = "<< RVL_SDK - DSP \trelease build: Aug  8 2007 01:59:06 (0x4199_60831) >>";
+
 /**
  * @TODO: Documentation
  */
@@ -47,76 +55,86 @@ void DSPSendMailToDSP(u32 mail)
 
 /**
  * @TODO: Documentation
- * @note UNUSED Size: 000040
  */
 void DSPAssertInt(void)
 {
-	u32 tmp;
-	BOOL interrupts               = OSDisableInterrupts();
+	BOOL interrupts = OSDisableInterrupts();
+	u16 tmp;
+
 	tmp                           = __DSPRegs[DSP_CONTROL_STATUS];
-	__DSPRegs[DSP_CONTROL_STATUS] = (tmp & ~0xA8) | 2;
+	tmp                           = (tmp & ~0xA8 | 0x2);
+	__DSPRegs[DSP_CONTROL_STATUS] = tmp;
 	OSRestoreInterrupts(interrupts);
 }
 
 /**
  * @TODO: Documentation
- * @note UNUSED Size: 000008
  */
-void DSPCheckInit(void)
+void DSPInit(void)
 {
-	// UNUSED FUNCTION
+	BOOL intr;
+	u16 reg;
+
+	__DSP_debug_printf("DSPInit(): Build Date: %s %s\n", "Aug  8 2007", "01:59:06");
+
+	if (__DSP_init_flag == 1) {
+		return;
+	}
+
+	OSRegisterVersion(__DSPVersion);
+	intr = OSDisableInterrupts();
+	__OSSetInterruptHandler(7, __DSPHandler);
+	__OSUnmaskInterrupts(0x1000000);
+
+	reg                           = __DSPRegs[DSP_CONTROL_STATUS];
+	reg                           = ((reg & ~(0x20 | 0x8 | 0x80)) | 0x800);
+	__DSPRegs[DSP_CONTROL_STATUS] = reg;
+
+	reg                           = __DSPRegs[DSP_CONTROL_STATUS];
+	reg                           = (reg & ~(0x20 | 0x8 | 0x80 | 0x4));
+	__DSPRegs[DSP_CONTROL_STATUS] = reg;
+
+	__DSP_first_task = __DSP_last_task = __DSP_curr_task = __DSP_tmp_task = NULL;
+	__DSP_init_flag                                                       = 1;
+	OSRestoreInterrupts(intr);
 }
 
 /**
  * @TODO: Documentation
- * @note UNUSED Size: 000048
  */
-void DSPReset(void)
+BOOL DSPCheckInit(void)
 {
-	// UNUSED FUNCTION
+	return __DSP_init_flag;
 }
 
 /**
  * @TODO: Documentation
- * @note UNUSED Size: 000040
  */
-void DSPHalt(void)
+DSPTaskInfo* DSPAssertTask(DSPTaskInfo* task)
 {
-	// UNUSED FUNCTION
-}
+	BOOL enabled;
 
-/**
- * @TODO: Documentation
- * @note UNUSED Size: 00003C
- */
-void DSPUnhalt(void)
-{
-	// UNUSED FUNCTION
-}
+	enabled = OSDisableInterrupts();
 
-/**
- * @TODO: Documentation
- * @note UNUSED Size: 000010
- */
-void DSPGetDMAStatus(void)
-{
-	// UNUSED FUNCTION
-}
+	if (__DSP_curr_task == task) {
+		__DSP_rude_task_pending = TRUE;
+		__DSP_rude_task         = task;
+		OSRestoreInterrupts(enabled);
+		return task;
+	}
 
-/**
- * @TODO: Documentation
- * @note UNUSED Size: 000040
- */
-void DSPCancelTask(void)
-{
-	// UNUSED FUNCTION
-}
+	if (task->priority < __DSP_curr_task->priority) {
+		__DSP_rude_task_pending = TRUE;
+		__DSP_rude_task         = task;
 
-/**
- * @TODO: Documentation
- * @note UNUSED Size: 0000C8
- */
-void DSPAssertTask(void)
-{
-	// UNUSED FUNCTION
+		if (__DSP_curr_task->state == DSP_TASK_STATE_RUN) {
+			DSPAssertInt();
+		}
+
+		OSRestoreInterrupts(enabled);
+		return task;
+	}
+
+	OSRestoreInterrupts(enabled);
+	return NULL;
 }

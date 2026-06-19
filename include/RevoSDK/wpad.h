@@ -5,9 +5,7 @@
 #include "RevoSDK/os.h"
 #include "RevoSDK/sc.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif // ifdef __cplusplus
+BEGIN_SCOPE_EXTERN_C
 
 typedef u32 WPADDeviceType;
 typedef s32 WPADChannel;
@@ -21,6 +19,7 @@ typedef void (*WPADSyncDeviceCallback)(s32 result, s32 num);
 typedef void (*WPADSamplingCallback)(s32 chan);
 typedef void (*WPADFlushCallback)(SCStatus result);
 typedef void (*WPADSimpleSyncCallback)(s32 result, s32 num);
+typedef void (*WPADClearDeviceCallback)(s32 result);
 
 
 
@@ -450,6 +449,7 @@ WPADSamplingCallback WPADSetSamplingCallback(s32 chan, WPADSamplingCallback call
 
 WPADSyncDeviceCallback WPADSetSyncDeviceCallback(WPADSyncDeviceCallback cb);
 WPADSimpleSyncCallback WPADSetSimpleSyncCallback(WPADSimpleSyncCallback cb);
+WPADClearDeviceCallback WPADSetClearDeviceCallback(WPADClearDeviceCallback cb);
 
 void WPADiCreateKey(s32);
 void WPADiCreateKeyFor3rd(s32);
@@ -508,8 +508,6 @@ extern WPADControlBlock* _wpdcb[WPAD_MAX_CONTROLLERS];
 
 ////////////////////////////////////
 
-#ifdef __cplusplus
-};
-#endif // ifdef __cplusplus
+END_SCOPE_EXTERN_C
 
 #endif

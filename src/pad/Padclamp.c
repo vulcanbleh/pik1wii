@@ -1,4 +1,5 @@
 #include "RevoSDK/pad.h"
+#include "RevoSDK/si.h"
 #include <math.h>
 
 typedef struct PADClampRegion {
@@ -33,7 +34,6 @@ static const PADClampRegion ClampRegion = {
 	56,
 	44,
 };
-
 
 /**
  * @TODO: Documentation

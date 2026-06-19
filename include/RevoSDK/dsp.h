@@ -38,6 +38,8 @@ struct STRUCT_DSP_TASK {
 };
 
 // Task information storage.
+extern BOOL __DSP_rude_task_pending;
+extern DSPTaskInfo* __DSP_rude_task;
 extern DSPTaskInfo* __DSP_tmp_task;
 extern DSPTaskInfo* __DSP_last_task;
 extern DSPTaskInfo* __DSP_first_task;
@@ -82,15 +84,13 @@ void DSPHalt();
 void DSPReset();
 ////////////////////////////////////////////
 
-#if defined(VERSION_GPIP01_00)
 DSPTaskInfo* DSPAddTask(DSPTaskInfo*);
-#endif
+DSPTaskInfo* DSPAssertTask(DSPTaskInfo*);
 
 END_SCOPE_EXTERN_C
 
 typedef void (*CommandTask)(u16);
 
-#if defined(VERSION_GPIP01_00)
 void Dsp_Running_Start();
 u64 DSP_CreateMap();
 u32 DSPSendCommands2(u32*, u32, CommandTask);
@@ -100,6 +100,5 @@ int Dsp_Running_Check();
 int DspStartWork(u32, CommandTask);
 
 extern DSPTaskInfo* DSP_prior_task;
-#endif
 
 #endif

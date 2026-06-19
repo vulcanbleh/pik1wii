@@ -7,8 +7,12 @@
 
 BEGIN_SCOPE_EXTERN_C
 
-int tolower(int c);
-int toupper(int c);
+inline int tolower(int c) {
+    return ((c < 0) || (c >= 0x100)) ? c : (int) (_current_locale.ctype_cmpt_ptr->lower_map_ptr[c]);
+}
+inline int toupper(int c) {
+    return ((c < 0) || (c >= 0x100)) ? c : (int) (_current_locale.ctype_cmpt_ptr->upper_map_ptr[c]);
+}
 
 inline int isalnum(u8 c)
 {

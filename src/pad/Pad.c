@@ -1,6 +1,6 @@
 #include "RevoSDK/pad.h"
 #include "RevoSDK/os.h"
-#include "RevoSDK/vi.h"
+#include "RevoSDK/si.h"
 #include <stddef.h>
 #include <string.h>
 
@@ -81,7 +81,7 @@ static OSShutdownFunctionInfo ShutdownFunctionInfo = {
 	OnShutdown,
 	127,
 	NULL,
-    NULL,
+	NULL,
 };
 
 /**
@@ -168,10 +168,10 @@ static void PADDisable(s32 chan)
 	chanBit = 0x80000000 >> chan;
 	SIDisablePolling(chanBit);
 	EnabledBits &= ~chanBit;
-    WaitingBits &= ~chanBit;
-    CheckingBits &= ~chanBit;
-    PendingBits &= ~chanBit;
-    BarrelBits &= ~chanBit;
+	WaitingBits &= ~chanBit;
+	CheckingBits &= ~chanBit;
+	PendingBits &= ~chanBit;
+	BarrelBits &= ~chanBit;
 	OSSetWirelessID(chan, 0);
 	OSRestoreInterrupts(enabled);
 	// UNUSED FUNCTION
@@ -185,7 +185,7 @@ static void UpdateOrigin(s32 chan)
 	PADStatus* origin;
 	u32 chanBit = PAD_CHAN0_BIT >> chan;
 
-	origin  = &Origin[chan];
+	origin = &Origin[chan];
 	switch (AnalogMode & 0x00000700u) {
 	case 0x00000000u:
 	case 0x00000500u:
@@ -341,7 +341,7 @@ static void PADReceiveCheckCallback(s32 chan, u32 type, OSContext* arg2)
 {
 	u32 error;
 	u32 chanBit;
-	
+
 	chanBit = PAD_CHAN0_BIT >> chan;
 	if (!(EnabledBits & chanBit)) {
 		return;
@@ -349,10 +349,10 @@ static void PADReceiveCheckCallback(s32 chan, u32 type, OSContext* arg2)
 
 	error = type & 0xFF;
 	type &= ~0xFF;
-	
+
 	WaitingBits &= ~chanBit;
 	CheckingBits &= ~chanBit;
-	
+
 	if (!(error & (SI_ERROR_UNDER_RUN | SI_ERROR_OVER_RUN | SI_ERROR_NO_RESPONSE | SI_ERROR_COLLISION)) && (type & SI_GC_WIRELESS)
 	    && (type & SI_WIRELESS_FIX_ID) && (type & SI_WIRELESS_RECEIVED) && !(type & SI_WIRELESS_IR)
 	    && (type & SI_WIRELESS_CONT_MASK) == SI_WIRELESS_CONT && !(type & SI_WIRELESS_LITE)) {
@@ -403,7 +403,7 @@ BOOL PADRecalibrate(u32 mask)
 
 	OSAssertMsgLine(0x3BD, !(mask & 0x0FFFFFFF), "PADReset(): invalid mask");
 	enabled = OSDisableInterrupts();
-	
+
 	mask |= PendingBits;
 	PendingBits = 0;
 	mask &= ~(WaitingBits | CheckingBits);
@@ -447,14 +447,14 @@ BOOL PADInit()
 	if (__PADFixBits != 0) {
 		OSTime time = OSGetTime();
 		__OSWirelessPadFixMode
-			   = (u16)((((time) & 0xffff) + ((time >> 16) & 0xffff) + ((time >> 32) & 0xffff) + ((time >> 48) & 0xffff)) & 0x3fffu);
+		    = (u16)((((time) & 0xffff) + ((time >> 16) & 0xffff) + ((time >> 32) & 0xffff) + ((time >> 48) & 0xffff)) & 0x3fffu);
 		RecalibrateBits = PAD_CHAN0_BIT | PAD_CHAN1_BIT | PAD_CHAN2_BIT | PAD_CHAN3_BIT;
 	}
 
 	for (chan = 0; chan < SI_MAX_CHAN; chan++) {
 		CmdProbeDevice[chan] = 0x4D000000 | (chan << 22) | (__OSWirelessPadFixMode & 0x3FFF) << 8;
 	}
-		
+
 	SIRefreshSamplingRate();
 	OSRegisterShutdownFunction(&ShutdownFunctionInfo);
 	return PADReset(PAD_CHAN0_BIT | PAD_CHAN1_BIT | PAD_CHAN2_BIT | PAD_CHAN3_BIT);
@@ -475,8 +475,8 @@ u32 PADRead(PADStatus* status)
 	static PADStatus pre_status[4];
 	int threshold;
 
-    threshold = 3;
-	
+	threshold = 3;
+
 	enabled = OSDisableInterrupts();
 
 	motor = 0;
@@ -549,33 +549,32 @@ u32 PADRead(PADStatus* status)
 		}
 
 		MakeStatus(chan, status, data);
-		
-		if (((Type[chan] & (0xFFFF0000)) == SI_GC_CONTROLLER) && ((status->button & 0x80) ^ 0x80)) {
-            threshold = 10;
-        } else {
-            threshold = 3;
-        }
-		
-		#ifdef __MWERKS__
-        #define abs(x) __abs(x)
-        #else
-        #define abs(x) __builtin_abs(x)
-        #endif
-		
-		if (abs(abs(status->stickX) - abs(pre_status[chan].stickX)) >= threshold ||
-                        abs(abs(status->stickY) - abs(pre_status[chan].stickY)) >= threshold ||
-                        abs(abs(status->substickX) - abs(pre_status[chan].substickX)) >= threshold ||
-                        abs(abs(status->substickY) - abs(pre_status[chan].substickY)) >= threshold ||
-                        abs(abs(status->triggerLeft) - abs(pre_status[chan].triggerLeft)) >= threshold ||
-                        abs(abs(status->triggerRight) - abs(pre_status[chan].triggerRight)) >= threshold ||
-                        pre_status[chan].button != status->button)
-        {
-            __VIResetSIIdle();
-        }
-		
-		#undef abs
 
-        memcpy(&pre_status[chan], status, sizeof(PADStatus));
+		if (((Type[chan] & (0xFFFF0000)) == SI_GC_CONTROLLER) && ((status->button & 0x80) ^ 0x80)) {
+			threshold = 10;
+		} else {
+			threshold = 3;
+		}
+
+#ifdef __MWERKS__
+#define abs(x) __abs(x)
+#else
+#define abs(x) __builtin_abs(x)
+#endif
+
+		if (abs(abs(status->stickX) - abs(pre_status[chan].stickX)) >= threshold
+		    || abs(abs(status->stickY) - abs(pre_status[chan].stickY)) >= threshold
+		    || abs(abs(status->substickX) - abs(pre_status[chan].substickX)) >= threshold
+		    || abs(abs(status->substickY) - abs(pre_status[chan].substickY)) >= threshold
+		    || abs(abs(status->triggerLeft) - abs(pre_status[chan].triggerLeft)) >= threshold
+		    || abs(abs(status->triggerRight) - abs(pre_status[chan].triggerRight)) >= threshold
+		    || pre_status[chan].button != status->button) {
+			__VIResetSIIdle();
+		}
+
+#undef abs
+
+		memcpy(&pre_status[chan], status, sizeof(PADStatus));
 
 		// Check and clear PAD_ORIGIN bit
 		if (status->button & 0x2000) {
@@ -865,9 +864,9 @@ static void SPEC2_MakeStatus(s32 chan, PADStatus* status, u32 data[2])
 	status->stickY -= 128;
 	status->substickX -= 128;
 	status->substickY -= 128;
-	
+
 	type = Type[chan];
-	
+
 	if (((Type[chan] & 0xffff0000) == SI_GC_CONTROLLER) && ((status->button & 0x80) ^ 0x80)) {
 		BarrelBits |= (PAD_CHAN0_BIT >> chan);
 		status->stickX    = 0;
