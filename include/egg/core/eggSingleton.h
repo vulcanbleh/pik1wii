@@ -62,7 +62,8 @@ protected:                                     \
 		T__Disposer::sStaticDisposer = nullptr;                                                        \
 	}                                                                                                  \
                                                                                                        \
-	T* T::sInstance = nullptr;
+	T* T::sInstance                                 = nullptr;                                         \
+	T::T__Disposer* T::T__Disposer::sStaticDisposer = nullptr;
 
 #ifndef EGG_INSTANCE
 #define EGG_INSTANCE(T) T::instance()
