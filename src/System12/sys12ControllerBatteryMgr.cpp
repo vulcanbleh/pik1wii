@@ -6,7 +6,7 @@ namespace System12 {
 
 SysWPADInfo ControllerBatteryMgr::s_infos[WPAD_MAX_CONTROLLERS];
 
-EGG_SINGLETON_IMPL(ControllerBatteryMgr);
+EGG_SINGLETON_IMPL(11, ControllerBatteryMgr);
 
 ControllerBatteryMgr::ControllerBatteryMgr()
     : m_controller_num(0)
