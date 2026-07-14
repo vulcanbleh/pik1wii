@@ -677,27 +677,51 @@ dsp/dsp_task.c:
 
 dvd/dvdfs.c:
 	.text       start:0x80038D84 end:0x80039818
+	.data       start:0x8031AD10 end:0x8031AE78
+	.sdata      start:0x80497510 end:0x80497520
+	.sbss       start:0x8049E498 end:0x8049E4B8
 
 dvd/dvd.c:
 	.text       start:0x80039818 end:0x8003E2EC
+	.data       start:0x8031AE78 end:0x8031B1E8
+	.bss        start:0x804034C0 end:0x80408170
+	.sdata      start:0x80497520 end:0x80497538
+	.sbss       start:0x8049E4C0 end:0x8049E558
 
 dvd/dvdqueue.c:
 	.text       start:0x8003E2EC end:0x8003E544
+	.bss        start:0x80408170 end:0x80408190
 
 dvd/dvderror.c:
 	.text       start:0x8003E544 end:0x8003EE48
+	.data       start:0x8031B1E8 end:0x8031B218
+	.bss        start:0x804081A0 end:0x80408400
+	.sbss       start:0x8049E558 end:0x8049E568
 
 dvd/dvdidutils.c:
 	.text       start:0x8003EE48 end:0x8003EF38
 
 dvd/dvdFatal.c:
 	.text       start:0x8003EF38 end:0x8003F090
+	.rodata     start:0x802F7F70 end:0x802F7FA8
+	.data       start:0x8031B218 end:0x8031B728
+	.sbss       start:0x8049E568 end:0x8049E56C
+	.sdata2     start:0x8049F950 end:0x8049F958
 
 dvd/dvdDeviceError.c:
 	.text       start:0x8003F090 end:0x8003F328
+	.rodata     start:0x802F7FA8 end:0x802F7FC4
+	.data       start:0x8031B728 end:0x8031B8C0
+	.bss        start:0x80408400 end:0x80408420
+	.sdata      start:0x80497538 end:0x80497540
+	.sbss       start:0x8049E570 end:0x8049E574
 
 dvd/dvd_broadway.c:
 	.text       start:0x8003F328 end:0x80041774
+	.data       start:0x8031B8C0 end:0x8031C780
+	.bss        start:0x80408420 end:0x804085C0
+	.sdata      start:0x80497540 end:0x80497550
+	.sbss       start:0x8049E578 end:0x8049E59C
 
 exi/EXIBios.c:
 	.text       start:0x80041774 end:0x80043008
@@ -970,10 +994,6 @@ arc/arc.c:
 	.data       start:0x8032F760 end:0x8032F7D0
 	.sdata      start:0x80497710 end:0x80497718
 
-bte/bta_dm_cfg.c:
-	.sdata      start:0x80497728 end:0x8049773C
-	.sbss2      start:0x804A4228 end:0x804A4230
-
 bte/gki_buffer.c:
 	.text       start:0x8007BA04 end:0x8007CE48
 
@@ -986,6 +1006,11 @@ bte/gki_ppc.c:
 bte/hcisu_h2.c:
 	.text       start:0x8007D630 end:0x8007DCCC
 	.rodata     start:0x802F80D8 end:0x802F80F0
+
+bte/bta_dm_cfg.c:
+	.rodata     start:0x802F80F0 end:0x802F8180
+	.sdata      start:0x80497728 end:0x8049773C
+	.sbss2      start:0x804A4228 end:0x804A4230
 
 bte/uusb_ppc.c:
 	.text       start:0x8007DCCC end:0x8007E8D0
@@ -3893,6 +3918,7 @@ System12/sys12NANDMgr.cpp:
 
 System12/sys12SDMgr.cpp:
 	.text       start:0x802B9F60 end:0x802BA098
+	.rodata     start:0x8030FA68 end:0x8030FAC8
 	.data       start:0x803510A0 end:0x803510B0
 	.sbss       start:0x8049F0F0 end:0x8049F0F8
 
@@ -4179,3 +4205,4 @@ homebuttonLib/sound/seq.cpp:
 
 esp/esp.c:
 	.text       start:0x802F56A4 end:0x802F5D98
+	.sdata      start:0x8049DFF8 end:0x8049E008

@@ -1,7 +1,8 @@
 #ifndef _REVOSDK_DVD_H
 #define _REVOSDK_DVD_H
 
-#include "RevoSDK/OS/OSThread.h"
+#include "RevoSDK/esp.h"
+#include "RevoSDK/os.h"
 #include "types.h"
 
 BEGIN_SCOPE_EXTERN_C
@@ -32,7 +33,9 @@ typedef struct DVDDiskID {
 	u8 gameVersion;   // _07
 	u8 streaming;     // _08
 	u8 streamBufSize; // _09, default = 0
-	u8 padding[22];   // _0A, all 0s
+	u8 padding[14];   // _0A,
+	u32 rvlMagic;
+	u32 gcMagic;
 } DVDDiskID;
 
 // Struct for command information (size 0x30).
@@ -74,14 +77,6 @@ typedef struct DVDDirEntry {
 	const char* name; // _08
 } DVDDirEntry;
 
-// Struct for handing queues.
-typedef struct DVDQueue DVDQueue;
-
-struct DVDQueue {
-	DVDQueue* mHead; // _00
-	DVDQueue* mTail; // _04
-};
-
 // DVD Boot information instructions.
 // Struct 1.
 typedef struct DVDBB1 {
@@ -102,6 +97,70 @@ typedef struct DVDBB2 {
 	u32 userLength;       // _18
 	u32 reserved_1C;      // _1C
 } DVDBB2;
+
+typedef struct DVDVideoReportKey {
+	u8 data[32];
+} DVDVideoReportKey;
+
+typedef struct DVDCommandInfo {
+	u32 command;
+	u32 offset;
+	u32 length;
+	u32 intType;
+	u32 tick;
+} DVDCommandInfo;
+
+typedef struct DVDErrorInfo {
+	char gameName[4];
+	u8 diskNumber;
+	u8 gameVersion;
+	u8 reserved0[2];
+	u32 error;
+	u32 dateTime;
+	u32 status;
+	u8 reserved1[4];
+	u32 nextOffset;
+	DVDCommandInfo lastCommand[5];
+} DVDErrorInfo;
+
+typedef struct DVDGamePartition {
+	ESTicket ticket;
+	u32 tmdSize;
+	ESTitleMeta* tmd;
+	u32 certBlobSize;
+	void* certBlob;
+	u8* h3Hashes;
+	u8* encryptedArea;
+} DVDGamePartition;
+
+typedef struct DVDPartitionInfo {
+	DVDGamePartition* gamePartition;
+	u32 type;
+} DVDPartitionInfo;
+
+typedef struct DVDGameTOC {
+	u32 numGamePartitions;
+	DVDPartitionInfo* partitionInfos;
+} DVDGameTOC;
+
+typedef struct DVDPartitionParams DVDPartitionParams;
+
+struct DVDPartitionParams {
+	ESTicket ticket;
+	u8 padding0[OSRoundUp32B(sizeof(ESTicket)) - sizeof(ESTicket)];
+	ESTicketView ticketView;
+	u8 padding1[OSRoundUp32B(sizeof(ESTicketView)) - sizeof(ESTicketView)];
+	u32 numTmdBytes;
+	u8 padding2[28];
+	ESTitleMeta tmd;
+	u8 padding3[OSRoundUp32B(sizeof(ESTitleMeta)) - sizeof(ESTitleMeta)];
+	u32 numCertBytes;
+	u8 padding4[28];
+	u8 certificates[4096];
+	u32 dataWordOffset;
+	u8 padding5[28];
+	u8 h3Hash[98304];
+};
 
 //////////////////////////////////
 
@@ -130,6 +189,14 @@ s32 DVDGetCommandBlockStatus(const DVDCommandBlock* block);
 s32 DVDGetDriveStatus();
 BOOL DVDSetAutoInvalidation(BOOL doAutoInval);
 void* DVDGetFSTLocation();
+
+/* dvdqueue */
+void __DVDClearWaitingQueue(void);
+DVDCommandBlock* __DVDPopWaitingQueue(void);
+BOOL __DVDDequeueWaitingQueue(DVDCommandBlock*);
+BOOL __DVDCheckWaitingQueue(void);
+BOOL __DVDPushWaitingQueue(s32, DVDCommandBlock*);
+DVDCommandBlock* __DVDGetNextWaitingQueue();
 
 // DVD Dir functions.
 BOOL DVDOpenDir(const char* dirName, DVDDir* dir);
@@ -160,41 +227,6 @@ BOOL DVDFastOpenDir(s32 entryNum, DVDDir* dir);
 BOOL DVDCancelAllAsync(DVDCBCallback callback);
 s32 DVDCancelAll();
 void DVDDumpWaitingQueue();
-
-//////////////////////////////////
-
-////////// PRIVATE DVD FUNCTIONS //////////
-
-// In no particular order; these are otherwise implicitly used.
-// TODO: A lot of these aren't actually private, I was just being lazy.
-
-void __DVDFSInit();
-void __DVDClearWaitingQueue();
-void __DVDInitWA(void);
-void __fstLoad(void);
-BOOL DVDLowRead(void* addr, u32 length, u32 offset, DVDLowCallback callback);
-void __DVDStoreErrorCode(u32 error);
-BOOL DVDLowStopMotor(DVDLowCallback callback);
-BOOL DVDLowRequestError(DVDLowCallback callback);
-BOOL DVDLowSeek(u32 offset, DVDLowCallback callback);
-BOOL DVDLowAudioBufferConfig(BOOL enable, u32 size, DVDLowCallback callback);
-BOOL DVDLowReadDiskID(DVDDiskID* diskID, DVDLowCallback callback);
-BOOL DVDLowWaitCoverClose(DVDLowCallback callback);
-BOOL __DVDCheckWaitingQueue();
-BOOL DVDLowRequestAudioStatus(u32 subcmd, DVDLowCallback callback);
-BOOL DVDLowAudioStream(u32 subcmd, u32 length, u32 offset, DVDLowCallback callback);
-BOOL DVDLowInquiry(DVDDriveInfo* info, DVDLowCallback callback);
-BOOL __DVDPushWaitingQueue(int idx, struct DVDQueue* newTail);
-void DVDLowReset();
-BOOL DVDLowBreak();
-BOOL __DVDDequeueWaitingQueue(DVDQueue* queue);
-BOOL DVDReadDiskID(DVDCommandBlock* block, DVDDiskID* diskID, DVDCBCallback callback);
-void DVDSeekAbsAsyncPrio(DVDCommandBlock* block, void* addr, DVDCBCallback callback, s32 prio);
-BOOL DVDPrepareStreamAbsAsync(DVDCommandBlock* block, u32 length, u32 offset, DVDCBCallback callback);
-BOOL DVDReadAbsAsyncForBS(DVDCommandBlock* block, void* addr, s32 length, s32 offset, DVDCBCallback callback);
-void __DVDPrepareResetAsync(DVDCBCallback callback);
-
-///////////////////////////////////////////
 
 ////// USEFUL DVD DEFINES ////////
 // Macro for reading.
@@ -229,6 +261,8 @@ void __DVDPrepareResetAsync(DVDCBCallback callback);
 #define DVD_RESULT_CANCELED    -3
 
 #define DVD_AIS_SUCCESS 0
+
+#define DVD_RESETCOVER_TIMELAG_TICKS2 OSMillisecondsToTicks(100)
 
 //////////////////////////////////
 

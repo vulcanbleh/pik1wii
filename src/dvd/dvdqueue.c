@@ -2,7 +2,10 @@
 #include "RevoSDK/os.h"
 #include <stddef.h>
 
-struct DVDQueue WaitingQueue[4];
+static struct {
+	DVDCommandBlock* next;
+	DVDCommandBlock* prev;
+} WaitingQueue[4];
 
 /**
  * @TODO: Documentation
@@ -12,26 +15,26 @@ void __DVDClearWaitingQueue()
 	int i;
 
 	for (i = 0; i < 4; i++) {
-		struct DVDQueue* ptr = &WaitingQueue[i];
+		DVDCommandBlock* q = (DVDCommandBlock*)&(WaitingQueue[i]);
 
-		ptr->mHead = ptr;
-		ptr->mTail = ptr;
+		q->next = q;
+		q->prev = q;
 	}
 }
 
 /**
  * @TODO: Documentation
  */
-BOOL __DVDPushWaitingQueue(int idx, struct DVDQueue* newTail)
+BOOL __DVDPushWaitingQueue(s32 idx, DVDCommandBlock* newTail)
 {
 	BOOL intrEnabled = OSDisableInterrupts();
+	DVDCommandBlock* q;
 
-	struct DVDQueue* waitingQueue = &WaitingQueue[idx];
-
-	waitingQueue->mTail->mHead = newTail;
-	newTail->mTail             = waitingQueue->mTail;
-	newTail->mHead             = waitingQueue;
-	waitingQueue->mTail        = newTail;
+	q             = (DVDCommandBlock*)&(WaitingQueue[idx]);
+	q->prev->next = newTail;
+	newTail->prev = q->prev;
+	newTail->next = q;
+	q->prev       = newTail;
 
 	OSRestoreInterrupts(intrEnabled);
 	return TRUE;
@@ -39,40 +42,44 @@ BOOL __DVDPushWaitingQueue(int idx, struct DVDQueue* newTail)
 
 /**
  * @TODO: Documentation
- * @note UNUSED Size: 000064
  */
-void PopWaitingQueuePrio(void)
+static DVDCommandBlock* PopWaitingQueuePrio(s32 prio)
 {
-	// UNUSED FUNCTION
+	DVDCommandBlock *tmp, *q;
+	BOOL enabled;
+
+	enabled = OSDisableInterrupts();
+	q       = (DVDCommandBlock*)&(WaitingQueue[prio]);
+
+	tmp             = q->next;
+	q->next         = tmp->next;
+	tmp->next->prev = q;
+
+	OSRestoreInterrupts(enabled);
+
+	tmp->next = NULL;
+	tmp->prev = NULL;
+	return tmp;
 }
 
 /**
  * @TODO: Documentation
  */
-DVDQueue* __DVDPopWaitingQueue()
+DVDCommandBlock* __DVDPopWaitingQueue()
 {
+	s32 i;
 	BOOL intrEnabled = OSDisableInterrupts();
-	int i;
+	DVDCommandBlock* q;
 
 	for (i = 0; i < 4; i++) {
-		if (WaitingQueue[i].mHead != &WaitingQueue[i]) {
-			DVDQueue* tempQueue;
-			DVDQueue* outQueue;
+		q = (DVDCommandBlock*)&(WaitingQueue[i]);
 
+		if (q->next != q) {
 			OSRestoreInterrupts(intrEnabled);
-
-			intrEnabled            = OSDisableInterrupts();
-			tempQueue              = &WaitingQueue[i];
-			outQueue               = tempQueue->mHead;
-			tempQueue->mHead       = outQueue->mHead;
-			outQueue->mHead->mTail = tempQueue;
-			OSRestoreInterrupts(intrEnabled);
-
-			outQueue->mHead = NULL;
-			outQueue->mTail = NULL;
-			return outQueue;
+			return PopWaitingQueuePrio(i);
 		}
 	}
+
 	OSRestoreInterrupts(intrEnabled);
 	return NULL;
 }
@@ -82,15 +89,19 @@ DVDQueue* __DVDPopWaitingQueue()
  */
 BOOL __DVDCheckWaitingQueue()
 {
+	u32 i;
 	BOOL intrEnabled = OSDisableInterrupts();
-	int i;
+	DVDCommandBlock* q;
 
 	for (i = 0; i < 4; i++) {
-		if (WaitingQueue[i].mHead != &WaitingQueue[i]) {
+		q = (DVDCommandBlock*)&(WaitingQueue[i]);
+
+		if (q->next != q) {
 			OSRestoreInterrupts(intrEnabled);
 			return TRUE;
 		}
 	}
+
 	OSRestoreInterrupts(intrEnabled);
 	return FALSE;
 }
@@ -98,18 +109,44 @@ BOOL __DVDCheckWaitingQueue()
 /**
  * @TODO: Documentation
  */
-BOOL __DVDDequeueWaitingQueue(DVDQueue* queue)
+DVDCommandBlock* __DVDGetNextWaitingQueue(void)
 {
-	BOOL intrEnabled      = OSDisableInterrupts();
-	struct DVDQueue* tail = queue->mTail;
-	struct DVDQueue* head = queue->mHead;
+	u32 i;
+	BOOL enabled = OSDisableInterrupts();
+	DVDCommandBlock *q, *tmp;
 
-	if (tail == NULL || head == NULL) {
+	for (i = 0; i < 4; i++) {
+		q = (DVDCommandBlock*)&(WaitingQueue[i]);
+
+		if (q->next != q) {
+			tmp = q->next;
+			OSRestoreInterrupts(enabled);
+			return tmp;
+		}
+	}
+
+	OSRestoreInterrupts(enabled);
+	return NULL;
+}
+
+/**
+ * @TODO: Documentation
+ */
+BOOL __DVDDequeueWaitingQueue(DVDCommandBlock* block)
+{
+	BOOL intrEnabled = OSDisableInterrupts();
+	DVDCommandBlock *prev, *next;
+
+	prev = block->prev;
+	next = block->next;
+
+	if (prev == NULL || next == NULL) {
 		OSRestoreInterrupts(intrEnabled);
 		return FALSE;
 	}
-	tail->mHead = head;
-	head->mTail = tail;
+
+	prev->next = next;
+	next->prev = prev;
 	OSRestoreInterrupts(intrEnabled);
 	return TRUE;
 }

@@ -4,7 +4,7 @@
 
 namespace System12 {
 
-EGG_SINGLETON_IMPL(12, Config);
+EGG_SINGLETON_IMPL(59, Config);
 
 Config::Config()
     : TagParameters("S12Config")

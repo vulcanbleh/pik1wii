@@ -19,6 +19,7 @@ public:
 	
 	// _00     = VTBL
 	// _00-_10 = EGG::Disposer
+	u8 _14[0xC];
 };
 
 } // namespace System12

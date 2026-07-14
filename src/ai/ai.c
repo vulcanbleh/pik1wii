@@ -7,7 +7,7 @@ static AIDCallback __AID_Callback;
 static u8* __CallbackStack;
 static u8* __OldStack;
 static vs32 __AI_init_flag = FALSE;
-static vs32 __AID_Active = FALSE;
+static vs32 __AID_Active   = FALSE;
 
 static OSTime bound_32KHz;
 static OSTime bound_48KHz;
@@ -65,44 +65,41 @@ void AIStartDMA(void)
 /**
  * @TODO: Documentation
  */
-void AIStopDMA(void) {
-    __DSPRegs[DSP_DMA_CONTROL_LEN] &= ~DSP_DMA_START_FLAG;
-}
-
-/**
- * @TODO: Documentation
- */
-u32 AIGetDMABytesLeft(void) {
-    return (__DSPRegs[DSP_DMA_BYTES_LEFT] & 0x7FFF) << 5;
-}
-
-/**
- * @TODO: Documentation
- */
-u32 AIGetDMAStartAddr(void) {
-    return (((__DSPRegs[DSP_DMA_START_HI] & 0x1FFF) << 16) | (__DSPRegs[0x19] & 0xFFE0));
-}
-
-/**
- * @TODO: Documentation
- */
-u32 AIGetDMALength(void) {
-    return ((__DSPRegs[DSP_DMA_CONTROL_LEN] & 0x7FFF) << 5);
-}
-
-/**
- * @TODO: Documentation
- */
-BOOL AICheckInit(void) {
-    return __AI_init_flag;
-}
-
-/**
- * @TODO: Documentation
- */
-u32 AIGetDSPSampleRate(void)
+void AIStopDMA(void)
 {
-	return ((__AIRegs[AI_CONTROL] >> 6) & 1) ^ 1;
+	__DSPRegs[DSP_DMA_CONTROL_LEN] &= ~DSP_DMA_START_FLAG;
+}
+
+/**
+ * @TODO: Documentation
+ */
+u32 AIGetDMABytesLeft(void)
+{
+	return (__DSPRegs[DSP_DMA_BYTES_LEFT] & 0x7FFF) << 5;
+}
+
+/**
+ * @TODO: Documentation
+ */
+u32 AIGetDMAStartAddr(void)
+{
+	return (((__DSPRegs[DSP_DMA_START_HI] & 0x1FFF) << 16) | (__DSPRegs[0x19] & 0xFFE0));
+}
+
+/**
+ * @TODO: Documentation
+ */
+u32 AIGetDMALength(void)
+{
+	return ((__DSPRegs[DSP_DMA_CONTROL_LEN] & 0x7FFF) << 5);
+}
+
+/**
+ * @TODO: Documentation
+ */
+BOOL AICheckInit(void)
+{
+	return __AI_init_flag;
 }
 
 /**
@@ -132,8 +129,13 @@ void AISetDSPSampleRate(u32 rate)
 	}
 }
 
-
-
+/**
+ * @TODO: Documentation
+ */
+u32 AIGetDSPSampleRate(void)
+{
+	return ((__AIRegs[AI_CONTROL] >> 6) & 1) ^ 1;
+}
 
 /**
  * @TODO: Documentation

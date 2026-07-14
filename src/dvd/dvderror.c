@@ -1,71 +1,192 @@
 #include "RevoSDK/dvd.h"
-#include "RevoSDK/os.h"
+#include "RevoSDK/nand.h"
 
-#if defined(VERSION_GPIP01_00)
-u32 ErrorTable[18] = { 0x00000000, 0x00023A00, 0x00062800, 0x00030200, 0x00031100, 0x00052000, 0x00052001, 0x00052100, 0x00052400,
-	                   0x00052401, 0x00052402, 0x000B5A01, 0x00056300, 0x00020401, 0x00020400, 0x00040800, 0x00100007, 0x00000000 };
-#else
-u32 ErrorTable[16] = { 0x00000000, 0x00023A00, 0x00062800, 0x00030200, 0x00031100, 0x00052000, 0x00052001, 0x00052100,
-	                   0x00052400, 0x00052401, 0x00052402, 0x000B5A01, 0x00056300, 0x00020401, 0x00020400, 0x00040800 };
-#endif
-/**
- * @TODO: Documentation
- * @note UNUSED Size: 0000E4
- */
-u8 ErrorCode2Num(u32 errorCode)
+static BOOL ExistFlag = FALSE;
+static NANDCommandBlock NandCb;
+static NANDFileInfo NandInfo;
+static DVDCBCallback Callback;
+static u32 NextOffset;
+DVDErrorInfo __ErrorInfo ATTRIBUTE_ALIGN(32);
+DVDErrorInfo __FirstErrorInfo ATTRIBUTE_ALIGN(32);
+
+void cbForNandClose(s32 result, NANDCommandBlock* block)
 {
-	int i;
-	for (i = 0; i < ARRAY_SIZE(ErrorTable); i++) {
-		if (errorCode == ErrorTable[i]) {
-			return i;
+	if (Callback) {
+		Callback((result == 0) ? 1 : 2, NULL);
+	}
+}
+
+void cbForNandWrite(s32 result, NANDCommandBlock* block)
+{
+	if (NANDCloseAsync(&NandInfo, cbForNandClose, &NandCb) != 0) {
+		if (Callback) {
+			Callback(2, NULL);
 		}
 	}
-
-#if defined(VERSION_GPIP01_00)
-	if ((errorCode >= 0x00100000) && (errorCode <= 0x00100008)) {
-		return 17;
-	}
-#endif
-
-	return 29;
 }
 
-/**
- * @TODO: Documentation
- * @note UNUSED Size: 000128
- */
-u8 Convert(u32 error)
+void cbForNandSeek(s32 result, NANDCommandBlock* block)
 {
-	u32 statusCode;
-	u32 errorCode;
-	u8 errorNum;
+	if (result == sizeof(DVDErrorInfo) * (1 + NextOffset)) {
+		DCFlushRange((void*)&__ErrorInfo, sizeof(__ErrorInfo));
 
-	if (error == 0x01234567) {
-		return -1;
-	} else if (error == 0x01234568) {
-		return -2;
+		if (NANDWriteAsync(&NandInfo, (void*)&__ErrorInfo, sizeof(__ErrorInfo), cbForNandWrite, &NandCb) != 0) {
+			cbForNandWrite(-1, NULL);
+		}
+	} else {
+		if (Callback) {
+			Callback(2, NULL);
+		}
 	}
-
-	statusCode = (error >> 24) & 0xFF;
-	errorCode  = error & 0x00FFFFFF;
-	errorNum   = ErrorCode2Num(errorCode);
-	if (statusCode >= 6) {
-		statusCode = 6;
-	}
-
-	return statusCode * 30 + errorNum;
 }
 
-/**
- * @TODO: Documentation
- */
-void __DVDStoreErrorCode(u32 error)
+void cbForNandWrite0(s32 result, NANDCommandBlock* block)
 {
-	OSSramEx* sram;
-	u8 num;
+	if (result == sizeof(__FirstErrorInfo)) {
+		if (NANDSeekAsync(&NandInfo, (s32)(sizeof(DVDErrorInfo) * (1 + NextOffset)), 0, cbForNandSeek, &NandCb) != 0) {
+			cbForNandSeek(-1, NULL);
+		}
+	} else {
+		if (Callback) {
+			Callback(2, NULL);
+		}
+	}
+}
 
-	num                = Convert(error);
-	sram               = __OSLockSramEx();
-	sram->dvdErrorCode = num;
-	__OSUnlockSramEx(TRUE);
+void cbForNandSeek2(s32 result, NANDCommandBlock* block)
+{
+	if (result == sizeof(DVDErrorInfo)) {
+		__FirstErrorInfo.nextOffset = (__FirstErrorInfo.nextOffset + 1) % 7;
+
+		if (NANDWriteAsync(&NandInfo, (void*)&__FirstErrorInfo, sizeof(__FirstErrorInfo), cbForNandWrite0, &NandCb) != 0) {
+			cbForNandWrite0(-1, NULL);
+		}
+	} else {
+		if (Callback) {
+			Callback(2, NULL);
+		}
+	}
+}
+
+void cbForNandRead(s32 result, NANDCommandBlock* block)
+{
+	if (result == sizeof(DVDErrorInfo)) {
+		NextOffset = __FirstErrorInfo.nextOffset;
+
+		if (NANDSeekAsync(&NandInfo, sizeof(DVDErrorInfo), 0, cbForNandSeek2, &NandCb) != 0) {
+			cbForNandSeek2(-1, NULL);
+		}
+	} else {
+		__ErrorInfo.nextOffset = 1;
+		if (NANDWriteAsync(&NandInfo, (void*)&__ErrorInfo, sizeof(__ErrorInfo), cbForNandWrite, &NandCb) != 0) {
+			cbForNandWrite(-1, NULL);
+		}
+	}
+}
+
+void cbForNandSeek0(s32 result, NANDCommandBlock* block)
+{
+	if (result == 0) {
+		NextOffset             = 0;
+		__ErrorInfo.nextOffset = 1;
+
+		if (NANDWriteAsync(&NandInfo, (void*)&__FirstErrorInfo, sizeof(__FirstErrorInfo), cbForNandWrite0, &NandCb) != 0) {
+			cbForNandWrite0(-1, NULL);
+		}
+	} else {
+		if (Callback) {
+			Callback(2, NULL);
+		}
+	}
+}
+
+void cbForNandSeek1(s32 result, NANDCommandBlock* block)
+{
+	if (result == sizeof(DVDErrorInfo)) {
+		if (NANDReadAsync(&NandInfo, (void*)&__FirstErrorInfo, sizeof(__FirstErrorInfo), cbForNandRead, &NandCb) != 0) {
+			cbForNandRead(-1, NULL);
+		}
+	} else {
+		if (NANDSeekAsync(&NandInfo, 0, 0, cbForNandSeek0, &NandCb) != 0) {
+			cbForNandSeek0(-1, NULL);
+		}
+	}
+}
+
+void cbForNandOpen(s32 result, NANDCommandBlock* block)
+{
+	if (result == 0) {
+		if (ExistFlag) {
+			if (NANDSeekAsync(&NandInfo, sizeof(DVDErrorInfo), 0, cbForNandSeek1, &NandCb) != 0) {
+				cbForNandSeek1(-1, NULL);
+			}
+		} else {
+			NextOffset             = 0;
+			__ErrorInfo.nextOffset = 1;
+			if (NANDWriteAsync(&NandInfo, (void*)&__FirstErrorInfo, sizeof(__FirstErrorInfo), cbForNandWrite0, &NandCb) != 0) {
+				cbForNandWrite0(-1, NULL);
+			}
+		}
+	} else {
+		if (Callback) {
+			Callback(2, NULL);
+		}
+	}
+}
+
+void cbForNandCreate(s32 result, NANDCommandBlock* block)
+{
+	if (result == 0 || result == -6) {
+		if (result == -6) {
+			ExistFlag = TRUE;
+		}
+
+		if (NANDPrivateOpenAsync("/shared2/test2/dvderror.dat", &NandInfo, 3, cbForNandOpen, &NandCb) != 0) {
+			if (Callback) {
+				Callback(2, NULL);
+			}
+		}
+	} else {
+		if (Callback) {
+			Callback(2, NULL);
+		}
+	}
+}
+
+void cbForNandCreateDir(s32 result, NANDCommandBlock* block)
+{
+	if (result == 0 || result == -6) {
+		if (NANDPrivateCreateAsync("/shared2/test2/dvderror.dat", 0x3F, 0, cbForNandCreate, &NandCb) != 0) {
+			if (Callback) {
+				Callback(2, NULL);
+			}
+		}
+	} else {
+		if (Callback) {
+			Callback(2, NULL);
+		}
+	}
+}
+
+void cbForPrepareStatusRegister(u32 intType)
+{
+	if (intType == 1) {
+		__ErrorInfo.status = DVDLowGetStatusRegister();
+	} else {
+		__ErrorInfo.status = 0xFFFFFFFF;
+	}
+
+	if (NANDPrivateCreateDirAsync("/shared2/test2", 0x3F, 0, cbForNandCreateDir, &NandCb) != 0) {
+		if (Callback) {
+			Callback(2, NULL);
+		}
+	}
+}
+
+void __DVDStoreErrorCode(u32 error, DVDCBCallback callback)
+{
+	__ErrorInfo.error    = error;
+	__ErrorInfo.dateTime = (u32)OSTicksToSeconds(OSGetTime());
+	Callback             = callback;
+	DVDLowPrepareStatusRegister(cbForPrepareStatusRegister);
 }

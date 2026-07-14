@@ -1,20 +1,19 @@
 #ifndef _REVOSDK_ESP_H
 #define _REVOSDK_ESP_H
 
+#include "RevoSDK/private/iostypes.h"
 #include "types.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif // ifdef __cplusplus
+BEGIN_SCOPE_EXTERN_C
 
 typedef enum {
-    ES_IOCTLV_LAUNCH_TITLE = 8,
-    ES_IOCTLV_READ_CONTENT_FILE = 10,
-    ES_IOCTLV_GET_NUM_TICKET_VIEWS = 18,
-    ES_IOCTLV_GET_TICKET_VIEWS = 19,
-    ES_IOCTLV_GET_DATA_DIR = 29,
-    ES_IOCTLV_GET_TITLE_ID = 32,
-    ES_IOCTLV_SEEK_CONTENT_FILE = 35,
+	ES_IOCTLV_LAUNCH_TITLE         = 8,
+	ES_IOCTLV_READ_CONTENT_FILE    = 10,
+	ES_IOCTLV_GET_NUM_TICKET_VIEWS = 18,
+	ES_IOCTLV_GET_TICKET_VIEWS     = 19,
+	ES_IOCTLV_GET_DATA_DIR         = 29,
+	ES_IOCTLV_GET_TITLE_ID         = 32,
+	ES_IOCTLV_SEEK_CONTENT_FILE    = 35,
 } ESIoctl;
 
 typedef u32 ESId;
@@ -34,116 +33,114 @@ typedef u8 ESCidxMask[64];
 #pragma pack(push, 4)
 
 typedef struct {
-    ESVersion version;
-    ESSysVersion sysVersion;
-    ESTitleId titleId;
-    ESTitleType type;
-    u16 groupId;
-    ESTmdReserved reserved;
-    ESTitleVersion titleVersion;
-    u16 numContents;
+	ESVersion version;
+	ESSysVersion sysVersion;
+	ESTitleId titleId;
+	ESTitleType type;
+	u16 groupId;
+	ESTmdReserved reserved;
+	ESTitleVersion titleVersion;
+	u16 numContents;
 } ESTmdViewHeader;
 
 typedef struct {
-    ESContentId cid;
-    u16 index;
-    ESContentType type;
-    u64 size;
+	ESContentId cid;
+	u16 index;
+	ESContentType type;
+	u64 size;
 } ESCmdView;
 
 typedef struct {
-    u32 code;
-    u32 limit;
+	u32 code;
+	u32 limit;
 } ESLpEntry;
 
 typedef struct {
-    ESVersion version;
-    ESTicketId ticketID;
-    ESId devID;
-    ESTitleId titleID;
-    ESSysAccessMask sysAccessMask;
-    u16 ticketVer;
-    u32 accTitleID;
-    u32 accTitleMask;
-    u8 license;
-    ESTicketReserved reserved;
-    u8 audit;
-    ESCidxMask cidxMask;
-    ESLpEntry limits[8];
+	ESVersion version;
+	ESTicketId ticketID;
+	ESId devID;
+	ESTitleId titleID;
+	ESSysAccessMask sysAccessMask;
+	u16 ticketVer;
+	u32 accTitleID;
+	u32 accTitleMask;
+	u8 license;
+	ESTicketReserved reserved;
+	u8 audit;
+	ESCidxMask cidxMask;
+	ESLpEntry limits[8];
 } ESTicketView;
 
 typedef struct {
-    ESTmdViewHeader head;
-    ESCmdView contents[512];
+	ESTmdViewHeader head;
+	ESCmdView contents[512];
 } ESTmdView;
 
 typedef struct {
-    ESContentId cid;
-    u16 index;
-    ESContentType type;
-    u64 size;
-    //IOSCHash hash;
+	ESContentId cid;
+	u16 index;
+	ESContentType type;
+	u64 size;
+	IOSCHash hash;
 } ESContentMeta;
 
 typedef struct {
-    ESVersion version;
-    ESVersion caCrlVersion;
-    ESVersion signerCrlVersion;
-    ESSysVersion sysVersion;
-    ESTitleId titleId;
-    ESTitleType type;
-    u16 groupId;
-    ESTmdReserved reserved;
-    u32 accessRights;
-    ESTitleVersion titleVersion;
-    u16 numContents;
-    u16 bootIndex;
+	ESVersion version;
+	ESVersion caCrlVersion;
+	ESVersion signerCrlVersion;
+	ESSysVersion sysVersion;
+	ESTitleId titleId;
+	ESTitleType type;
+	u16 groupId;
+	ESTmdReserved reserved;
+	u32 accessRights;
+	ESTitleVersion titleVersion;
+	u16 numContents;
+	u16 bootIndex;
 } ESTitleMetaHeader;
 
 typedef struct {
-    //IOSCSigRsa2048 sig;
-    ESTitleMetaHeader head;
-    ESContentMeta contents[512];
+	IOSCSigRsa2048 sig;
+	ESTitleMetaHeader head;
+	ESContentMeta contents[512];
 } ESTitleMeta;
 
 typedef struct {
-    //IOSCSigRsa2048 sig; 
-    //IOSCEccPublicKey serverPubKey;
-    ESVersion version;
-    ESVersion caCrlVersion;
-    ESVersion signerCrlVersion;
-    //IOSCAesKey titleKey;
-    ESTicketId ticketId;
-    ESId deviceId;
-    ESTitleId titleId;
-    ESSysAccessMask sysAccessMask;
-    u16 ticketVersion;
-    u32 accessTitleId;
-    u32 accessTitleMask;
-    u8 licenseType;
-    ESTicketReserved reserved;
-    u8 audit;
-    ESCidxMask cidxMask;
-    ESLpEntry limits[8];
+	IOSCSigRsa2048 sig;
+	IOSCEccPublicKey serverPubKey;
+	ESVersion version;
+	ESVersion caCrlVersion;
+	ESVersion signerCrlVersion;
+	IOSCAesKey titleKey;
+	ESTicketId ticketId;
+	ESId deviceId;
+	ESTitleId titleId;
+	ESSysAccessMask sysAccessMask;
+	u16 ticketVersion;
+	u32 accessTitleId;
+	u32 accessTitleMask;
+	u8 licenseType;
+	ESTicketReserved reserved;
+	u8 audit;
+	ESCidxMask cidxMask;
+	ESLpEntry limits[8];
 } ESTicket;
 
 #pragma pack(pop)
 
 s32 ESP_InitLib(void);
 s32 ESP_CloseLib(void);
-s32 ESP_LaunchTitle(u64, ESTicketView *);
-s32 ESP_GetTicketViews(ESTitleId, ESTicketView *, u32 *);
-s32 ESP_DiGetTicketView(const void *, ESTicketView *);
-s32 ESP_DiGetTmd(ESTitleMeta *, u32 *);
-s32 ESP_GetTmdView(ESTitleId, ESTmdView *, u32 *);
-s32 ESP_GetDataDir(ESTitleId, char *);
-s32 ESP_GetTitleId(ESTitleId *);
-s32 ESP_GetConsumption(ESTicketId, ESLpEntry *, u32 *);
+s32 ESP_LaunchTitle(u64, ESTicketView*);
+s32 ESP_GetTicketViews(ESTitleId, ESTicketView*, u32*);
+s32 ESP_DiGetTicketView(const void*, ESTicketView*);
+s32 ESP_DiGetTmd(ESTitleMeta*, u32*);
+s32 ESP_GetTmdView(ESTitleId, ESTmdView*, u32*);
+s32 ESP_GetDataDir(ESTitleId, char*);
+s32 ESP_GetTitleId(ESTitleId*);
+s32 ESP_GetConsumption(ESTicketId, ESLpEntry*, u32*);
 
 ////////////////////////////////////////////
 
-#ifdef __cplusplus
-}
-#endif // ifdef __cplusplus
+END_SCOPE_EXTERN_C
 
 #endif

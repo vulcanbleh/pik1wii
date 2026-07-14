@@ -1,5 +1,6 @@
 #include "RevoSDK/hw_regs.h"
 #include "RevoSDK/os.h"
+#include "RevoSDK/OS/OSBootInfo.h"
 #include <stddef.h>
 
 static vu32 RunQueueBits;
