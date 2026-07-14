@@ -2,6 +2,7 @@
 #define _JAUDIO_AUDIOSTRUCT_H
 
 #include "RevoSDK/os.h"
+#include "RevoSDK/dvd.h"
 #include "jaudio/bx.h"
 #include "types.h"
 

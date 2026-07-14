@@ -1,5 +1,7 @@
 #include "RevoSDK/os.h"
+#include "RevoSDK/OS/OSBootInfo.h"
 #include "RevoSDK/PPCArch.h"
+#include "RevoSDK/dvd.h"
 #include "RevoSDK/hw_regs.h"
 #include <stddef.h>
 #include <string.h>

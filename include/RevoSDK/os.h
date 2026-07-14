@@ -6,11 +6,11 @@
 #include "RevoSDK/OS/OSAlarm.h"
 #include "RevoSDK/OS/OSAlloc.h"
 #include "RevoSDK/OS/OSArena.h"
-#include "RevoSDK/OS/OSBootInfo.h"
 #include "RevoSDK/OS/OSCache.h"
 #include "RevoSDK/OS/OSContext.h"
 #include "RevoSDK/OS/OSError.h"
 #include "RevoSDK/OS/OSException.h"
+#include "RevoSDK/OS/OSExecParams.h"
 #include "RevoSDK/OS/OSExi.h"
 #include "RevoSDK/OS/OSExpansion.h"
 #include "RevoSDK/OS/OSFont.h"
@@ -68,6 +68,18 @@ const char* OSGetAppGamename(void);
 #define OS_CONSOLE_TDEVKIT     0x20000000
 
 u32 OSGetConsoleType();
+
+typedef struct OSIOSRev {
+	u8 reserved;
+	u8 major;
+	u8 minor;
+	u8 micro;
+	u8 month;
+	u8 date;
+	u16 year;
+} OSIOSRev;
+
+void __OSGetIOSRev(OSIOSRev*);
 
 //////////////////////////////////
 
