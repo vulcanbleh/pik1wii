@@ -2878,6 +2878,9 @@ plugPikiOgawa/ogMakeDefault.cpp:
 plugPikiOgawa/ogMap.cpp:
 	.text       start:0x80213520 end:0x80213B08
 	.ctors      start:0x802F61A4 end:0x802F61A8
+	.rodata     start:0x80307A08 end:0x80307A50
+	.sdata      start:0x8049CC80 end:0x8049CC98
+	.sdata2     start:0x804A2778 end:0x804A27A8
 
 plugPikiOgawa/ogMemChk.cpp:
 	.text       start:0x80213B08 end:0x80215BC0
