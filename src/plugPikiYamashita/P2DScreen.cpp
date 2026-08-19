@@ -184,11 +184,7 @@ void P2DScreen::draw(int x, int y, const P2DGrafContext* grafContext)
  */
 P2DPane* P2DScreen::search(u32 tag, bool p2)
 {
-	if (!tag) {
-		return nullptr;
-	}
-
-	return P2DPane::search(tag, p2);
+	return !tag ? nullptr : P2DPane::search(tag, p2);
 }
 
 /**

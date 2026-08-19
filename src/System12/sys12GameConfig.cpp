@@ -1,11 +1,14 @@
 #include "System12/Config.h"
+#include "System12/System.h"
+#include "egg/core/eggDvdRipper.h"
+#include "egg/core/eggStream.h"
 #include "egg/prim/eggAssert.h"
 #include <string.h>
 
 namespace System12 {
 
 EGG_SINGLETON_IMPL(59, Config);
-
+bool Config::sReady = false;
 Config::Config()
     : TagParameters("S12Config")
     , mEnableOSReport(this, "enableOSReport")
@@ -97,6 +100,16 @@ void Config::calc()
 
 void Config::load(char* name)
 {
+	u32 fileSize;
+	u8* file = EGG::DvdRipper::loadToMainRAM(name, 0, EGG_INSTANCE(System)->mHeap, EGG::DvdRipper::ALLOC_DIR_TAIL, 0, &fileSize, 0);
+	if (file) { 
+		EGG::RamStream stream(file, fileSize);
+		stream.setTextMode();
+		read(stream);
+		delete[] file;
+	}
+	setControllerParam();
+	sReady = true;
 }
 
 } // namespace System12

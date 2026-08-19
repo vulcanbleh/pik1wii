@@ -56,6 +56,7 @@ KIO::KIO()
  */
 void KIO::initialise()
 {
+#ifdef DEBUG
 	HIOEnumDevices(hioEnumCallback);
 	if (HIOInit(mChannel, hioCallback) == FALSE) {
 		mIsReady = false;
@@ -65,6 +66,7 @@ void KIO::initialise()
 	mIsReady = true;
 	readMailbox();
 	kontMode = 2;
+#endif
 }
 
 /**
@@ -129,6 +131,7 @@ void KIO::startWrite(int writeKind, u8* bufferStart, int bufferSize)
  */
 void KIO::writeHeader()
 {
+#ifdef DEBUG
 	if (mIsReady) {
 		// Set the header buffer
 		DCFlushRange(mHeaderBuffer, 0x100);
@@ -139,6 +142,7 @@ void KIO::writeHeader()
 			HIOWriteMailbox(0x100003);
 		}
 	}
+#endif
 }
 
 /**
