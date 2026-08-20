@@ -332,7 +332,7 @@ ActJumpAttack::ActJumpAttack(Piki* piki)
  */
 void ActJumpAttack::init(Creature* creature)
 {
-	mPiki->mActionState = 0;
+	mPiki->mActionState = 2;
 	mPiki->mEmotion     = PikiEmotion::Excited;
 	if (creature) {
 		mTarget.set(creature);
