@@ -20,7 +20,7 @@ void SpkMixingBuffer::mix(s32 chan, s16* src, s32 len, f32 weight, s32 offset)
 	EGG_ASSERT(74, mBuffer[chan]);
 	EGG_ASSERT(75, src);
 	EGG_ASSERT(76, offset >= 0);
-	EGG_ASSERT(77, (offset + len) <= cSamplesPerAudioPacket);
+	EGG_ASSERT(77, (offset+len) <= cSamplesPerAudioPacket);
 
 	for (s32 i = 0; i < len; i++) {
 		s32 sample    = mBuffer[chan][i + offset];

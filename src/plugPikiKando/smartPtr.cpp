@@ -1,7 +1,17 @@
+#include "DebugLog.h"
 #include "RefCountable.h"
 
-char file[] = __FILE__;
-char name[] = "smartPtr";
+/**
+ * @todo: Documentation
+ * @note UNUSED Size: 000098
+ */
+DEFINE_ERROR(__LINE__) // Never used in the DLL
+
+/**
+ * @todo: Documentation
+ * @note UNUSED Size: 0000F0
+ */
+DEFINE_PRINT("smartPtr");
 
 /**
  * @todo: Documentation
